@@ -1,3 +1,5 @@
+import DatabaseConnector.DBConnector
+
 import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
@@ -27,6 +29,10 @@ import scalafx.scene.shape.Circle
  */
 object Main extends JFXApp {
 
+  val db = new DBConnector()
+  
+  db connect()
+  
   stage = new PrimaryStage 
   {
     initStyle(StageStyle.UNIFIED)
