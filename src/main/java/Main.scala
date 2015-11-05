@@ -18,9 +18,7 @@ object Main extends JFXApp{
     stage = new PrimaryStage
     
     val logIn : LogIn = new LogIn(stage)
-    
-    db connect()   
-    
+   
     logIn showLogin()
   
 }

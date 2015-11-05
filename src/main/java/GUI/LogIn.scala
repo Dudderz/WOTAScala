@@ -11,11 +11,7 @@ import scalafx.stage.Stage.sfxStage2jfx
 import javafx.scene.control.TextField
 import scalafx.geometry.Insets
 import scalafx.scene.layout.HBox
-import scalafx.scene.paint.LinearGradient
-import scalafx.scene.effect.DropShadow
 import scalafx.scene.text.Text
-import scalafx.scene.paint.Stops
-import scalafx.scene.paint.Color._
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
 import javafx.scene.shape.Rectangle
