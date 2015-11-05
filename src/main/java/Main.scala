@@ -17,6 +17,6 @@ object Main extends JFXApp{
     
     db connect()   
     
-   // gui.show()
+    gui showLogin()
   
 }

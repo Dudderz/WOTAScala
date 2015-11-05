@@ -1,5 +1,6 @@
 package GUI
 
+import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.Scene
 import scalafx.scene.Scene.sfxScene2jfx
@@ -15,6 +16,12 @@ import scalafx.scene.effect.DropShadow
 import scalafx.scene.text.Text
 import scalafx.scene.paint.Stops
 import scalafx.scene.paint.Color._
+import scalafx.scene.image.Image
+import scalafx.scene.image.ImageView
+import javafx.scene.shape.Rectangle
+import javafx.scene.paint.ImagePattern
+import scalafx.scene.control.Button
+import scalafx.event.ActionEvent
 
 /**
  * @author tdudley
@@ -23,84 +30,90 @@ class GUIMain (stage : PrimaryStage)
 {
 
   stage title = "Warehouse Order Tracking Application"
-  stage width = 800
-  stage height = 600   
+  stage width = 300
+  stage height = 400   
+  
+  
+  def createLogInButton(): Button = 
+  {
+    val button = new Button
+    {
+       text = ("Log In") 
+    
+       onAction = (ae: ActionEvent) =>
+       {
+         println("Button pressed")
+       }
+    
+    }
+    button
+  }
  
-  val username = new TextField()
+  def createUsernameField() : TextField = 
   {
-    promptText = "Username: "
+    val username = new TextField()
+    {
+      promptText = "Username: "
+    }
+    username
   }
   
-  val passwordField = new PasswordField
+  def createPasswordField() : PasswordField = 
   {
-    promptText = "Password: "
+    val passwordField = new PasswordField
+    {
+      promptText = "Password: "
+    }
+    passwordField
   }
-     
-  val scene = new Scene
+    
+  def createRect(): Rectangle = 
   {
-        
-    content = new HBox
-    {   
-      children = Seq(
-      new GridPane {
-                  hgap = 10
-      vgap = 10
-      padding = Insets(20, 100, 10, 10)
+     val image = new Image("file:src/main/java/GUI/logo.png")
+     val rect = new Rectangle(0, 0, 125, 125)
+     rect setFill(new ImagePattern(image))
+     rect
+  }
+  
+  def createGridPane() : GridPane = 
+  {
+    new GridPane {
+        hgap = 10
+        vgap = 10
+        padding = Insets(20, 100, 10, 10)
       
-      add(new Label("Username: "), 0, 0)
-      add(username, 1, 0)
-      add(new Label("Password: "), 0, 1)
-      add(passwordField, 1, 1)
+        
+        add(createRect, 1, 1)
+        add(new Label("Please Log In: "), 1, 3)
+        add(new Label("Username: "), 0, 4)
+        add(createUsernameField(), 1, 4)
+        add(new Label("Password: "), 0, 5)
+        add(createPasswordField(), 1, 5)
+        add(createLogInButton(), 1, 7)
             
-          },
-          
-      new Text {
-        text = "Scala"
-        style = "-fx-font: italic bold 100pt sans-serif"
-        fill = new LinearGradient(
-          endX = 0,
-          stops = Stops(White, DarkGray)
-        )
-             
-         effect = new DropShadow{
-         color = DarkGray
-         radius = 15
-         spread - 0.25
         }
-      },
-               
-      new Text{
-        text = "FX"
-        style = "-fx-font: italic bold 100pt sans-serif"
-        fill = new LinearGradient(
-          endX = 0,
-          stops = Stops(White, DarkGray)
-        )
-              
-          effect = new DropShadow{
-          color = DarkGray
-          radius = 15
-          spread = 0.25
-         }
-        }
-       )
-     }
-   }
+  }
   
+  def createScene() : Scene =
+  {
+    val scene = new Scene
+    {
+        
+      content = new HBox
+      {   
+        children = Seq(
+        
+           createGridPane()      
+        )
+      }
+    }
+    
+    scene
+  }
+
   def showLogin(): Unit = 
   {
-    val grid = new GridPane()
-    {
-      hgap = 10
-      vgap = 10
-      padding = Insets(20, 100, 10, 10)
-      
-      add(new Label("Username: "), 0, 0)
-      add(username, 1, 0)
-      add(new Label("Password: "), 0, 1)
-      add(passwordField, 1, 1)
-    }
+    stage setScene(createScene())
   }
   
-  stage setScene(scene)
 }
