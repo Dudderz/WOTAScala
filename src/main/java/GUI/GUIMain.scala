@@ -22,22 +22,105 @@ import javafx.scene.shape.Rectangle
 import javafx.scene.paint.ImagePattern
 import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
-
 import DatabaseConnector.LogInSQL
+import scalafx.scene.control.TableColumn
+import TableColumn._
+import Entities.CustomerOrder
+import scalafx.scene.control.TableView
+import scalafx.scene.Node
+
+import scalafx.application.JFXApp.PrimaryStage
+import scalafx.application.JFXApp
 
 /**
  * @author tdudley
  * 
- * This class will start the GUI and display the log in screen.
- * TODO refactor the log in from this when other screens are available
+ * This class will start the GUI 
+ * 
  * 
  */
-class GUIMain (stage : PrimaryStage)
+class GUIMain extends JFXApp()
 {
-  stage title = "Warehouse Order Tracking Application"
-  stage width = 800
-  stage height = 600
+
   
+  val custOrder1 : CustomerOrder = new CustomerOrder(1, 1, "date", "closed")
   
+  def createCustomerOrderTable() : Node =
+  {
+    val orderIDCol = new TableColumn[CustomerOrder, Int]
+    {
+      text = "Customer Order Date"
+      cellValueFactory = {_.value.customerOrderID}
+      prefWidth = 100
+    }
+    val employeeIDCol = new TableColumn[CustomerOrder, Int]
+    {
+      text = "Employee ID"
+      cellValueFactory = {_.value.employeeID}
+    }
+    val custOrderDate = new TableColumn[CustomerOrder, String]
+    {
+      text = "Date of Order"
+      cellValueFactory = {_.value.customerOrderDate}
+    }
+    val custStatus = new TableColumn[CustomerOrder, String]
+    {
+      text = "Order Status"
+      cellValueFactory = {_.value.customerOrderStatus}
+    }
+    
+    val table = new TableView[CustomerOrder]()
+    {
+      columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
+    }
+    
+    table
+  }
+  
+   def createGridPane() : GridPane = 
+  {
+    new GridPane {
+        hgap = 10
+        vgap = 10
+        padding = Insets(20, 100, 10, 10)
+      
+        
+        add(createCustomerOrderTable, 1, 1)
+       
+        }
+  }
+  
+  /*
+   * Creates the scene to hold the gridpane
+   */
+  def createScene() : Scene =
+  {
+    val scene2 = new Scene
+    {
+        
+      content = new HBox
+      {   
+        children = Seq(
+        
+           createGridPane()      
+        )
+      }
+    }
+    
+    scene2
+  }
+
+  def showLogin(): Unit = 
+  {
+    
+    stage = new PrimaryStage()
+  
+    stage title = "Warehouse Order Tracking Application"
+    stage width = 800
+    stage height = 600
+    
+    stage setScene(createScene())
+    stage.show()
+  }
   
 }

@@ -36,7 +36,7 @@ class LogIn (stage : PrimaryStage)
   
   
   /**
-   * Creates a log in button and has an onAction method that verfies the 
+   * Creates a log in button and has an onAction method that verifies the 
    * inputted data to allow a user to log in
    */
   
@@ -60,7 +60,9 @@ class LogIn (stage : PrimaryStage)
          if(bool)
          {
            println("Success!")
-           val gui : GUIMain = new GUIMain(stage)
+           val gui : GUIMain = new GUIMain()
+           
+           gui.showLogin()
            
          }
        }
