@@ -20,8 +20,6 @@ class DBConnector {
     val username = "root"
     val password = "user"
   
-
-  
     try {
     
       //Makes the initial connection

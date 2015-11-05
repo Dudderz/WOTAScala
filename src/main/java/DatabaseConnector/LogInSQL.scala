@@ -45,10 +45,49 @@ class LogInSQL(val username : String, val password : String) {
   }
   
   def verifyLogIn() : Boolean = 
-  {
-    //employeeUsernames.foreach 
-    //{   }
+  {   
+    forLoop(employeeUsernames length)
+    
     true
   }
   
+  def forLoop(n : Int) : Boolean = 
+  {
+    if(n <= 1)
+    {
+      if(employeeUsernames(n) == username)
+      {
+        if(employeePasswords(n) == password)
+        {
+          true  
+        }
+        else
+          false
+      }
+      
+      else
+      {
+        false
+      }
+    }
+    else
+    {
+      if(employeeUsernames(n) == username)
+      {
+        if(employeePasswords(n) == password)
+        {
+          true  
+        }
+        else
+        {
+          forLoop(n - 1)
+        }
+      }
+
+      else
+      {
+         forLoop(n - 1)
+      }
+    }      
+  }
 }

@@ -51,6 +51,13 @@ class GUIMain (stage : PrimaryStage)
          val login = new LogInSQL("alstock", "password")
          
          login logIn()
+         
+         val bool = login verifyLogIn()
+         
+         if(bool)
+         {
+           println("Success!")
+         }
        }
     
     }
