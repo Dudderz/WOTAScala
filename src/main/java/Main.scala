@@ -1,5 +1,6 @@
 import DatabaseConnector.DBConnector
 import GUI.GUIMain
+import GUI.LogIn
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.JFXApp
 
@@ -16,10 +17,11 @@ object Main extends JFXApp{
     
     stage = new PrimaryStage
     
-    val gui : GUIMain = new GUIMain(stage)
+    
+    val logIn : LogIn = new LogIn(stage)
     
     db connect()   
     
-    gui showLogin()
+    logIn showLogin()
   
 }

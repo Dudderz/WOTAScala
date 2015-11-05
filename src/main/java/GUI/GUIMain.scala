@@ -34,101 +34,10 @@ import DatabaseConnector.LogInSQL
  */
 class GUIMain (stage : PrimaryStage)
 {
-
   stage title = "Warehouse Order Tracking Application"
-  stage width = 300
-  stage height = 400   
+  stage width = 800
+  stage height = 600
   
   
-  def createLogInButton(): Button = 
-  {
-    val button = new Button
-    {
-       text = ("Log In") 
-    
-       onAction = (ae: ActionEvent) =>
-       {
-         val login = new LogInSQL("alstock", "password")
-         
-         login logIn()
-         
-         val bool = login verifyLogIn()
-         
-         if(bool)
-         {
-           println("Success!")
-         }
-       }
-    
-    }
-    button
-  }
- 
-  def createUsernameField() : TextField = 
-  {
-    val username = new TextField()
-    {
-      promptText = "Username: "
-    }
-    username
-  }
-  
-  def createPasswordField() : PasswordField = 
-  {
-    val passwordField = new PasswordField
-    {
-      promptText = "Password: "
-    }
-    passwordField
-  }
-    
-  def createRect(): Rectangle = 
-  {
-     val image = new Image("file:src/main/java/GUI/logo.png")
-     val rect = new Rectangle(0, 0, 125, 125)
-     rect setFill(new ImagePattern(image))
-     rect
-  }
-  
-  def createGridPane() : GridPane = 
-  {
-    new GridPane {
-        hgap = 10
-        vgap = 10
-        padding = Insets(20, 100, 10, 10)
-      
-        
-        add(createRect, 1, 1)
-        add(new Label("Please Log In: "), 1, 3)
-        add(new Label("Username: "), 0, 4)
-        add(createUsernameField(), 1, 4)
-        add(new Label("Password: "), 0, 5)
-        add(createPasswordField(), 1, 5)
-        add(createLogInButton(), 1, 7)
-            
-        }
-  }
-  
-  def createScene() : Scene =
-  {
-    val scene = new Scene
-    {
-        
-      content = new HBox
-      {   
-        children = Seq(
-        
-           createGridPane()      
-        )
-      }
-    }
-    
-    scene
-  }
-
-  def showLogin(): Unit = 
-  {
-    stage setScene(createScene())
-  }
   
 }

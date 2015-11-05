@@ -18,10 +18,11 @@ class LogInSQL(val username : String, val password : String) {
   var employeeUsernames= new ArrayBuffer[String](10)
   var employeePasswords= new ArrayBuffer[String](10)
   
+  /*
+   * runs the SQL statements to get the arrays of usernames and passwords
+   */
   def logIn() : Unit = 
   {
-   
-    
     try {
       
       val dbConnection = new DBConnector()
@@ -50,6 +51,14 @@ class LogInSQL(val username : String, val password : String) {
     forLoop((employeeUsernames length) - 1)
 
   }
+  
+  /*
+   * Recursive method to iterate through the employee usernames and passwords
+   * Checks whether username matches any of the usernames within the array
+   * and if true, checks the password at the same position in the password 
+   * array to see if the password matches. Returns boolean dependant on the 
+   * results
+   */
   
   def forLoop(n : Int) : Boolean = 
   {

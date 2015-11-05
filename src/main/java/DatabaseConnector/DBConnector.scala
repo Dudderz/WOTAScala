@@ -34,6 +34,9 @@ class DBConnector {
    connection
   }
 
+  /*
+   * closes the connection to the database
+   */
   def closeConnection() : Unit =
   {
     if(connection != null)
