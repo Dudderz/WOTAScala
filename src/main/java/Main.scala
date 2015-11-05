@@ -5,6 +5,9 @@ import scalafx.application.JFXApp
 
 /**
  * @author tdudley
+ *
+ * This starts the database connection and initialises the gui class
+ * 
  */
 
 object Main extends JFXApp{

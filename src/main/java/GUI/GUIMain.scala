@@ -23,8 +23,14 @@ import javafx.scene.paint.ImagePattern
 import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
 
+import DatabaseConnector.LogInSQL
+
 /**
  * @author tdudley
+ * 
+ * This class will start the GUI and display the log in screen.
+ * TODO refactor the log in from this when other screens are available
+ * 
  */
 class GUIMain (stage : PrimaryStage)
 {
@@ -42,7 +48,9 @@ class GUIMain (stage : PrimaryStage)
     
        onAction = (ae: ActionEvent) =>
        {
-         println("Button pressed")
+         val login = new LogInSQL("alstock", "password")
+         
+         login logIn()
        }
     
     }
