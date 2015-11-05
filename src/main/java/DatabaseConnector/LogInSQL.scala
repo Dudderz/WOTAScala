@@ -30,11 +30,12 @@ class LogInSQL(val username : String, val password : String) {
       
       //Creates the statement and runs the select query
       val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT username FROM employee")
+      val resultSet = statement executeQuery("SELECT username, password FROM employee")
     
       while(resultSet next())
       {
         employeeUsernames += resultSet getString("username")
+        employeePasswords += resultSet getString("password")
       }
     } catch {
       case e : SQLException => e printStackTrace
@@ -46,9 +47,8 @@ class LogInSQL(val username : String, val password : String) {
   
   def verifyLogIn() : Boolean = 
   {   
-    forLoop(employeeUsernames length)
-    
-    true
+    forLoop((employeeUsernames length) - 1)
+
   }
   
   def forLoop(n : Int) : Boolean = 
