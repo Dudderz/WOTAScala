@@ -64,15 +64,18 @@ class GUIMain extends JFXApp()
 
   def showLogin(): Unit = 
   {
-    
     stage = new PrimaryStage()
   
+    stage setScene(createScene())
+    
+    stage.show()
+    
     stage title = "Warehouse Order Tracking Application"
     stage width = 800
     stage height = 600
     
-    stage setScene(createScene())
-    stage.show()
+    
+    
   }
   
 }

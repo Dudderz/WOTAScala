@@ -56,7 +56,6 @@ class LogIn (stage : PrimaryStage)
          
          if(bool)
          {
-           println("Success!")
            val gui : GUIMain = new GUIMain()
            
            gui.showLogin()

@@ -20,6 +20,11 @@ import javafx.scene.paint.ImagePattern
 class CustomerOrderGUI 
 {
   
+  /*
+   * Creates a table with column names related to the customer order
+   * Also pulls information from the database using the CustomerOrderSQL class
+   * and then displays this within the table
+   */
   
   def createCustomerOrderTable() : Node =
   {
@@ -56,6 +61,9 @@ class CustomerOrderGUI
     {
       columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
     }
+    
+    println (table.getSelectionModel.selectedItemProperty.value)
+    
     
     table
   }
