@@ -1,9 +1,17 @@
 package Entities
 
+import scalafx.beans.property.ObjectProperty
+import scalafx.beans.property.StringProperty
+
 /**
  * @author tdudley
  */
-class CustomerOrderLine (val customerOrderLineID : Int, val productID : Int, 
-    val quantity : Int){
+class CustomerOrderLine (val customerOrderLineID_ : Int, val productID_ : Int, 
+    val quantity_ : Int)
+{
+  val customerOrderLineID = new ObjectProperty[Int](this, "customerOrderLineID", customerOrderLineID_)
+  val productID = new ObjectProperty[Int](this, "productID", productID_)
+  val quantity = new ObjectProperty[Int](this, "quantity", quantity_)
+  
   
 }

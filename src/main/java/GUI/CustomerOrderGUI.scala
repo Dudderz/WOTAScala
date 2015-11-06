@@ -16,6 +16,7 @@ import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 
 import javafx.event.EventHandler
+import javafx.event.ActionEvent
 
 /**
  * @author tdudley
@@ -65,13 +66,25 @@ class CustomerOrderGUI
       columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
     }
         
-   /* table.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+    table.onMouseClicked = handle
+    {
+      println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
+    }
+    /*table.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler[MouseEvent]()
         {
-          println(table.getSelectionModel.selectedItemProperty.value)
-    
-        })
-*/
+          def handle(event : MouseEvent)
+          {
+            println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
+            
+          }
+        })*/
+
     table
+  }
+  
+  def showCustomerOrderInfo() : Unit = 
+  {
+    
   }
   
    def createRect(): Rectangle = 

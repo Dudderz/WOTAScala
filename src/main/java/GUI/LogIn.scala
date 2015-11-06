@@ -1,23 +1,26 @@
 package GUI
 
+//Scalafx imports
 import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.Scene
 import scalafx.scene.Scene.sfxScene2jfx
 import scalafx.scene.control.Label
-import javafx.scene.control.PasswordField
 import scalafx.scene.layout.GridPane
 import scalafx.stage.Stage.sfxStage2jfx
-import javafx.scene.control.TextField
 import scalafx.geometry.Insets
 import scalafx.scene.layout.HBox
 import scalafx.scene.text.Text
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
-import javafx.scene.shape.Rectangle
-import javafx.scene.paint.ImagePattern
 import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
+
+//Javafx imports
+import javafx.scene.shape.Rectangle
+import javafx.scene.paint.ImagePattern
+import javafx.scene.control.PasswordField
+import javafx.scene.control.TextField
 
 import DatabaseConnector.LogInSQL
 
