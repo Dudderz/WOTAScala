@@ -1,5 +1,7 @@
 package GUI
 
+import DatabaseConnector.CustomerOrderSQL
+
 import scalafx.Includes._
 import Entities.CustomerOrder
 import scalafx.scene.layout.GridPane
@@ -17,10 +19,14 @@ import javafx.scene.paint.ImagePattern
  */
 class CustomerOrderGUI 
 {
-  val custOrder1 : CustomerOrder = new CustomerOrder(1, 1, "date", "closed")
+  
   
   def createCustomerOrderTable() : Node =
   {
+    val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
+    
+    val orders = customerOrders.findAllCustomerOrders()
+    
     val orderIDCol = new TableColumn[CustomerOrder, Int]
     {
       text = "Customer Order Date"
@@ -45,8 +51,8 @@ class CustomerOrderGUI
       cellValueFactory = {_.value.customerOrderStatus}
       prefWidth = 120
     }
-    
-    val table = new TableView[CustomerOrder]()
+        
+    val table = new TableView[CustomerOrder](orders)
     {
       columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
     }
@@ -75,7 +81,5 @@ class CustomerOrderGUI
         add(createCustomerOrderTable, 1, 1)
        
         }
-  }
-  
-  
+  }  
 }

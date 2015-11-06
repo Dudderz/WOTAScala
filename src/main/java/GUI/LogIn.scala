@@ -44,6 +44,7 @@ class LogIn (stage : PrimaryStage)
     
        onAction = (ae: ActionEvent) =>
        {
+                  
          val user : String = usernameField getText()
          val pass : String = passwordField getText()
          
