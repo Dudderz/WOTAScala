@@ -1,7 +1,6 @@
 package GUI
 
 import DatabaseConnector.CustomerOrderSQL
-
 import scalafx.Includes._
 import Entities.CustomerOrder
 import scalafx.scene.layout.GridPane
@@ -13,6 +12,10 @@ import TableColumn._
 import javafx.scene.shape.Rectangle
 import scalafx.scene.image.Image
 import javafx.scene.paint.ImagePattern
+import javafx.scene.input.MouseButton
+import javafx.scene.input.MouseEvent
+
+import javafx.event.EventHandler
 
 /**
  * @author tdudley
@@ -61,10 +64,13 @@ class CustomerOrderGUI
     {
       columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
     }
+        
+   /* table.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+          println(table.getSelectionModel.selectedItemProperty.value)
     
-    println (table.getSelectionModel.selectedItemProperty.value)
-    
-    
+        })
+*/
     table
   }
   
