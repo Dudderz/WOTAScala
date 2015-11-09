@@ -1,5 +1,7 @@
 package DatabaseConnector
 
+import Entities.Employee
+
 import java.sql.Connection
 import java.sql.SQLException
 import scala.collection.mutable.ArrayBuffer
@@ -14,9 +16,12 @@ import scala.collection.mutable.ArrayBuffer
 
 class LogInSQL(val username : String, val password : String) {
 
+  var tempEmployee : Employee = new Employee(999999, "", "", "")
   
   var employeeUsernames= new ArrayBuffer[String](10)
   var employeePasswords= new ArrayBuffer[String](10)
+  
+  val dbConnection = new DBConnector()
   
   /*
    * runs the SQL statements to get the arrays of usernames and passwords
@@ -25,15 +30,13 @@ class LogInSQL(val username : String, val password : String) {
   {
     try {
       
-      val dbConnection = new DBConnector()
-      
-      val connection : Connection = dbConnection connect()
+      val connection : Connection = dbConnection connect
       
       //Creates the statement and runs the select query
-      val statement = connection createStatement()
+      val statement = connection createStatement
       val resultSet = statement executeQuery("SELECT username, password FROM employee")
     
-      while(resultSet next())
+      while(resultSet next)
       {
         employeeUsernames += resultSet getString("username")
         employeePasswords += resultSet getString("password")
@@ -42,7 +45,7 @@ class LogInSQL(val username : String, val password : String) {
       case e : SQLException => e printStackTrace
     }
 
-    println(employeeUsernames length)
+    dbConnection closeConnection
 
   }
   
@@ -50,6 +53,31 @@ class LogInSQL(val username : String, val password : String) {
   {   
     forLoop((employeeUsernames length) - 1)
 
+  }
+  
+  def findByEmployeeUserName(user : String) : Employee = 
+  {
+    var employee : Employee = new Employee(999999999, "", "", "")
+    
+    try{
+      
+      val connection : Connection = dbConnection connect
+      
+      val statement = connection createStatement
+      val resultSet = statement executeQuery("SELECT * AS username FROM employee WHERE username= " + user)
+      
+      while(resultSet next)
+      {
+        employee = new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
+      }
+      
+    }
+    catch {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection()
+    employee
   }
   
   /*

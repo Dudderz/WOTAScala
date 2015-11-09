@@ -23,6 +23,7 @@ import javafx.scene.shape.Rectangle
 import javafx.scene.paint.ImagePattern
 
 import DatabaseConnector.LogInSQL
+import DatabaseConnector.EmployeeSQL
 
 /**
  * @author tdudley
@@ -57,9 +58,16 @@ class LogIn (stage : PrimaryStage)
          
          val bool = login verifyLogIn()
          
+        
+         
          if(bool)
          {
-           val gui : GUIMain = new GUIMain()
+           val employeeSQL = new EmployeeSQL()
+           val employee = employeeSQL findByEmployeeUsername(user)
+           
+           val employeeID = employee employeeID
+           
+           val gui : GUIMain = new GUIMain(employeeID)
            
            gui.showLogin()
            

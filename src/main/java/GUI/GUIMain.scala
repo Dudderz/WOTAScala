@@ -19,7 +19,7 @@ import scalafx.scene.control.Tab
  * 
  * 
  */
-class GUIMain extends JFXApp()
+class GUIMain(employeeID : Int) extends JFXApp()
 {
   
   def createTabs() : TabPane = 
@@ -29,7 +29,7 @@ class GUIMain extends JFXApp()
       
        new Tab {
          text = "Customer Orders"
-         val custOrderGUI : CustomerOrderGUI = new CustomerOrderGUI()
+         val custOrderGUI : CustomerOrderGUI = new CustomerOrderGUI(employeeID)
          content = custOrderGUI.createGridPane()
        },
        

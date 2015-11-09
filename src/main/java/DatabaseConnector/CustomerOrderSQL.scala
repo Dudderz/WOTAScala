@@ -13,8 +13,8 @@ class CustomerOrderSQL {
   val dbConnection = new DBConnector()
       
   /*
-   * Finds a CustomerOrder by customerOrderID and returns the found order
-   * @Param customerOrderID, used to find selected order
+   * Finds all customer orders within the SQL database 
+   * and returns them as an ObservableBuffer
    */
   
   def findAllCustomerOrders() : ObservableBuffer[CustomerOrder] = 
@@ -99,7 +99,7 @@ class CustomerOrderSQL {
     customerOrderArray
   }
   
-  def claimCustomerOrder(employeeID : Int, customerOrderID : Int, updatedStatus : String) : Unit = 
+  def claimCustomerOrder(employeeID : Int, customerOrderID : Int) : Unit = 
   {
     try
     {

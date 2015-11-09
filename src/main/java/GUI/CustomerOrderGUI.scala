@@ -27,8 +27,10 @@ import TableColumn._
 /**
  * @author tdudley
  */
-class CustomerOrderGUI 
+class CustomerOrderGUI(employeeID : Int)
 {
+  
+  var currentCustOrderID : Int = 0
   
   /*
    * Creates a table with column names related to the customer order
@@ -82,6 +84,7 @@ class CustomerOrderGUI
     {
       try
       {
+        currentCustOrderID = table.getSelectionModel.selectedItemProperty.get.customerOrderID.value
         println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
       }
       catch
@@ -90,15 +93,6 @@ class CustomerOrderGUI
       }
       
     }
-    /*table.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler[MouseEvent]()
-        {
-          def handle(event : MouseEvent)
-          {
-            println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
-            
-          }
-        })*/
-
     table
   }
   
@@ -117,22 +111,25 @@ class CustomerOrderGUI
     comboBox
   }*/
   
-  def claimOrder() : Unit = 
+  def claimOrder(employeeID : Int, customerOrderID : Int) : Unit = 
   {
+    val custOrderSQL = new CustomerOrderSQL
     
+    custOrderSQL claimCustomerOrder(employeeID, customerOrderID)
+    val custOrder =custOrderSQL findByCustomerID(customerOrderID)
+    println(custOrder.employeeID)
   }
   
   def createUpdateButton() : Button = 
   {
     val button = new Button
     {
-       text = ("Update") 
+       text = ("Claim order") 
     
        onAction = (ae: ActionEvent) =>
        {
-                  
-         //val user : String = usernameField.text getValue 
-         //val pass : String = passwordField.text getValue
+         claimOrder(employeeID, currentCustOrderID)
+
        }
           
     }
