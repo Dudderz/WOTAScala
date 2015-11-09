@@ -42,6 +42,11 @@ class CustomerOrderSQL {
     customerOrderArray
   }
   
+   /*
+   * Returns a signle CustomerOrder with the given customer id
+   * @PARAM customerID, used to find selected orders with this customerID
+   */
+  
   def findByCustomerID(customerID : Int) : CustomerOrder = 
   {
     var customerOrder : CustomerOrder = new CustomerOrder(999999999, 0, "", "")
@@ -99,6 +104,12 @@ class CustomerOrderSQL {
     customerOrderArray
   }
   
+  /**
+   * Updates the customer order table with a new employee ID for the selected customer order id
+   * @PARAM employeeID will be the new employee id assigned to this order
+   * @PARAM customerOrderID is the order that will be updated by this method
+   */
+  
   def claimCustomerOrder(employeeID : Int, customerOrderID : Int) : Unit = 
   {
     try
@@ -114,6 +125,12 @@ class CustomerOrderSQL {
     
     dbConnection closeConnection()
   }
+  
+    /**
+   * Updates the customer order table with a new employee ID for the selected customer order id
+   * @PARAM updatedStatus will be the new status assigned to this order
+   * @PARAM customerOrderID is the order that will be updated by this method
+   */
   
   def updateOrderStatus(customerOrderID : Int, updatedStatus : String) : Unit = 
   {

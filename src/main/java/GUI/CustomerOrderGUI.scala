@@ -1,9 +1,9 @@
 package GUI
 
 import DatabaseConnector.CustomerOrderSQL
+import DatabaseConnector.CustomerOrderLineSQL
 import Entities.CustomerOrder
-
-//ScalaFX imports
+import Entities.CustomerOrderLine
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
@@ -20,19 +20,16 @@ import scalafx.collections.ObservableBuffer
 import scalafx.stage.Popup
 import scalafx.scene.layout.StackPane
 import scalafx.scene.layout.BorderPane
-
-//JavaFX imports
 import javafx.event.EventHandler
 import javafx.scene.paint.ImagePattern
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
-///import javafx.scene.shape.Rectangle
 import TableColumn._
-
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle, Circle}
 import scalafx.stage.Popup
+import scalafx.collections.ObservableBuffer
 
 
 
@@ -41,6 +38,12 @@ import scalafx.stage.Popup
  */
 class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
 { 
+  /*
+   * Below are the variables and values used within this class
+   * TODO refactor the vars and vals so that there are no
+   * global variables
+   */
+  
   var currentCustOrderID : Int = 0
   
   var updatedStatus : String = ""
@@ -80,6 +83,9 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     }
 
  
+ /*
+  * Reloads the orders and applies them to the table
+  */
  def updateTable(table : TableView[CustomerOrder]) : Unit =
  {
     orders = customerOrders.findAllCustomerOrders()
@@ -122,6 +128,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
     
     comboBoxInfo += new String("Dispatched")
+    comboBoxInfo += new String("")
         
     val comboBox = new ComboBox[String]
     {
@@ -152,7 +159,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     val custOrderSQL = new CustomerOrderSQL
     
     custOrderSQL.updateOrderStatus(customerOrderID, updatedStatus)
-    
+        
     updateTable(table)
   }
   
@@ -167,6 +174,9 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
          claimOrder(employeeID, currentCustOrderID)
          val popup = createAlertPopup("Hello")
          popup.show(stage, 200, 200)
+         
+         comboBoxOfCustomerOrderLines(1)
+         
        }
           
     }
@@ -187,10 +197,39 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     button
   }
-    
-  def showOrderInformation(customerOrderID : Int) : Unit = 
+  
+  def comboBoxOfCustomerOrderLines(customerOrderID : Int) : ComboBox[String] = 
   {
+    val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
     
+    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+  
+    var orderLines : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
+    orderLines = customerOrderLineSQL.findByCustomerID(customerOrderID)
+    
+    val i = orderLines.delegate.length
+    
+    println(orderLines.delegate.length)
+      
+    def loop(i : Int) : Unit = 
+    {
+      if(i > 0)
+      {
+        comboBoxInfo += new String(orderLines.delegate.get(i - 1).customerOrderLineID.value+"")
+        loop(i - 1)
+      }
+        
+    }
+
+     loop(i)
+    
+    
+    val comboBox = new ComboBox[String]
+    {
+      items = comboBoxInfo
+    }
+    
+    comboBox
   }
   
   def createAlertPopup(popupText: String) = new Popup 
@@ -211,7 +250,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
          {
            center = new GridPane
            {
-             //add(showOrderInformation(1))
+             add(comboBoxOfCustomerOrderLines(1), 1, 1)
            }
            bottom = new Button("Close") 
            {
