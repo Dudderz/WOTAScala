@@ -105,7 +105,7 @@ class CustomerOrderSQL {
     {
       val connection : Connection = dbConnection connect()
       val statement = connection createStatement()
-      val resultSet = statement executeQuery("UPDATE customerorder SET employee_id= '" + employeeID + "' WHERE order_id= " + customerOrderID)
+      val resultSet = statement executeUpdate("UPDATE customerorder SET employee_id= '" + employeeID + "' WHERE customerorder_id= " + customerOrderID)
 
     }
     catch {

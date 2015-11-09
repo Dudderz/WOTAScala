@@ -32,6 +32,47 @@ class CustomerOrderGUI(employeeID : Int)
   
   var currentCustOrderID : Int = 0
   
+  val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
+  
+  var orders = customerOrders.findAllCustomerOrders()
+  
+  val table = new TableView[CustomerOrder](orders)
+  
+  val orderIDCol = new TableColumn[CustomerOrder, Int]
+    {
+      text = "Customer Order Date"
+      cellValueFactory = {_.value.customerOrderID}
+      prefWidth = 150
+    }
+ val employeeIDCol = new TableColumn[CustomerOrder, Int]
+    {
+      text = "Employee ID"
+      cellValueFactory = {_.value.employeeID}
+      prefWidth = 120
+    }
+ val custOrderDate = new TableColumn[CustomerOrder, String]
+    {
+      text = "Date of Order"
+      cellValueFactory = {_.value.customerOrderDate}
+      prefWidth = 130
+    }
+ val custStatus = new TableColumn[CustomerOrder, String]
+    {
+      text = "Order Status"
+      cellValueFactory = {_.value.customerOrderStatus}
+      prefWidth = 120
+    }
+
+ 
+ def updateTable(table : TableView[CustomerOrder]) : Unit =
+ {
+    orders = customerOrders.findAllCustomerOrders()
+     
+    println(orders.length)
+     
+    table.items.update(orders)
+ }
+
   /*
    * Creates a table with column names related to the customer order
    * Also pulls information from the database using the CustomerOrderSQL class
@@ -40,52 +81,17 @@ class CustomerOrderGUI(employeeID : Int)
   
   def createCustomerOrderTable() : Node =
   {
-    val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
     
-    val orders = customerOrders.findAllCustomerOrders()
-   
-        
-    val table = new TableView[CustomerOrder](orders)
-    {
-      columns ++= List(
-       
-        new TableColumn[CustomerOrder, Int]
-        {
-          text = "Customer Order Date"
-          cellValueFactory = {_.value.customerOrderID}
-          prefWidth = 150
-        },
-        
-       new TableColumn[CustomerOrder, Int]
-       {
-          text = "Employee ID"
-          cellValueFactory = {_.value.employeeID}
-          prefWidth = 120
-       },
-       
-       new TableColumn[CustomerOrder, String]
-       {
-          text = "Date of Order"
-          cellValueFactory = {_.value.customerOrderDate}
-          prefWidth = 130
-       },
-       
-       new TableColumn[CustomerOrder, String]
-       {
-          text = "Order Status"
-          cellValueFactory = {_.value.customerOrderStatus}
-          prefWidth = 120
-       }    
-      
-      )
-    }
-        
+    table.columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
+    
     table.onMouseClicked = handle
     {
       try
       {
         currentCustOrderID = table.getSelectionModel.selectedItemProperty.get.customerOrderID.value
         println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
+        //table.items.get().removeAll(orders)
+         //table.items.get().addAll(orders)
       }
       catch
       {
@@ -113,10 +119,14 @@ class CustomerOrderGUI(employeeID : Int)
   
   def claimOrder(employeeID : Int, customerOrderID : Int) : Unit = 
   {
+    
+    
     val custOrderSQL = new CustomerOrderSQL
     
     custOrderSQL claimCustomerOrder(employeeID, customerOrderID)
     val custOrder =custOrderSQL findByCustomerID(customerOrderID)
+    
+    updateTable(table)
     println(custOrder.employeeID)
   }
   
