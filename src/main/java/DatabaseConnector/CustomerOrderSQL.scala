@@ -99,4 +99,36 @@ class CustomerOrderSQL {
     customerOrderArray
   }
   
+  def claimCustomerOrder(employeeID : Int, customerOrderID : Int, updatedStatus : String) : Unit = 
+  {
+    try
+    {
+      val connection : Connection = dbConnection connect()
+      val statement = connection createStatement()
+      val resultSet = statement executeQuery("UPDATE customerorder SET employee_id= '" + employeeID + "' WHERE order_id= " + customerOrderID)
+
+    }
+    catch {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection()
+  }
+  
+  def updateOrderStatus(customerOrderID : Int, updatedStatus : String) : Unit = 
+  {
+    try
+    {
+      val connection : Connection = dbConnection connect()
+      val statement = connection createStatement()
+      val resultSet = statement executeQuery("UPDATE customerorder SET order_status= '" + updatedStatus + "' WHERE order_id= " + customerOrderID)
+    }
+    catch {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection()
+   
+  }
+  
 }

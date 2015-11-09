@@ -1,22 +1,28 @@
 package GUI
 
 import DatabaseConnector.CustomerOrderSQL
-import scalafx.Includes._
 import Entities.CustomerOrder
-import scalafx.scene.layout.GridPane
+import scalafx.Includes._
 import scalafx.geometry.Insets
-import scalafx.scene.control.TableView
 import scalafx.scene.Node
-import scalafx.scene.control.TableColumn
-import TableColumn._
-import javafx.scene.shape.Rectangle
 import scalafx.scene.image.Image
+import scalafx.scene.control.Button
+import scalafx.scene.layout.GridPane
+import scalafx.scene.control.ComboBox
+import scalafx.scene.control.TextField
+import scalafx.scene.control.TableView
+import scalafx.scene.control.TableColumn
+import scalafx.scene.control.PasswordField
+import scalafx.event.ActionEvent
+import scalafx.collections.ObservableBuffer
+
+import javafx.event.EventHandler
 import javafx.scene.paint.ImagePattern
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
+import javafx.scene.shape.Rectangle
+import TableColumn._
 
-import javafx.event.EventHandler
-import javafx.event.ActionEvent
 
 /**
  * @author tdudley
@@ -35,40 +41,54 @@ class CustomerOrderGUI
     val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
     
     val orders = customerOrders.findAllCustomerOrders()
-    
-    val orderIDCol = new TableColumn[CustomerOrder, Int]
-    {
-      text = "Customer Order Date"
-      cellValueFactory = {_.value.customerOrderID}
-      prefWidth = 150
-    }
-    val employeeIDCol = new TableColumn[CustomerOrder, Int]
-    {
-      text = "Employee ID"
-      cellValueFactory = {_.value.employeeID}
-      prefWidth = 120
-    }
-    val custOrderDate = new TableColumn[CustomerOrder, String]
-    {
-      text = "Date of Order"
-      cellValueFactory = {_.value.customerOrderDate}
-      prefWidth = 130
-    }
-    val custStatus = new TableColumn[CustomerOrder, String]
-    {
-      text = "Order Status"
-      cellValueFactory = {_.value.customerOrderStatus}
-      prefWidth = 120
-    }
+   
         
     val table = new TableView[CustomerOrder](orders)
     {
-      columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
+      columns ++= List(
+       
+        new TableColumn[CustomerOrder, Int]
+        {
+          text = "Customer Order Date"
+          cellValueFactory = {_.value.customerOrderID}
+          prefWidth = 150
+        },
+        
+       new TableColumn[CustomerOrder, Int]
+       {
+          text = "Employee ID"
+          cellValueFactory = {_.value.employeeID}
+          prefWidth = 120
+       },
+       
+       new TableColumn[CustomerOrder, String]
+       {
+          text = "Date of Order"
+          cellValueFactory = {_.value.customerOrderDate}
+          prefWidth = 130
+       },
+       
+       new TableColumn[CustomerOrder, String]
+       {
+          text = "Order Status"
+          cellValueFactory = {_.value.customerOrderStatus}
+          prefWidth = 120
+       }    
+      
+      )
     }
         
     table.onMouseClicked = handle
     {
-      println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
+      try
+      {
+        println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
+      }
+      catch
+      {
+        case e : NullPointerException => e printStackTrace
+      }
+      
     }
     /*table.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler[MouseEvent]()
         {
@@ -82,9 +102,41 @@ class CustomerOrderGUI
     table
   }
   
-  def createChangeButtons() : Unit = 
+  /*def createComboBox() : ComboBox = 
+  {
+    val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
+    
+    comboBoxInfo += new String("Dispatched")
+    
+    
+    val comboBox = new ComboBox 
+    {
+      
+    }
+    
+    comboBox
+  }*/
+  
+  def claimOrder() : Unit = 
   {
     
+  }
+  
+  def createUpdateButton() : Button = 
+  {
+    val button = new Button
+    {
+       text = ("Update") 
+    
+       onAction = (ae: ActionEvent) =>
+       {
+                  
+         //val user : String = usernameField.text getValue 
+         //val pass : String = passwordField.text getValue
+       }
+          
+    }
+    button
   }
   
   def showCustomerOrderInfo() : Unit = 
@@ -111,6 +163,7 @@ class CustomerOrderGUI
         
         add(createRect(), 0, 0)
         add(createCustomerOrderTable, 1, 1)
+        add(createUpdateButton, 1, 2)
        
         }
   }  
