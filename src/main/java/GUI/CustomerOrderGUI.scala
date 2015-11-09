@@ -82,6 +82,11 @@ class CustomerOrderGUI
     table
   }
   
+  def createChangeButtons() : Unit = 
+  {
+    
+  }
+  
   def showCustomerOrderInfo() : Unit = 
   {
     

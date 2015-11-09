@@ -15,12 +15,12 @@ import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
 import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
+import scalafx.scene.control.PasswordField
+import scalafx.scene.control.TextField
 
 //Javafx imports
 import javafx.scene.shape.Rectangle
 import javafx.scene.paint.ImagePattern
-import javafx.scene.control.PasswordField
-import javafx.scene.control.TextField
 
 import DatabaseConnector.LogInSQL
 
@@ -48,8 +48,8 @@ class LogIn (stage : PrimaryStage)
        onAction = (ae: ActionEvent) =>
        {
                   
-         val user : String = usernameField getText()
-         val pass : String = passwordField getText()
+         val user : String = usernameField.text getValue 
+         val pass : String = passwordField.text getValue
          
          val login = new LogInSQL(user, pass)
          
@@ -73,13 +73,14 @@ class LogIn (stage : PrimaryStage)
  val username = new TextField()
     {
    
-      promptTextProperty() = "Username: "
+      promptText = "Username: "
     }
 
   
   val passwordField = new PasswordField
     {
-      promptTextProperty() = "Password: "
+    
+      promptText = "Password: "
     }
   
     
