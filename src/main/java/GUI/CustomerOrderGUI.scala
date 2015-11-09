@@ -42,6 +42,8 @@ import scalafx.stage.Popup
 class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
 { 
   var currentCustOrderID : Int = 0
+  
+  var updatedStatus : String = ""
    
   val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
   
@@ -128,10 +130,9 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
 
     comboBox.onAction = (ae: ActionEvent) =>
     {
-      println(comboBox.value.value)
+      updatedStatus = comboBox.value.value
+      //println(comboBox.value.value)
     }
-    
-    
     
     comboBox
   }
@@ -178,10 +179,10 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     {
       text = "Update"
       
-      /*onAction = (ae: ActionEvent) =>
+      onAction = (ae: ActionEvent) =>
       {
-          updateOrder(currentCustOrderID, )
-      }*/
+          updateOrder(currentCustOrderID, updatedStatus)
+      }
     }
     
     button
