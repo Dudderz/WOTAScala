@@ -22,6 +22,8 @@ import scalafx.scene.control.Tab
 class GUIMain(employeeID : Int) extends JFXApp()
 {
   
+  stage = new PrimaryStage()
+  
   def createTabs() : TabPane = 
   {
     new TabPane {
@@ -29,7 +31,7 @@ class GUIMain(employeeID : Int) extends JFXApp()
       
        new Tab {
          text = "Customer Orders"
-         val custOrderGUI : CustomerOrderGUI = new CustomerOrderGUI(employeeID)
+         val custOrderGUI : CustomerOrderGUI = new CustomerOrderGUI(employeeID, stage)
          content = custOrderGUI.createGridPane()
        },
        
@@ -54,7 +56,6 @@ class GUIMain(employeeID : Int) extends JFXApp()
         children = Seq(
         
             createTabs()
-           //createGridPane()      
         )
       }
     }
@@ -65,7 +66,7 @@ class GUIMain(employeeID : Int) extends JFXApp()
   def showLogin(): Unit = 
   {
     stage = new PrimaryStage()
-  
+    
     stage setScene(createScene())
     
     stage.show()
