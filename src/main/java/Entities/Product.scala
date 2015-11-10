@@ -1,8 +1,19 @@
+package Entities
 
+import scalafx.beans.property.ObjectProperty
+import scalafx.beans.property.StringProperty
 
-package Entities/**
+/**
  * @author tdudley
  */
-class Product {
+class Product (val productID_ : Int, val productName_ : String, val productDescription_ : String, 
+    val productPrice_ : Float, val productPicture_ : String)
+{
+  val productID = new ObjectProperty[Int](this, "productID", productID_)
+  val productName = new ObjectProperty[String](this, "productName", productName_)
+  val productDescription = new ObjectProperty[String](this, "productDescription", productDescription_)
+  val productPrice = new ObjectProperty[Float](this, "productPrice", productPrice_)
+  val productPicture = new ObjectProperty[String](this, "productPicture", productPicture_)
+  
   
 }

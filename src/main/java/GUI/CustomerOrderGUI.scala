@@ -2,14 +2,17 @@ package GUI
 
 import DatabaseConnector.CustomerOrderSQL
 import DatabaseConnector.CustomerOrderLineSQL
+import DatabaseConnector.ProductSQL
 import Entities.CustomerOrder
 import Entities.CustomerOrderLine
+import Entities.Product
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
 import scalafx.scene.image.Image
 import scalafx.scene.control.Button
 import scalafx.scene.layout.GridPane
+import scalafx.scene.control.Label
 import scalafx.scene.control.ComboBox
 import scalafx.scene.control.TextField
 import scalafx.scene.control.TableView
@@ -20,6 +23,7 @@ import scalafx.collections.ObservableBuffer
 import scalafx.stage.Popup
 import scalafx.scene.layout.StackPane
 import scalafx.scene.layout.BorderPane
+import scalafx.scene.control.TextField
 import javafx.event.EventHandler
 import javafx.scene.paint.ImagePattern
 import javafx.scene.input.MouseButton
@@ -30,6 +34,7 @@ import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle, Circle}
 import scalafx.stage.Popup
 import scalafx.collections.ObservableBuffer
+import scalafx.scene.paint.Color
 
 
 
@@ -144,6 +149,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     comboBox
   }
   
+    
   def claimOrder(employeeID : Int, customerOrderID : Int) : Unit = 
   {
     val custOrderSQL = new CustomerOrderSQL
@@ -225,12 +231,91 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     
     val comboBox = new ComboBox[String]
-    {
+    {       
       items = comboBoxInfo
     }
     
     comboBox
   }
+  
+  def addProductNameLabel(customerOrderLineID : Int) : Label = 
+  {
+    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+  
+    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    
+    val productSQL : ProductSQL = new ProductSQL()
+    
+    var product = productSQL.findByProductID(orderLine.productID.value)
+    
+    val label = new Label(product.productName.value)
+    
+    label
+  }
+  
+  def addProductIDLabel(customerOrderLineID : Int) : Label = 
+  {
+    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+  
+    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    
+    val productSQL : ProductSQL = new ProductSQL()
+    
+    var product = productSQL.findByProductID(orderLine.productID.value)
+    
+    val label = new Label(product.productID.value+"")
+    
+    label
+  }
+  
+  def addProductDescriptionLabel(customerOrderLineID : Int) : Label = 
+  {
+    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+  
+    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    
+    val productSQL : ProductSQL = new ProductSQL()
+    
+    var product = productSQL.findByProductID(orderLine.productID.value)
+    
+    val label = new Label(product.productDescription.value)
+  
+    label
+  }
+  
+  def addProductQuantityLabel(customerOrderLineID : Int) : Label = 
+  {
+    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+  
+    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    
+    val label = new Label(orderLine.quantity.value+"")
+  
+    label
+  }
+  
+  /**
+   * TODO return a rectangle containing the picture of the product
+   * the picture will have to be sourced and saved into the resources folder
+   * an image loader will have to be created
+   * this can be done through a loader. 
+   * use the log in page as an example
+   */
+  
+  /*def addProductPicture(customerOrderLineID : Int) : Rectangle = 
+  {
+    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+  
+    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    
+    val productSQL : ProductSQL = new ProductSQL()
+    
+    var product = productSQL.findByProductID(orderLine.productID.value)
+    
+    val label = new Label(product.productDescription.value)
+     
+    label
+  }*/
   
   def createAlertPopup(popupText: String) = new Popup 
   {
@@ -244,13 +329,28 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
            height = 200
            arcWidth = 20
            arcHeight = 20
+           fill = Color.LIGHTBLUE
+           stroke = Color.GRAY
            strokeWidth = 2
+           
+        
+           
+           //TODO sort out the background colour
+           
          },
          new BorderPane 
          {
            center = new GridPane
            {
-             add(comboBoxOfCustomerOrderLines(1), 1, 1)
+             add(new Label("Pick customer order line: "), 1, 1)
+             add(comboBoxOfCustomerOrderLines(1), 1, 2)
+             add(new Label("Product name: "), 1, 3)
+             add(addProductNameLabel(1), 1, 4)
+             add(new Label("Product Description: "), 1, 5)
+             add(addProductDescriptionLabel(1), 1, 6)
+             add(new Label("Product Quantity: "), 1, 7)
+             add(addProductQuantityLabel(1), 1, 8)
+             
            }
            bottom = new Button("Close") 
            {

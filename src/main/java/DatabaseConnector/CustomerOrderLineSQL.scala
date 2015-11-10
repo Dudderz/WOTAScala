@@ -1,9 +1,10 @@
 package DatabaseConnector
 
 import Entities.CustomerOrderLine
-import java.sql.SQLException
-import java.sql.Connection
 import scalafx.collections.ObservableBuffer
+import java.sql.Connection
+import java.sql.SQLException
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * @author tdudley
@@ -91,6 +92,30 @@ class CustomerOrderLineSQL {
     dbConnection closeConnection()
     
     customerOrderArray
+  }
+  
+  def findByCustomerOrderLineID(orderLineID : Int) : CustomerOrderLine = 
+  {
+    var customerOrderLine : CustomerOrderLine = new CustomerOrderLine(99999999, 0, 0, 0)
+    
+    try{
+      
+      val connection : Connection = dbConnection connect
+      
+      val statement = connection createStatement
+      val resultSet = statement executeQuery("SELECT * FROM customerorderline WHERE customer_orderline_id = " + orderLineID)
+      
+      while(resultSet next())
+      {
+        customerOrderLine = new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+      }
+    } catch {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection()
+    
+    customerOrderLine
   }
   
 }
