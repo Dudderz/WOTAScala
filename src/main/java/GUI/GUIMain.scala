@@ -25,10 +25,7 @@ import scalafx.scene.paint._
  * 
  */
 class GUIMain(employeeID : Int) extends JFXApp()
-{
-  
-  stage = new PrimaryStage()
-  
+{  
   def createTabs() : TabPane = 
   {
     new TabPane {
@@ -78,11 +75,12 @@ class GUIMain(employeeID : Int) extends JFXApp()
 
   def showLogin(): Unit = 
   {
+ 
     stage = new PrimaryStage()
     
     stage setScene(createScene())
     
-    stage.show()
+    stage show
     
     stage title = "Warehouse Order Tracking Application"
     stage width = 560

@@ -58,8 +58,6 @@ class LogIn (stage : PrimaryStage)
          
          val bool = login verifyLogIn()
          
-        
-         
          if(bool)
          {
            val employeeSQL = new EmployeeSQL()

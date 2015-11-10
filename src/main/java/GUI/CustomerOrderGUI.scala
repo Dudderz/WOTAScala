@@ -6,9 +6,8 @@ import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
 import scalafx.scene.image.Image
-import scalafx.scene.control.Button
-import scalafx.scene.layout.GridPane
-import scalafx.scene.control.{ComboBox, TextField, TableView, TableColumn}
+import scalafx.scene.layout.{GridPane, HBox}
+import scalafx.scene.control.{ComboBox, Button, TextField, TableView, TableColumn}
 import scalafx.event.ActionEvent
 import scalafx.collections.ObservableBuffer
 import javafx.event.EventHandler
@@ -18,7 +17,6 @@ import TableColumn._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle, Circle}
-import scalafx.scene.layout.HBox
 
 
 /**
@@ -77,8 +75,6 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
  def updateTable(table : TableView[CustomerOrder]) : Unit =
  {
     orders = customerOrders.findAllCustomerOrders()
-     
-    println(orders.length)
      
     table.items.update(orders)
  }
