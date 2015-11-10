@@ -51,8 +51,7 @@ class LogInSQL(val username : String, val password : String) {
   
   def verifyLogIn() : Boolean = 
   {   
-    forLoop((employeeUsernames length) - 1)
-
+     forLoop((employeeUsernames length) - 1)
   }
   
   def findByEmployeeUserName(user : String) : Employee = 
@@ -90,7 +89,7 @@ class LogInSQL(val username : String, val password : String) {
   
   def forLoop(n : Int) : Boolean = 
   {
-    if(n <= 1)
+    if(n <= 0)
     {
       if(employeeUsernames(n) == username)
       {

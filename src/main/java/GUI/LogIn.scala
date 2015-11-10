@@ -17,13 +17,13 @@ import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
 import scalafx.scene.control.PasswordField
 import scalafx.scene.control.TextField
-
-//Javafx imports
 import javafx.scene.shape.Rectangle
 import javafx.scene.paint.ImagePattern
-
 import DatabaseConnector.LogInSQL
 import DatabaseConnector.EmployeeSQL
+import scalafx.stage.Popup
+import scalafx.scene.control.Alert
+import scalafx.scene.control.Alert.AlertType
 
 /**
  * @author tdudley
@@ -72,12 +72,21 @@ class LogIn (stage : PrimaryStage)
            gui.showLogin()
            
          }
+         else
+         {
+           val alert: Alert = new Alert(AlertType.Warning);
+           alert setTitle("Warning");
+           alert setHeaderText(null);
+           alert setContentText("Please enter a valid user and or password");
+
+           alert showAndWait()
+         }
        }
     
     }
     button
   }
- 
+
  val username = new TextField()
     {
    
