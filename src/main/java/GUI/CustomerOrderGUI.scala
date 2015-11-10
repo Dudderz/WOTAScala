@@ -2,7 +2,6 @@ package GUI
 
 import DatabaseConnector.{CustomerOrderSQL, CustomerOrderLineSQL}
 import Entities.{CustomerOrder, CustomerOrderLine}
-
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
@@ -10,10 +9,8 @@ import scalafx.scene.image.Image
 import scalafx.scene.control.Button
 import scalafx.scene.layout.GridPane
 import scalafx.scene.control.{ComboBox, TextField, TableView, TableColumn}
-
 import scalafx.event.ActionEvent
 import scalafx.collections.ObservableBuffer
-
 import javafx.event.EventHandler
 import javafx.scene.paint.ImagePattern
 import javafx.scene.input.{MouseButton, MouseEvent}
@@ -21,6 +18,7 @@ import TableColumn._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle, Circle}
+import scalafx.scene.layout.HBox
 
 
 /**
@@ -108,8 +106,14 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
       }
       
     }
+
     table
   }
+  
+  /**
+   * Returns a combo box of strings.
+   * These are used to update the customers status
+   */
   
   def createComboBox() : ComboBox[String] = 
   {
@@ -123,8 +127,12 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     val comboBox = new ComboBox[String]
     {
       items = comboBoxInfo
+      promptText = "Pick a status"
+      
     }
 
+    comboBox.placeholder
+    
     comboBox.onAction = (ae: ActionEvent) =>
     {
       updatedStatus = comboBox.value.value
@@ -134,6 +142,14 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
   }
   
     
+   /**
+   * @Param employeeID - the employeeID that will claim this order
+   * @Param customerOrderID - the customerOrder that will be claimed
+   * 
+   * Allows the employee to claim the highlighted order
+   * 
+   */
+  
   def claimOrder(employeeID : Int, customerOrderID : Int) : Unit = 
   {
     val custOrderSQL = new CustomerOrderSQL
@@ -144,6 +160,15 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
 
   }
   
+  /**
+   * @Param customerOrderID - the customer order that will be updated
+   * @Param updatedStatus - new status for the order
+   * 
+   * Updates the customer order with the new status and then updates
+   * the table with the new information
+   * 
+   */
+  
   def updateOrder(customerOrderID : Int, updatedStatus : String) : Unit = 
   {
     val custOrderSQL = new CustomerOrderSQL
@@ -152,6 +177,11 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
         
     updateTable(table)
   }
+  
+  /**
+   * @Return Button 
+   * creates a button that allows the current user to claim the order
+   */
   
   def createClaimButton() : Button = 
   {
@@ -162,16 +192,16 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
        onAction = (ae: ActionEvent) =>
        {
          claimOrder(employeeID, currentCustOrderID)
-         
-         val custOrderLineGUI = new CustomerOrderLineGUI(currentCustOrderID, stage)
-         
-         custOrderLineGUI showPopUp
-
        }
           
     }
     button
   }
+  
+  /**
+   * @Return Button 
+   * creates a button that updates the highlighted order's status
+   */
   
   def createUpdateButton() : Button = 
   {
@@ -187,9 +217,34 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     button
   }
-
-
   
+  /**
+   * @Return Button 
+   * creates a button that shows the highlighted order details
+   */
+  
+  def createShowOrderButton() : Button = 
+  {
+    val button = new Button 
+    {
+      text = "Show Order"
+      
+      onAction = (ae: ActionEvent) =>
+      {
+          
+         val custOrderLineGUI = new CustomerOrderLineGUI(currentCustOrderID, stage)
+         
+         custOrderLineGUI showPopUp
+      }
+    }
+    
+    button
+  }
+
+
+  /**
+   * @Return returns a rectangle containing the company logo
+   */
    /*def createRect(): Rectangle = 
   {
      val image = new Image("file:src/main/java/GUI/logo.png")
@@ -198,23 +253,28 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
      rect
   }*/
   
+  /**
+   * @Return GridPane - contains the buttons for the customer order gui
+   * and sorts them in a grid
+   */
   
    def createGridPane() : GridPane = 
   {
-    new GridPane {
-        hgap = 10
-        vgap = 10
-        padding = Insets(20, 100, 10, 10)
-      
-        
-        //add(createRect(), 0, 0)
-        add(createCustomerOrderTable, 1, 1)
-        add(createClaimButton, 1, 2)
-        add(createComboBox, 2, 2)
-        add(createUpdateButton, 2, 3)
-        
-        
+    new GridPane 
+    {
+      hgap = 10
+      vgap = 10
+      padding = Insets(20, 100, 10, 10)
        
-        }
+      //add(createRect(), 0, 0)
+      
+      add(createClaimButton, 2, 1)
+      add(createShowOrderButton, 4, 1)
+      add(createComboBox, 5, 1)
+      add(createUpdateButton, 6, 1)
+     
+   
+    }
   }  
+
 }

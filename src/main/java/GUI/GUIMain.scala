@@ -5,11 +5,16 @@ import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.Scene
 import scalafx.scene.Scene.sfxScene2jfx
 import scalafx.stage.Stage.sfxStage2jfx
-import scalafx.scene.layout.HBox
+import scalafx.scene.layout.{HBox, VBox}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.JFXApp
 import scalafx.scene.control.TabPane
 import scalafx.scene.control.Tab
+
+import scalafx.geometry.Insets
+
+import scalafx.scene.paint.Color._
+import scalafx.scene.paint._
 
 /**
  * @author tdudley
@@ -32,7 +37,16 @@ class GUIMain(employeeID : Int) extends JFXApp()
        new Tab {
          text = "Customer Orders"
          val custOrderGUI : CustomerOrderGUI = new CustomerOrderGUI(employeeID, stage)
-         content = custOrderGUI.createGridPane()
+         content = new VBox
+         {
+           padding = Insets(10, 100, 100, 10)
+           
+           children = Seq(
+             custOrderGUI createCustomerOrderTable,
+             custOrderGUI createGridPane
+             
+           )
+         }
        },
        
        new Tab{
@@ -49,8 +63,7 @@ class GUIMain(employeeID : Int) extends JFXApp()
   def createScene() : Scene =
   {
     val scene2 = new Scene
-    {
-        
+    {  
       content = new HBox
       {   
         children = Seq(
@@ -72,11 +85,9 @@ class GUIMain(employeeID : Int) extends JFXApp()
     stage.show()
     
     stage title = "Warehouse Order Tracking Application"
-    stage width = 800
+    stage width = 560
     stage height = 600
-    
-    
-    
+
   }
   
 }
