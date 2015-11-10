@@ -46,7 +46,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
   
   val orderIDCol = new TableColumn[CustomerOrder, Int]
     {
-      text = "Customer Order Date"
+      text = "Customer Order ID"
       cellValueFactory = {_.value.customerOrderID}
       prefWidth = 150
     }
@@ -163,7 +163,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
        {
          claimOrder(employeeID, currentCustOrderID)
          
-         val custOrderLineGUI = new CustomerOrderLineGUI(stage)
+         val custOrderLineGUI = new CustomerOrderLineGUI(currentCustOrderID, stage)
          
          custOrderLineGUI showPopUp
 

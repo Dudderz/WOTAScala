@@ -23,9 +23,13 @@ import scalafx.application.JFXApp.PrimaryStage
 /**
  * @author tdudley
  */
-class CustomerOrderLineGUI(stage : PrimaryStage)
+class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
 {
   var customerOrderLineID : Int = 0
+  var productNameLabel : Label = new Label("")
+  var productIDLabel : Label = new Label("")
+  var productDescriptionLabel : Label = new Label("")
+  var productQuantityLabel : Label = new Label("")
   
   def comboBoxOfCustomerOrderLines(customerOrderID : Int) : ComboBox[String] = 
   {
@@ -60,14 +64,25 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
     
     comboBox.onAction = (ae: ActionEvent) =>
     {
+      customerOrderLineID =comboBox.value.value.toInt
         println(comboBox.value.value)
+      
+      updateLabelText(productNameLabel, addProductNameLabel)
+      updateLabelText(productIDLabel, addProductIDLabel)
+      updateLabelText(productDescriptionLabel, addProductDescriptionLabel)
+      updateLabelText(productQuantityLabel, addProductQuantityLabel)
     }
     
      
     comboBox
   }
   
-  def addProductNameLabel(customerOrderLineID : Int) : Label = 
+  def updateLabelText(label : Label, updatedText : String) : Unit = 
+  {
+    label.text.value_=(updatedText)
+  }
+  
+  def addProductNameLabel() : String = 
   {
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
   
@@ -77,12 +92,10 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
     
     var product = productSQL.findByProductID(orderLine.productID.value)
     
-    val label = new Label(product.productName.value)
-    
-    label
+    product.productName.value
   }
   
-  def addProductIDLabel(customerOrderLineID : Int) : Label = 
+  def addProductIDLabel() : String = 
   {
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
   
@@ -92,12 +105,12 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
     
     var product = productSQL.findByProductID(orderLine.productID.value)
     
-    val label = new Label(product.productID.value+"")
-    
-    label
+    product.productID.value+""
   }
   
-  def addProductDescriptionLabel(customerOrderLineID : Int) : Label = 
+  
+  
+  def addProductDescriptionLabel() : String = 
   {
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
   
@@ -107,20 +120,17 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
     
     var product = productSQL.findByProductID(orderLine.productID.value)
     
-    val label = new Label(product.productDescription.value)
-  
-    label
+    product.productDescription.value
+
   }
   
-  def addProductQuantityLabel(customerOrderLineID : Int) : Label = 
+  def addProductQuantityLabel() : String = 
   {
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
   
     var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
     
-    val label = new Label(orderLine.quantity.value+"")
-  
-    label
+    orderLine.quantity.value+""
   }
   
   /**
@@ -156,11 +166,11 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
       children = List(
          new Rectangle 
          {
-           width = 300
-           height = 200
-           arcWidth = 20
-           arcHeight = 20
-           fill = Color.LIGHTBLUE
+           width = 400
+           height = 300
+           //arcWidth = 20
+           //arcHeight = 20
+           fill = Color.LIGHTGRAY
            stroke = Color.GRAY
            strokeWidth = 2
          
@@ -170,14 +180,15 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
          {
            center = new GridPane
            {
+             padding = Insets(20, 20, 20, 20)
              add(new Label("Pick customer order line: "), 1, 1)
-             add(comboBoxOfCustomerOrderLines(1), 1, 2)
+             add(comboBoxOfCustomerOrderLines(custOrderID), 2, 1)
              add(new Label("Product name: "), 1, 3)
-             add(addProductNameLabel(1), 1, 4)
+             add(productNameLabel, 2, 3)
              add(new Label("Product Description: "), 1, 5)
-             add(addProductDescriptionLabel(1), 1, 6)
+             add(productDescriptionLabel, 2, 5)
              add(new Label("Product Quantity: "), 1, 7)
-             add(addProductQuantityLabel(1), 1, 8)
+             add(productQuantityLabel, 2, 7)
              
            }
            bottom = new Button("Close") 
@@ -198,6 +209,6 @@ class CustomerOrderLineGUI(stage : PrimaryStage)
   def showPopUp() : Unit = 
   {
     val popup = createAlertPopup("Hello")
-    popup show(stage, 200, 200)
+    popup show(stage, 800 , 400)
   }
 }
