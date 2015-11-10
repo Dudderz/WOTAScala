@@ -245,10 +245,11 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
   /**
    * @Return returns a rectangle containing the company logo
    */
+  
    /*def createRect(): Rectangle = 
   {
      val image = new Image("file:src/main/java/GUI/logo.png")
-//     val rect = new Rectangle(0, 0, 50, 50)
+     val rect = new Rectangle(0, 0, 50, 50)
      rect setFill(new ImagePattern(image))
      rect
   }*/

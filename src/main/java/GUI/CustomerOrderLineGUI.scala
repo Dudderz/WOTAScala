@@ -170,9 +170,9 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
            height = 300
            //arcWidth = 20
            //arcHeight = 20
-           fill = Color.LIGHTGRAY
-           stroke = Color.GRAY
-           strokeWidth = 2
+           fill = Color.White
+           stroke = Color.WhiteSmoke
+           strokeWidth = 4
          
            
          },
@@ -181,13 +181,38 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
            center = new GridPane
            {
              padding = Insets(20, 20, 20, 20)
-             add(new Label("Pick customer order line: "), 1, 1)
+             add(
+                 new Label
+                 {
+                   text = "Pick customer order line: "
+                   style = "-fx-font-size: 12pt"
+                 }, 1, 1)
+                 
+                 
+                 
              add(comboBoxOfCustomerOrderLines(custOrderID), 2, 1)
-             add(new Label("Product name: "), 1, 3)
+             add(
+               new Label
+               {
+                 text = "Product Name: "
+                 style = "-fx-font-size: 10pt"
+               }, 1, 3)
+
              add(productNameLabel, 2, 3)
-             add(new Label("Product Description: "), 1, 5)
+             add(
+                 new Label
+                 {
+                   text = "Product Description: "
+                   style = "-fx-font-size: 10pt"
+                 }, 1, 5)
              add(productDescriptionLabel, 2, 5)
-             add(new Label("Product Quantity: "), 1, 7)
+             add(
+                 new Label
+                 {
+                   text = "Product Quantity: "
+                   style = "-fx-font-size: 10pt"
+                   
+                 }, 1, 7)
              add(productQuantityLabel, 2, 7)
              
            }
