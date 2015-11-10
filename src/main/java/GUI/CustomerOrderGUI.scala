@@ -1,41 +1,26 @@
 package GUI
 
-import DatabaseConnector.CustomerOrderSQL
-import DatabaseConnector.CustomerOrderLineSQL
-import DatabaseConnector.ProductSQL
-import Entities.CustomerOrder
-import Entities.CustomerOrderLine
-import Entities.Product
+import DatabaseConnector.{CustomerOrderSQL, CustomerOrderLineSQL}
+import Entities.{CustomerOrder, CustomerOrderLine}
+
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
 import scalafx.scene.image.Image
 import scalafx.scene.control.Button
 import scalafx.scene.layout.GridPane
-import scalafx.scene.control.Label
-import scalafx.scene.control.ComboBox
-import scalafx.scene.control.TextField
-import scalafx.scene.control.TableView
-import scalafx.scene.control.TableColumn
-import scalafx.scene.control.PasswordField
+import scalafx.scene.control.{ComboBox, TextField, TableView, TableColumn}
+
 import scalafx.event.ActionEvent
 import scalafx.collections.ObservableBuffer
-import scalafx.stage.Popup
-import scalafx.scene.layout.StackPane
-import scalafx.scene.layout.BorderPane
-import scalafx.scene.control.TextField
+
 import javafx.event.EventHandler
 import javafx.scene.paint.ImagePattern
-import javafx.scene.input.MouseButton
-import javafx.scene.input.MouseEvent
+import javafx.scene.input.{MouseButton, MouseEvent}
 import TableColumn._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle, Circle}
-import scalafx.stage.Popup
-import scalafx.collections.ObservableBuffer
-import scalafx.scene.paint.Color
-
 
 
 /**
@@ -116,8 +101,6 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
       try
       {
         currentCustOrderID = table.getSelectionModel.selectedItemProperty.get.customerOrderID.value
-        println(table.getSelectionModel.selectedItemProperty.get.customerOrderID.value)
-
       }
       catch
       {
@@ -132,8 +115,10 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
   {
     val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
     
-    comboBoxInfo += new String("Dispatched")
-    comboBoxInfo += new String("")
+    comboBoxInfo += new String("Order Received")
+    comboBoxInfo += new String("Processing")
+    comboBoxInfo += new String("Out for delivery")
+    comboBoxInfo += new String("Delivered")
         
     val comboBox = new ComboBox[String]
     {
@@ -143,7 +128,6 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     comboBox.onAction = (ae: ActionEvent) =>
     {
       updatedStatus = comboBox.value.value
-      //println(comboBox.value.value)
     }
     
     comboBox
@@ -178,11 +162,11 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
        onAction = (ae: ActionEvent) =>
        {
          claimOrder(employeeID, currentCustOrderID)
-         val popup = createAlertPopup("Hello")
-         popup.show(stage, 200, 200)
          
-         comboBoxOfCustomerOrderLines(1)
+         val custOrderLineGUI = new CustomerOrderLineGUI(stage)
          
+         custOrderLineGUI showPopUp
+
        }
           
     }
@@ -203,169 +187,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     button
   }
-  
-  def comboBoxOfCustomerOrderLines(customerOrderID : Int) : ComboBox[String] = 
-  {
-    val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
-    
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLines : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
-    orderLines = customerOrderLineSQL.findByCustomerID(customerOrderID)
-    
-    val i = orderLines.delegate.length
-    
-    println(orderLines.delegate.length)
-      
-    def loop(i : Int) : Unit = 
-    {
-      if(i > 0)
-      {
-        comboBoxInfo += new String(orderLines.delegate.get(i - 1).customerOrderLineID.value+"")
-        loop(i - 1)
-      }
-        
-    }
 
-     loop(i)
-    
-    
-    val comboBox = new ComboBox[String]
-    {       
-      items = comboBoxInfo
-    }
-    
-    comboBox
-  }
-  
-  def addProductNameLabel(customerOrderLineID : Int) : Label = 
-  {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
-    
-    val productSQL : ProductSQL = new ProductSQL()
-    
-    var product = productSQL.findByProductID(orderLine.productID.value)
-    
-    val label = new Label(product.productName.value)
-    
-    label
-  }
-  
-  def addProductIDLabel(customerOrderLineID : Int) : Label = 
-  {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
-    
-    val productSQL : ProductSQL = new ProductSQL()
-    
-    var product = productSQL.findByProductID(orderLine.productID.value)
-    
-    val label = new Label(product.productID.value+"")
-    
-    label
-  }
-  
-  def addProductDescriptionLabel(customerOrderLineID : Int) : Label = 
-  {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
-    
-    val productSQL : ProductSQL = new ProductSQL()
-    
-    var product = productSQL.findByProductID(orderLine.productID.value)
-    
-    val label = new Label(product.productDescription.value)
-  
-    label
-  }
-  
-  def addProductQuantityLabel(customerOrderLineID : Int) : Label = 
-  {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
-    
-    val label = new Label(orderLine.quantity.value+"")
-  
-    label
-  }
-  
-  /**
-   * TODO return a rectangle containing the picture of the product
-   * the picture will have to be sourced and saved into the resources folder
-   * an image loader will have to be created
-   * this can be done through a loader. 
-   * use the log in page as an example
-   */
-  
-  /*def addProductPicture(customerOrderLineID : Int) : Rectangle = 
-  {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
-    
-    val productSQL : ProductSQL = new ProductSQL()
-    
-    var product = productSQL.findByProductID(orderLine.productID.value)
-    
-    val label = new Label(product.productDescription.value)
-     
-    label
-  }*/
-  
-  def createAlertPopup(popupText: String) = new Popup 
-  {
-   inner =>
-   content.add(new StackPane 
-     {
-      children = List(
-         new Rectangle 
-         {
-           width = 300
-           height = 200
-           arcWidth = 20
-           arcHeight = 20
-           fill = Color.LIGHTBLUE
-           stroke = Color.GRAY
-           strokeWidth = 2
-           
-        
-           
-           //TODO sort out the background colour
-           
-         },
-         new BorderPane 
-         {
-           center = new GridPane
-           {
-             add(new Label("Pick customer order line: "), 1, 1)
-             add(comboBoxOfCustomerOrderLines(1), 1, 2)
-             add(new Label("Product name: "), 1, 3)
-             add(addProductNameLabel(1), 1, 4)
-             add(new Label("Product Description: "), 1, 5)
-             add(addProductDescriptionLabel(1), 1, 6)
-             add(new Label("Product Quantity: "), 1, 7)
-             add(addProductQuantityLabel(1), 1, 8)
-             
-           }
-           bottom = new Button("Close") 
-           {
-             onAction = 
-             {
-               e: ActionEvent => inner.hide
-             }
-             alignmentInParent = Pos.CENTER
-             margin = Insets(10, 0, 10, 0)
-           }
-         }
-     )
-   }.delegate
-   )
-  }
 
   
    /*def createRect(): Rectangle = 
@@ -385,7 +207,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
         padding = Insets(20, 100, 10, 10)
       
         
-//        /add(createRect(), 0, 0)
+        //add(createRect(), 0, 0)
         add(createCustomerOrderTable, 1, 1)
         add(createClaimButton, 1, 2)
         add(createComboBox, 2, 2)
