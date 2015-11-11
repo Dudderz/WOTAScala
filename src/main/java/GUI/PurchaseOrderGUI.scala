@@ -258,6 +258,22 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
      
      button 
   }
+  
+  def createPurchaseOrderButton() : Button = 
+  {
+    val button = new Button
+    {
+      text = "Add Purchase Order"
+      
+      onAction = (ae: ActionEvent) =>
+      {
+          val purchaseOrderForm = new PurchaseOrderForm(stage)
+          purchaseOrderForm showPopUp
+      }
+    }
+    
+    button
+  }
 
 
   /**
@@ -287,11 +303,12 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
        
       //add(createRect(), 0, 0)
       
-      add(createClaimButton, 2, 1)
-      add(createShowOrderButton, 4, 1)
-      add(createComboBox, 5, 1)
-      add(createUpdateButton, 6, 1)
-      add(createReceiveOrderButton, 7, 1)
+      add(createClaimButton, 5, 1)
+      add(createShowOrderButton, 3, 1)
+      add(createComboBox, 2, 2)
+      add(createUpdateButton, 3, 2)
+      add(createReceiveOrderButton, 4, 1)
+      add(createPurchaseOrderButton, 2, 1)
  
     }
   }  
