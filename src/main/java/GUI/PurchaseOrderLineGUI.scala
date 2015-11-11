@@ -49,7 +49,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     {
       if(i > 0)
       {
-        comboBoxInfo += new String(orderLines.delegate.get(i - 1).purchaseOrderLineID.value+"")
+        comboBoxInfo += new String(orderLines.delegate.get(i - 1).purchaseOrderLineID.getValue.toInt+"")
         loop(i - 1)
       }
         

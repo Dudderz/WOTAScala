@@ -27,7 +27,7 @@ class PurchaseOrderLineSQL {
       val connection : Connection = dbConnection connect
       
       val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT purchaseorder_id, employee_id, order_date, order_status FROM purchaseorder")
+      val resultSet = statement executeQuery("SELECT  * FROM purchaseorderline")
     
       while(resultSet next)
       {     
@@ -125,6 +125,22 @@ class PurchaseOrderLineSQL {
     dbConnection closeConnection()
     
     purchaseOrderLine
+  }
+  
+    def addOrderLine(purchaseOrder : PurchaseOrderLine) : Unit = 
+  {
+    try
+    {
+      val connection : Connection = dbConnection connect
+      val statement = connection createStatement 
+      val resultSet = statement executeUpdate("INSERT INTO `purchaseorderline` (`purchase_orderline_id`, `quantity`, `purchase_order_id`, `product_id`) VALUES ('" + purchaseOrder.purchaseOrderLineID + "', '" + purchaseOrder.quantity + "', '" + purchaseOrder.purchaseOrderID + "', '" + purchaseOrder.productID + "')")
+    }
+    catch
+    {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection
   }
 
   

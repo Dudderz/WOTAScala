@@ -1,88 +1,234 @@
 package GUI
 
-import DatabaseConnector.{CustomerOrderLineSQL, ProductSQL}
-import Entities.{CustomerOrderLine, Product}
+import DatabaseConnector.{PurchaseOrderLineSQL, PurchaseOrderSQL, ProductSQL}
+import Entities.{PurchaseOrderLine, PurchaseOrder, Product}
 import scalafx.Includes._
+import scalafx.scene.Node
 import scalafx.scene.image.Image
-import scalafx.scene.control.Button
-import scalafx.scene.layout.GridPane
-import scalafx.scene.control.{Label, ComboBox}
+import scalafx.scene.control.{Label, ComboBox,TableView, TextField, Button, TableColumn}
 import scalafx.event.{ActionEvent, EventHandler}
 import scalafx.collections.ObservableBuffer
 import scalafx.stage.Popup
-import scalafx.scene.layout.{StackPane, BorderPane}
-import javafx.scene.paint.ImagePattern
+import scalafx.scene.layout.{StackPane, BorderPane, GridPane}
+import javafx.scene.paint.{ImagePattern}
+import scalafx.scene.paint.Color
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle}
 import scalafx.stage.Popup
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.paint.Color
 import scalafx.application.JFXApp.PrimaryStage
+
 
 /**
  * @author tdudley
  */
 class PurchaseOrderForm(stage : PrimaryStage) 
 {
-   def createAlertPopup(popupText : String) = new Popup
-   {
-     inner =>
-   content.add(new StackPane 
-     {
-     println("called")
-     
-      children = List(
-         new Rectangle 
-         {
-           width = 400
-           height = 300
-           //arcWidth = 20
-           //arcHeight = 20
-           fill = Color.White
-           stroke = Color.WhiteSmoke
-           strokeWidth = 4
-         
-           
-         },
-         new BorderPane 
-         {
-           center = new GridPane
-           {
-             padding = Insets(20, 20, 20, 20)
-             add(
-                 new Label
-                 {
-                   text = "Product ID: "
-                   style = "-fx-font-size: 12pt"
-                 }, 1, 1)
-                 
+  val productIDTextField = new TextField
 
-             add(
-               new Label
-               {
-                 text = "Product Quantity: "
-                 style = "-fx-font-size: 10pt"
-               }, 1, 3)
-           }
-           bottom = new Button("Close") 
-           {
-             onAction = 
-             {
-               e: ActionEvent => inner.hide
-             }
-             alignmentInParent = Pos.CENTER
-             margin = Insets(10, 0, 10, 0)
-           }
-         }
-     )
-   }.delegate
-   )
-   }
+  val productQuantityTextField = new TextField
+  
+  var tempPurchaseOrderLine : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
+  
+  val table = new TableView[PurchaseOrderLine](tempPurchaseOrderLine)
+  
+  val orderIDCol = new TableColumn[PurchaseOrderLine, Int]
+  {
+    text = "Purchase Order Line ID"
+    cellValueFactory = {_.value.purchaseOrderLineID}
+    prefWidth = 140
+  }
+  
+  val quantityCol = new TableColumn[PurchaseOrderLine, Int]
+  {
+    text = "Quantity"
+    cellValueFactory = {_.value.quantity}
+    prefWidth = 120
+  }  
+  
+  val purchaseOrderIDCol =  new TableColumn[PurchaseOrderLine, Int]
+  {
+    text = "Purchase Order ID"
+    cellValueFactory = {_.value.purchaseOrderID}
+    prefWidth = 150
+  }
+    
+  val productIDCol = new TableColumn[PurchaseOrderLine, Int]
+  {
+    text = "Product ID"
+    cellValueFactory = {_.value.productID}
+    prefWidth = 120
+  }
+  
+  def updateTable(table : TableView[PurchaseOrderLine]) : Unit = 
+  {  
+    table.items.update(tempPurchaseOrderLine)
+  }
+  
+  def createUpdateButton() : Button = 
+  {
+    val button = new Button
+    {
+       text = "Add Purchase Order Line"
+       style = "-fx-font-size: 10pt"
+                
+       onAction = (ae: ActionEvent) =>
+       {
+         createPurchaseOrder()
+         updateTable(table)
+       }
+    }
+
+    button
+  }
+  
+  def createAddOrderLineButton() : Button = 
+  {
+    val button = new Button
+    {
+       text = "Add Purchase Order"
+       style = "-fx-font-size: 10pt"
+                
+       onAction = (ae: ActionEvent) =>
+       {
+         createPurchaseOrderLine()
+         
+         //tempPurchaseOrderLine.clear()
+         
+         updateTable(table)
+       }
+    }
+
+    button
+  }
+  
+  def createCloseButton() : Button = 
+  {
+    val button = new Button("Close") 
+    {
+      alignmentInParent = Pos.CENTER
+      margin = Insets(10, 0, 10, 0)
+      
+      onAction = (ae : ActionEvent) => 
+      {
+        
+      }
+            
+    }
+    
+    button 
+  }
+  
+  def createPurchaseOrderLineTable() : Node = 
+  {
+    table.columns += (orderIDCol, quantityCol, purchaseOrderIDCol, productIDCol)
+    
+    table
+  }
+  
+  def createPurchaseOrderLine() : Unit = 
+  {
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL
+    
+    val orderLine = purchaseOrderLineSQL.findAllPurchaseOrderLines()
+    
+    val purchaseOrderSQL : PurchaseOrderSQL = new PurchaseOrderSQL
+    
+    val orders = purchaseOrderSQL.findAllPurchaseOrders()
+    
+    val tempOrderLineNum = orderLine.length + tempPurchaseOrderLine.length
+    
+    val purchaseOrderLine = new PurchaseOrderLine(tempOrderLineNum, productQuantityTextField.text.getValue.toInt, orders.length + 1, productIDTextField.text.getValue.toInt)
+  
+    tempPurchaseOrderLine += purchaseOrderLine
+  }
+  
+  def createPurchaseOrder() : Unit = 
+  {
+    val purchaseOrderSQL : PurchaseOrderSQL = new PurchaseOrderSQL
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL
+    
+    def forLoop(n : Int) : Unit = 
+    {
+      if(n <= 0)
+      {
+        purchaseOrderLineSQL.addOrderLine(tempPurchaseOrderLine(n))
+      }
+      else
+      {
+        purchaseOrderLineSQL.addOrderLine(tempPurchaseOrderLine(n))
+        forLoop(n - 1)
+      }
+    }
+    
+    forLoop(tempPurchaseOrderLine.length - 1)
+    
+  }
+  
+  def createAlertPopup(popupText : String) = new Popup
+  {
+    inner =>
+  content.add(new StackPane 
+    {
+       
+     children = List(
+        new Rectangle 
+        {
+          width = 600
+          height = 700
+          //arcWidth = 20
+          //arcHeight = 20
+          fill = Color.White
+          stroke = Color.WhiteSmoke
+          strokeWidth = 4
+        
+          
+        },
+         new BorderPane 
+        {
+          top = new GridPane
+          {
+            padding = Insets(20, 20, 20, 20)
+            add(
+                new Label
+                {
+                  text = "Product ID: "
+                  style = "-fx-font-size: 10pt"
+                }, 1, 1)
+                
+            add(productIDTextField, 3, 1)
+               
+            add(
+              new Label
+              {
+                text = "Product Quantity: "
+                style = "-fx-font-size: 10pt"
+             }, 1, 3)
+            
+             add(productQuantityTextField, 3, 3)
+             
+             add(createAddOrderLineButton, 3, 4)
+              
+          }
+          center = createPurchaseOrderLineTable
+                 
+          bottom = new GridPane
+          {
+            //add(createUpdateButton, 3, 2 )
+            add(createCloseButton(), 3, 3)
+          }
+          
+
+        }
+    )
+  }.delegate
+  )
+  }
   
    def showPopUp() : Unit =
    {
      val popup = createAlertPopup("")
-     popup show(stage, 800, 400)
+     popup show(stage, 600, 200)
    }
    
 }

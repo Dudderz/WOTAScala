@@ -135,4 +135,20 @@ class PurchaseOrderSQL {
    
   }
   
+  def addOrder(purchaseOrder : PurchaseOrder) : Unit = 
+  {
+    try
+    {
+      val connection : Connection = dbConnection connect
+      val statement = connection createStatement 
+      val resultSet = statement executeUpdate("INSERT INTO `purchaseorder` (`purchase_order_id`, `order_date`, `order_status`, `employee_id`) VALUES ('" + purchaseOrder.purchaseOrderID + "', '" + purchaseOrder.purchaseOrderDate + "', '" + purchaseOrder.orderStatus + "', '" + purchaseOrder.employeeID + "')")
+    }
+    catch
+    {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection
+  }
+  
 }

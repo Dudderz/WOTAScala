@@ -164,7 +164,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     {
       if(n <= 0)
       {
-        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.value, purchaseOrderLines(n).quantity.value)
+        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt)
       }
       else
       {
