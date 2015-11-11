@@ -49,7 +49,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     {
       if(i > 0)
       {
-        //comboBoxInfo += new String(orderLines.delegate.get(i - 1).purchaseOrderLineID.value+"")
+        comboBoxInfo += new String(orderLines.delegate.get(i - 1).purchaseOrderLineID.value+"")
         loop(i - 1)
       }
         
@@ -65,7 +65,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     
     comboBox.onAction = (ae: ActionEvent) =>
     {
-     // customerOrderLineID =comboBox.value.value.toInt
+     purchaseOrderLineID =comboBox.value.value.toInt
         println(comboBox.value.value)
       
       updateLabelText(productNameLabel, addProductNameLabel)
@@ -183,7 +183,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
              add(
                  new Label
                  {
-                   text = "Pick customer order line: "
+                   text = "Pick purchase order line: "
                    style = "-fx-font-size: 12pt"
                  }, 1, 1)
                  

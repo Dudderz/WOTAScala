@@ -57,7 +57,7 @@ class PurchaseOrderLineSQL {
       val connection : Connection = dbConnection connect()
       
       val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT purchaseorder_id, employee_id, order_date, order_status FROM purchaseorder WHERE purchaseorder_id = " + purchaseID)
+      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE purchase_order_id = " + purchaseID)
       
       while(resultSet next())
       {
@@ -112,7 +112,7 @@ class PurchaseOrderLineSQL {
       val connection : Connection = dbConnection connect
       
       val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE customer_orderline_id = " + orderLineID)
+      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE purchase_orderline_id = " + orderLineID)
       
       while(resultSet next())
       {

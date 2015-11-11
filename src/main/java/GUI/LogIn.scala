@@ -48,7 +48,6 @@ class LogIn (stage : PrimaryStage)
          val encrypter : Encryption = new Encryption
                   
          val user : String = usernameField.text.getValue 
-         println(passwordField.text getValue)
          val pass : String = encrypter hasher(passwordField.text getValue)
          
          val login = new LogInSQL(user, pass)

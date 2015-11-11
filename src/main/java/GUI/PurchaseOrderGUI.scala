@@ -1,7 +1,7 @@
 package GUI
 
-import Entities.PurchaseOrder
-import DatabaseConnector.PurchaseOrderSQL
+import Entities.{PurchaseOrder, PurchaseOrderLine, Product}
+import DatabaseConnector.{PurchaseOrderSQL, PurchaseOrderLineSQL, ProductSQL}
 import scalafx.Includes._
 import scalafx.scene.Node
 import scalafx.geometry.Insets
@@ -136,7 +136,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
    * @Param puchaseOrderID - the purchase order that will be updated
    * @Param updatedStatus - new status for the order
    * 
-   * Updates the puchase order with the new status and then updates
+   * Updates the purchase order with the new status and then updates
    * the table with the new information
    * 
    */
@@ -147,6 +147,37 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     purchaseOrderSQL.updateOrderStatus(purchaseOrderID, updatedStatus)
         
+    updateTable(table)
+  }
+  
+  def updateOrderQuantity(purchaseOrderID : Int) : Unit =
+  {
+    val productSQL = new ProductSQL
+    val purchaseOrderLineSQL = new PurchaseOrderLineSQL
+    val purchaseOrderSQL = new PurchaseOrderSQL
+    
+    var purchaseOrderLines : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
+    
+    purchaseOrderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID) 
+    
+    def forLoop(n : Int)
+    {
+      if(n <= 0)
+      {
+        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.value, purchaseOrderLines(n).quantity.value)
+      }
+      else
+      {
+        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.value, purchaseOrderLines(n).quantity.value)
+        forLoop(n - 1)
+      }
+    }
+    
+    forLoop(purchaseOrderLines.length - 1)
+    
+    purchaseOrderSQL.updateOrderStatus(purchaseOrderID, "Received")
+    
+      
     updateTable(table)
   }
   
@@ -204,13 +235,28 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       onAction = (ae: ActionEvent) =>
       {
           
-         //val purchaseOrderLineGUI = new PurchaseOrderLineGUI(currentPurchaseOrderID, stage)
+         val purchaseOrderLineGUI = new PurchaseOrderLineGUI(currentPurchaseOrderID, stage)
          
-         //purchaseOrderLineGUI showPopUp
+         purchaseOrderLineGUI showPopUp
       }
     }
     
     button
+  }
+  
+  def createReceiveOrderButton() : Button =
+  {
+     val button = new Button
+     {
+       text = "Receive Order"
+       
+       onAction = (ae: ActionEvent) =>
+       {
+         updateOrderQuantity(currentPurchaseOrderID)
+       }
+     }
+     
+     button 
   }
 
 
@@ -245,6 +291,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       add(createShowOrderButton, 4, 1)
       add(createComboBox, 5, 1)
       add(createUpdateButton, 6, 1)
+      add(createReceiveOrderButton, 7, 1)
  
     }
   }  

@@ -25,7 +25,7 @@ class ProductSQL {
       
       while(resultSet next())
       {
-        productArray += new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5))
+        productArray += new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getInt(6))
       } 
     } catch {
         case e : SQLException => e printStackTrace
@@ -38,7 +38,7 @@ class ProductSQL {
   
   def findByProductID(productID : Int) : Product =
   {
-    var product = new Product(99999999, "", "", 0, "")
+    var product = new Product(99999999, "", "", 0, "", 0)
     
     try{
       
@@ -49,13 +49,34 @@ class ProductSQL {
       
       while(resultSet.next())
       {
-        product = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5))
+        product = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getInt(6))
       }
     } catch {
       case e : SQLException => e printStackTrace
     }
     
     product
+  }
+  
+  def updateProductQuantity(productID : Int, quantity : Int) : Unit =
+  {
+    val initialProductQuantity = findByProductID(productID).productQuantity.value
+    
+    val updatedQuantity = initialProductQuantity + quantity
+    
+    try{
+      
+      val connection : Connection = dbConnection connect 
+      
+      val statement = connection createStatement
+      val resultSet = statement executeUpdate("UPDATE product SET product_quantity = '" + updatedQuantity + "' WHERE product_id = " + productID )
+      
+    }
+    catch {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection()
   }
   
   
