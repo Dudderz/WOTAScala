@@ -20,31 +20,27 @@ class Encryption
     
     var res : String = ""
     
-    def forLoop(n : Int) : String = 
+    def forLoop(n : Int) : String =
     {
-      if(n <= 0)
+      if(n >= passHash.length - 1)
       {
         var b : Byte = passHash(n)
         res ++= "%02x".format(b).toString()
-        
+       
         res
       }
       else
       {
         var b : Byte = passHash(n)
         res ++= "%02x".format(b).toString()
-          forLoop(n - 1)
-      
-      }        
+          forLoop(n + 1)
+     
+      }       
     }
+   
+    forLoop(0)
+   
+    res
     
-    val result = forLoop(passHash.length - 1)
-    
-    val temp = result.reverse
-    
-    println(passHash.length - 1)
-    println(result)
-    println(temp)
-    temp
   }
 }
