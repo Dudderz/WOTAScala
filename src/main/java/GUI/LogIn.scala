@@ -1,26 +1,23 @@
 package GUI
 
 //Scalafx imports
+
+import DatabaseConnector.{LogInSQL, EmployeeSQL}
+import Utilities.Encryption
+
 import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.Scene
 import scalafx.scene.Scene.sfxScene2jfx
-import scalafx.scene.control.Label
-import scalafx.scene.layout.GridPane
+import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.stage.Stage.sfxStage2jfx
 import scalafx.geometry.Insets
-import scalafx.scene.layout.HBox
 import scalafx.scene.text.Text
-import scalafx.scene.image.Image
-import scalafx.scene.image.ImageView
-import scalafx.scene.control.Button
+import scalafx.scene.image.{Image, ImageView}
 import scalafx.event.ActionEvent
-import scalafx.scene.control.PasswordField
-import scalafx.scene.control.TextField
+import scalafx.scene.control.{PasswordField, TextField, Label, Button}
 import javafx.scene.shape.Rectangle
 import javafx.scene.paint.ImagePattern
-import DatabaseConnector.LogInSQL
-import DatabaseConnector.EmployeeSQL
 import scalafx.stage.Popup
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
@@ -48,9 +45,11 @@ class LogIn (stage : PrimaryStage)
     
        onAction = (ae: ActionEvent) =>
        {
+         val encrypter : Encryption = new Encryption
                   
-         val user : String = usernameField.text getValue 
-         val pass : String = passwordField.text getValue
+         val user : String = usernameField.text.getValue 
+         println(passwordField.text getValue)
+         val pass : String = encrypter hasher(passwordField.text getValue)
          
          val login = new LogInSQL(user, pass)
          
