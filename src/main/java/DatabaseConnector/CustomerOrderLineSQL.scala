@@ -65,8 +65,8 @@ class CustomerOrderLineSQL {
   }
   
   /*
-   * Returns an ObservableBuffer of CustomerOrder with the given employeeID
-   * @Param employeeID, used to find selected orders with this employeeID
+   * Returns an ObservableBuffer of CustomerOrder with the given productID
+   * @Param productID, used to find selected orders with this productID
    */
   
   def findByProductID(productID : Int) : ObservableBuffer[CustomerOrderLine] = 

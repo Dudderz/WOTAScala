@@ -1,4 +1,4 @@
-/*package GUI
+package GUI
 
 import DatabaseConnector.{PurchaseOrderLineSQL, ProductSQL}
 import Entities.{PurchaseOrderLine, Product}
@@ -37,11 +37,11 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLines : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
-    //orderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID)
-    //orderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID)
+     var orderLines : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
+    orderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID)
     
     val i = orderLines.delegate.length
+    
     
     println(orderLines.delegate.length)
       
@@ -87,11 +87,11 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
   {
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    ///var orderLine = purchaseOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    var orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
-    var product = productSQL.findByProductID(orderLine.productID.value)
+    var product = productSQL.findByProductID(orderLine.productID.get)
     
     product.productName.value
   }
@@ -100,7 +100,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
   {
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-   // var orderLine = purchaseOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    var orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
@@ -108,18 +108,16 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     
     product.productID.value+""
   }
-  
-  
-  
+    
   def addProductDescriptionLabel() : String = 
   {
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-   // var orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
+    var orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
-    //var product = productSQL.findByProductID(orderLine..value)
+    var product = productSQL.findByProductID(orderLine.productID.value)
     
     product.productDescription.value
 
@@ -129,9 +127,9 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
   {
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    //var orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
+    var orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
-    orderLine.
+    orderLine.quantity.value+""
   }
   
   /**
@@ -191,7 +189,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
                  
                  
                  
-             add(comboBoxOfCustomerOrderLines(custOrderID), 2, 1)
+             add(comboBoxOfPurchaseOrderLines(purchaseOrderID), 2, 1)
              add(
                new Label
                {
@@ -238,4 +236,3 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     popup show(stage, 800 , 400)
   }
 }
-*/

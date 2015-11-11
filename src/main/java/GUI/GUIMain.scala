@@ -48,6 +48,19 @@ class GUIMain(employeeID : Int) extends JFXApp()
        
        new Tab{
          text = "Purchase Orders"
+         
+          val purchaseOrderGUI : PurchaseOrderGUI = new PurchaseOrderGUI(employeeID, stage)
+         content = new VBox
+         {
+           padding = Insets(10, 100, 100, 10)
+           
+           children = Seq(
+             purchaseOrderGUI createPurchaseOrderTable,
+             purchaseOrderGUI createGridPane
+             
+           )
+         }
+         
        }
       
       )

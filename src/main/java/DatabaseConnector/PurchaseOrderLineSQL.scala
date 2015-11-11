@@ -1,7 +1,7 @@
-/*
+
 package DatabaseConnector
 
-import Entities.PurchaseOrder
+import Entities.PurchaseOrderLine
 import java.sql.SQLException
 import java.sql.Connection
 import scalafx.collections.ObservableBuffer
@@ -18,9 +18,9 @@ class PurchaseOrderLineSQL {
    * and returns them as an ObservableBuffer
    */
   
-  def findAllPurchaseOrders() : ObservableBuffer[PurchaseOrder] = 
+  def findAllPurchaseOrderLines() : ObservableBuffer[PurchaseOrderLine] = 
   {
-    val purchaseOrderArray : ObservableBuffer[PurchaseOrder] = ObservableBuffer[PurchaseOrder]()
+    val purchaseOrderArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
     try{
       
@@ -31,7 +31,7 @@ class PurchaseOrderLineSQL {
     
       while(resultSet next)
       {     
-        purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+        purchaseOrderArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
       }
     } catch {
       case e : SQLException => e printStackTrace
@@ -44,27 +44,25 @@ class PurchaseOrderLineSQL {
   }
   
    /*
-   * Returns a signle PurchaseOrder with the given customer id
+   * Returns a single PurchaseOrder with the given purchase id
    * @PARAM customerID, used to find selected orders with this customerID
    */
   
-  def findByPurchaseOrderID(purchaseID : Int) : PurchaseOrder = 
+  def findByPurchaseOrderID(purchaseID : Int) : ObservableBuffer[PurchaseOrderLine] = 
   {
-    var purchaseOrder : PurchaseOrder = new PurchaseOrder(999999999, "", "", 0)
+    var purchaseOrderLineArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
     try{
       
       val connection : Connection = dbConnection connect()
       
       val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT purchaseorder_id, employee_id, order_date, order_status FROM purchaseorder WHERE purchaseorder_id = " + customerID)
+      val resultSet = statement executeQuery("SELECT purchaseorder_id, employee_id, order_date, order_status FROM purchaseorder WHERE purchaseorder_id = " + purchaseID)
       
       while(resultSet next())
       {
-        purchaseOrder = new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+        purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
       }
-      
-     
       
     } catch {
       case e : SQLException => e printStackTrace
@@ -72,28 +70,28 @@ class PurchaseOrderLineSQL {
     }
     
     dbConnection closeConnection() 
-    purchaseOrder
+    purchaseOrderLineArray
   }
   
-  /*
+    /*
    * Returns an ObservableBuffer of PurchaseOrder with the given employeeID
    * @Param employeeID, used to find selected orders with this employeeID
    */
   
-  def findByEmployeeID(employeeID : Int) : ObservableBuffer[PurchaseOrder] = 
+  def findByProductID(productID : Int) : ObservableBuffer[PurchaseOrderLine] = 
   {
-    val purchaseOrderArray : ObservableBuffer[PurchaseOrder] = ObservableBuffer[PurchaseOrder]()
+    val purchaseOrderLineArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
     try{
       
       val connection : Connection = dbConnection connect()
       
       val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT purchaseorder_id, employee_id, order_date, order_status FROM purchaseorder WHERE employee_id = " + employeeID)
+      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE product_id = " + productID)
     
       while(resultSet next())
       {     
-        purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+        purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
       }
     } catch {
       case e : SQLException => e printStackTrace
@@ -102,52 +100,32 @@ class PurchaseOrderLineSQL {
     
     dbConnection closeConnection()
     
-    purchaseOrderArray
+    purchaseOrderLineArray
   }
   
-  /**
-   * Updates the customer order table with a new employee ID for the selected customer order id
-   * @PARAM employeeID will be the new employee id assigned to this order
-   * @PARAM purchaseOrderID is the order that will be updated by this method
-   */
-  
-  def claimPurchaseOrder(employeeID : Int, purchaseOrderID : Int) : Unit = 
+  def findByPurchaseOrderLineID(orderLineID : Int) : PurchaseOrderLine = 
   {
-    try
-    {
-      val connection : Connection = dbConnection connect()
-      val statement = connection createStatement()
-      val resultSet = statement executeUpdate("UPDATE purchaseorder SET employee_id= '" + employeeID + "' WHERE purchaseorder_id= " + purchaseOrderID)
+    var purchaseOrderLine : PurchaseOrderLine = new PurchaseOrderLine(99999999, 0, 0, 0)
+    
+    try{
+      
+      val connection : Connection = dbConnection connect
+      
+      val statement = connection createStatement
+      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE customer_orderline_id = " + orderLineID)
+      
+      while(resultSet next())
+      {
+        purchaseOrderLine = new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+      }
+    } catch {
+      case e : SQLException => e printStackTrace
+    }
+    
+    dbConnection closeConnection()
+    
+    purchaseOrderLine
+  }
 
-    }
-    catch {
-      case e : SQLException => e printStackTrace
-    }
-    
-    dbConnection closeConnection()
-  }
-  
-    /**
-   * Updates the customer order table with a new employee ID for the selected customer order id
-   * @PARAM updatedStatus will be the new status assigned to this order
-   * @PARAM purchaseOrderID is the order that will be updated by this method
-   */
-  
-  def updateOrderStatus(purchaseOrderID : Int, updatedStatus : String) : Unit = 
-  {
-    try
-    {
-      val connection : Connection = dbConnection connect()
-      val statement = connection createStatement()
-      val resultSet = statement executeUpdate("UPDATE purchaseorder SET order_status= '" + updatedStatus + "' WHERE purchaseorder_id= " + purchaseOrderID)
-    }
-    catch {
-      case e : SQLException => e printStackTrace
-    }
-    
-    dbConnection closeConnection()
-   
-  }
   
 }
-*/

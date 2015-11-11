@@ -34,28 +34,28 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     {
       text = "Purchase Order ID"
       cellValueFactory = {_.value.purchaseOrderID}
-      prefWidth = 120
+      prefWidth = 140
     }
   
   val orderDateCol = new TableColumn[PurchaseOrder, String]
     {
       text = "Purchase Order Date"
       cellValueFactory = {_.value.purchaseOrderDate}
-      prefWidth = 120
+      prefWidth = 140
     }
   
   val purchaseOrderStatusCol = new TableColumn[PurchaseOrder, String]
     {
       text = "Purchase Order Status"
       cellValueFactory = {_.value.orderStatus}
-      prefWidth = 120
+      prefWidth = 140
     }
   
   val employeeIDCol = new TableColumn[PurchaseOrder, Int]
     {
       text = "Employee ID"
       cellValueFactory = {_.value.employeeID}
-      prefWidth = 120
+      prefWidth = 100
     }
   
   def updateTable(table : TableView[PurchaseOrder]) : Unit = 
@@ -241,10 +241,10 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
        
       //add(createRect(), 0, 0)
       
-      //add(createClaimButton, 2, 1)
-      //add(createShowOrderButton, 4, 1)
-      //add(createComboBox, 5, 1)
-      //add(createUpdateButton, 6, 1)
+      add(createClaimButton, 2, 1)
+      add(createShowOrderButton, 4, 1)
+      add(createComboBox, 5, 1)
+      add(createUpdateButton, 6, 1)
  
     }
   }  
