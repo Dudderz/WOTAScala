@@ -58,12 +58,23 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       prefWidth = 100
     }
   
+  /**
+   * Gets the latest purchaseOrders from the database and then
+   * updates the contents of the table 
+   */
+  
   def updateTable(table : TableView[PurchaseOrder]) : Unit = 
   {
     orders = purchaseOrders.findAllPurchaseOrders()
     
     table.items.update(orders)
   }
+  
+  /**
+   * @RETURN Node
+   * Creates the table that will contain the purchase orders
+   * 
+   */
   
   def createPurchaseOrderTable() : Node = 
   {
@@ -140,7 +151,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
    * the table with the new information
    * 
    */
-  
+      
   def updateOrder(purchaseOrderID : Int, updatedStatus : String) : Unit = 
   {
     val purchaseOrderSQL = new PurchaseOrderSQL
@@ -150,6 +161,12 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     updateTable(table)
   }
   
+  /**
+   * @Param purchaseOrderID - this is the id of the purchase order that wll be used to find the 
+   * relevant purchase order lines
+   * Goes through the list of the purchase order lines assigned to the highlighted 
+   * Purchase Order and then updates the quantity of the product within the database
+   */
   def updateOrderQuantity(purchaseOrderID : Int) : Unit =
   {
     val productSQL = new ProductSQL
@@ -244,6 +261,12 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     button
   }
   
+  /**
+   * @Return Button 
+   * creates a button that receives the highlighted button.
+   * This calls updateOrderQuantity
+   */
+  
   def createReceiveOrderButton() : Button =
   {
      val button = new Button
@@ -259,6 +282,10 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
      button 
   }
   
+  /**
+   * Creates a pop up window that allows the creation of 
+   * new pop ups
+   */
   def createPurchaseOrderButton() : Button = 
   {
     val button = new Button
@@ -269,6 +296,25 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       {
           val purchaseOrderForm = new PurchaseOrderForm(employeeID, stage)
           purchaseOrderForm showPopUp
+      }
+    }
+    
+    button
+  }
+  
+  /**
+   * Refreshes the purchase order table when clicked
+   * Calls the updateTable method
+   */
+  def createRefreshButton () : Button =
+  {
+    val button = new Button
+    {
+      text = "Refresh Table"
+      
+      onAction = (ae: ActionEvent) =>
+      {
+        updateTable(table)    
       }
     }
     
@@ -303,13 +349,13 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
        
       //add(createRect(), 0, 0)
       
-      add(createClaimButton, 5, 1)
-      add(createShowOrderButton, 3, 1)
+      add(createPurchaseOrderButton, 2, 1)
       add(createComboBox, 2, 2)
+      add(createShowOrderButton, 3, 1)
       add(createUpdateButton, 3, 2)
       add(createReceiveOrderButton, 4, 1)
-      add(createPurchaseOrderButton, 2, 1)
- 
+      add(createRefreshButton, 4, 2)
+      add(createClaimButton, 5, 1)
     }
   }  
 }
