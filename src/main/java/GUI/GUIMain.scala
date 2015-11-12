@@ -61,6 +61,23 @@ class GUIMain(employeeID : Int) extends JFXApp()
            )
          }
          
+       },
+       
+       new Tab{
+         text = "Inventory"
+         
+         val productGUI : ProductGUI = new ProductGUI(stage)
+         
+         content = new VBox
+         {
+           padding = Insets(10, 100, 100, 10)
+           
+           children = Seq(
+               productGUI createProductTable,
+               productGUI createBorderPane
+           
+           )    
+         }
        }
       
       )

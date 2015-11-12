@@ -183,7 +183,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       }
       else
       {
-        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.value, purchaseOrderLines(n).quantity.value)
+        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt)
         forLoop(n - 1)
       }
     }
