@@ -130,8 +130,8 @@ class ProductGUI(stage : PrimaryStage)
       center = 
         new GridPane 
         {
-          add(createUpdateButton, 1, 1)
-          add(createLogOutButton, 1, 2)
+          add(createUpdateButton, 5, 1)
+          add(createLogOutButton, 5, 3)
         }
     }
     

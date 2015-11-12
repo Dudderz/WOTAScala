@@ -1,6 +1,6 @@
 package GUI
 
-import DatabaseConnector.{CustomerOrderSQL, CustomerOrderLineSQL}
+import DatabaseConnector.{CustomerOrderSQL, CustomerOrderLineSQL, ProductSQL}
 import Entities.{CustomerOrder, CustomerOrderLine}
 import scalafx.Includes._
 import scalafx.geometry.Insets
@@ -98,8 +98,9 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
       }
       catch
       {
-        case e : NullPointerException => e printStackTrace
+        case e : Throwable => println()//e.printStackTrace  //NullPointerException => e printStackTrace
       }
+
       
     }
 
@@ -170,6 +171,32 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     val custOrderSQL = new CustomerOrderSQL
     
     custOrderSQL.updateOrderStatus(customerOrderID, updatedStatus)
+    
+    if(updatedStatus.equals("Processing"))
+    {
+       val productSQL = new ProductSQL
+       val customerOrderLineSQL = new CustomerOrderLineSQL
+       
+       var customerOrderLines : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
+       
+       customerOrderLines = customerOrderLineSQL.findByCustomerID(customerOrderID)
+       
+       def forLoop(n : Int)
+       {
+         if(n <= 0)
+         {
+           productSQL.updateProductQuantity(customerOrderLines(n).productID.getValue.toInt, -(customerOrderLines(n).quantity.getValue.toInt))
+         }
+         else
+         {
+           productSQL.updateProductQuantity(customerOrderLines(n).productID.getValue.toInt, -(customerOrderLines(n).quantity.getValue.toInt))
+           forLoop(n - 1)
+         }
+       }
+    
+       forLoop(customerOrderLines.length - 1)
+     
+    }  
         
     updateTable(table)
   }

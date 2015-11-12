@@ -27,6 +27,9 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   var orders = purchaseOrders.findAllPurchaseOrders()
   
   val table =  new TableView[PurchaseOrder](orders)
+  {
+    prefWidth = 400
+  }
   
   val orderIDCol = new TableColumn[PurchaseOrder, Int]
     {
@@ -86,7 +89,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       }
       catch
       {
-        case e : NullPointerException => e printStackTrace
+        case e : NullPointerException => println()//e.printStackTrace
       }
     }
     

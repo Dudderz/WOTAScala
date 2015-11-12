@@ -35,6 +35,10 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
   
   val table = new TableView[PurchaseOrderLine](tempPurchaseOrderLine)
   
+  /**
+   * these methods are the column names for the table
+   */
+  
   val orderIDCol = new TableColumn[PurchaseOrderLine, Int]
   {
     text = "Purchase Order Line ID"
@@ -72,7 +76,7 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
   {
     val button = new Button
     {
-       text = "Add Purchase Order Line"
+       text = "Add Purchase Order"
        style = "-fx-font-size: 10pt"
                 
        onAction = (ae: ActionEvent) =>
@@ -92,7 +96,7 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
   {
     val button = new Button
     {
-       text = "Add Purchase Order"
+       text = "Add Purchase Order Line"
        style = "-fx-font-size: 10pt"
                 
        onAction = (ae: ActionEvent) =>

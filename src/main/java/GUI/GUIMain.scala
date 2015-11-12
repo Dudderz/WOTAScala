@@ -8,11 +8,8 @@ import scalafx.stage.Stage.sfxStage2jfx
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.JFXApp
-import scalafx.scene.control.TabPane
-import scalafx.scene.control.Tab
-
+import scalafx.scene.control.{TabPane, Tab}
 import scalafx.geometry.Insets
-
 import scalafx.scene.paint.Color._
 import scalafx.scene.paint._
 
