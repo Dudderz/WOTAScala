@@ -267,7 +267,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       
       onAction = (ae: ActionEvent) =>
       {
-          val purchaseOrderForm = new PurchaseOrderForm(stage)
+          val purchaseOrderForm = new PurchaseOrderForm(employeeID, stage)
           purchaseOrderForm showPopUp
       }
     }

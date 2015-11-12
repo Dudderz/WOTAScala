@@ -18,11 +18,14 @@ import scalafx.stage.Popup
 import scalafx.collections.ObservableBuffer
 import scalafx.application.JFXApp.PrimaryStage
 
+import java.text.SimpleDateFormat
+import java.util.Date
+
 
 /**
  * @author tdudley
  */
-class PurchaseOrderForm(stage : PrimaryStage) 
+class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage) 
 {
   val productIDTextField = new TextField
 
@@ -75,6 +78,9 @@ class PurchaseOrderForm(stage : PrimaryStage)
        onAction = (ae: ActionEvent) =>
        {
          createPurchaseOrder()
+         
+         tempPurchaseOrderLine.clear()
+         
          updateTable(table)
        }
     }
@@ -92,8 +98,6 @@ class PurchaseOrderForm(stage : PrimaryStage)
        onAction = (ae: ActionEvent) =>
        {
          createPurchaseOrderLine()
-         
-         //tempPurchaseOrderLine.clear()
          
          updateTable(table)
        }
@@ -119,9 +123,8 @@ class PurchaseOrderForm(stage : PrimaryStage)
     
     val orders = purchaseOrderSQL.findAllPurchaseOrders()
     
-    val tempOrderLineNum = orderLine.length + tempPurchaseOrderLine.length
-    
-    val purchaseOrderLine = new PurchaseOrderLine(tempOrderLineNum, productQuantityTextField.text.getValue.toInt, orders.length + 1, productIDTextField.text.getValue.toInt)
+        
+    val purchaseOrderLine = new PurchaseOrderLine(orderLine.length + 1, productQuantityTextField.text.getValue.toInt, orders.length + 1, productIDTextField.text.getValue.toInt)
   
     tempPurchaseOrderLine += purchaseOrderLine
   }
@@ -131,21 +134,34 @@ class PurchaseOrderForm(stage : PrimaryStage)
     val purchaseOrderSQL : PurchaseOrderSQL = new PurchaseOrderSQL
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL
     
+    purchaseOrderSQL.addOrder(new PurchaseOrder(tempPurchaseOrderLine(0).purchaseOrderID.value.toInt, getDate, "Order Sent", employeeID))
+    
     def forLoop(n : Int) : Unit = 
     {
-      if(n <= 0)
+      if(n >= tempPurchaseOrderLine.length - 1)
       {
         purchaseOrderLineSQL.addOrderLine(tempPurchaseOrderLine(n))
       }
       else
       {
         purchaseOrderLineSQL.addOrderLine(tempPurchaseOrderLine(n))
-        forLoop(n - 1)
+        forLoop(n + 1)
       }
     }
     
-    forLoop(tempPurchaseOrderLine.length - 1)
-    
+    forLoop(0)
+   
+    def getDate() : String = 
+    {
+      val date = new Date
+      val sdf = new SimpleDateFormat("dd/MM/yyyy")
+      val dates = sdf.format(date)
+      
+      println(dates)
+      
+      dates
+    }
+
   }
   
   def createAlertPopup(popupText : String) = new Popup

@@ -133,7 +133,7 @@ class PurchaseOrderLineSQL {
     {
       val connection : Connection = dbConnection connect
       val statement = connection createStatement 
-      val resultSet = statement executeUpdate("INSERT INTO `purchaseorderline` (`purchase_orderline_id`, `quantity`, `purchase_order_id`, `product_id`) VALUES ('" + purchaseOrder.purchaseOrderLineID + "', '" + purchaseOrder.quantity + "', '" + purchaseOrder.purchaseOrderID + "', '" + purchaseOrder.productID + "')")
+      val resultSet = statement executeUpdate("INSERT INTO `purchaseorderline` (`purchase_orderline_id`, `quantity`, `purchase_order_id`, `product_id`) VALUES ('" + purchaseOrder.purchaseOrderLineID.value.toInt + "', '" + purchaseOrder.quantity.value.toInt + "', '" + purchaseOrder.purchaseOrderID.value.toInt + "', '" + purchaseOrder.productID.value.toInt + "')")
     }
     catch
     {
