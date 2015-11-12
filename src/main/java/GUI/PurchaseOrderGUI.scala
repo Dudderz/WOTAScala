@@ -6,11 +6,9 @@ import scalafx.Includes._
 import scalafx.scene.Node
 import scalafx.geometry.Insets
 import scalafx.application.JFXApp.PrimaryStage
-import scalafx.scene.control.{TableColumn, TableView}
-import scalafx.scene.control.ComboBox
+import scalafx.scene.control.{TableColumn, TableView, ComboBox, Button}
 import scalafx.collections.ObservableBuffer
 import scalafx.event.ActionEvent
-import scalafx.scene.control.Button
 import scalafx.scene.layout.GridPane
 
 

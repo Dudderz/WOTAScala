@@ -123,8 +123,9 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     
     val orders = purchaseOrderSQL.findAllPurchaseOrders()
     
-        
-    val purchaseOrderLine = new PurchaseOrderLine(orderLine.length + 1, productQuantityTextField.text.getValue.toInt, orders.length + 1, productIDTextField.text.getValue.toInt)
+    val tempOrderLineNum = (orderLine.length + 1)+ tempPurchaseOrderLine.length    
+    
+    val purchaseOrderLine = new PurchaseOrderLine(tempOrderLineNum, productQuantityTextField.text.getValue.toInt, orders.length + 1, productIDTextField.text.getValue.toInt)
   
     tempPurchaseOrderLine += purchaseOrderLine
   }

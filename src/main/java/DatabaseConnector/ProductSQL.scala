@@ -25,7 +25,7 @@ class ProductSQL {
       
       while(resultSet next())
       {
-        productArray += new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getInt(6))
+        productArray += new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7))
       } 
     } catch {
         case e : SQLException => e printStackTrace
@@ -38,7 +38,7 @@ class ProductSQL {
   
   def findByProductID(productID : Int) : Product =
   {
-    var product = new Product(99999999, "", "", 0, "", 0)
+    var product = new Product(99999999, "", "", 0, "", "", 0)
     
     try{
       
@@ -49,7 +49,7 @@ class ProductSQL {
       
       while(resultSet.next())
       {
-        product = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getInt(6))
+        product = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7))
       }
     } catch {
       case e : SQLException => e printStackTrace
