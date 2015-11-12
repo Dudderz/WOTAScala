@@ -102,23 +102,6 @@ class PurchaseOrderForm(stage : PrimaryStage)
     button
   }
   
-  def createCloseButton() : Button = 
-  {
-    val button = new Button("Close") 
-    {
-      alignmentInParent = Pos.CENTER
-      margin = Insets(10, 0, 10, 0)
-      
-      onAction = (ae : ActionEvent) => 
-      {
-        
-      }
-            
-    }
-    
-    button 
-  }
-  
   def createPurchaseOrderLineTable() : Node = 
   {
     table.columns += (orderIDCol, quantityCol, purchaseOrderIDCol, productIDCol)
@@ -214,11 +197,20 @@ class PurchaseOrderForm(stage : PrimaryStage)
                  
           bottom = new GridPane
           {
-            //add(createUpdateButton, 3, 2 )
-            add(createCloseButton(), 3, 3)
+            add(createUpdateButton, 3, 2 )
+            add(
+                new Button("Close") 
+                {
+                  alignmentInParent = Pos.CENTER
+                  margin = Insets(10, 0, 10, 0)
+      
+                  onAction = 
+                  {
+                   e: ActionEvent => inner.hide
+                  }
+            
+                }, 3, 3)
           }
-          
-
         }
     )
   }.delegate
