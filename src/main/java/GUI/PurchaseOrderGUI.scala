@@ -14,6 +14,10 @@ import scalafx.scene.layout.GridPane
 
 /**
  * @author tdudley
+ * 
+ * Class to create the purchase order gui. This will contain the 
+ * relevant tables, labels and buttons to allow the user to 
+ * 
  */
 
 class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage) 
@@ -24,7 +28,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   
   val purchaseOrders : PurchaseOrderSQL =  new PurchaseOrderSQL()
   
-  var orders = purchaseOrders.findAllPurchaseOrders()
+  var orders = purchaseOrders findAllPurchaseOrders
   
   val table =  new TableView[PurchaseOrder](orders)
   {
@@ -66,9 +70,9 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   
   def updateTable(table : TableView[PurchaseOrder]) : Unit = 
   {
-    orders = purchaseOrders.findAllPurchaseOrders()
+    orders = purchaseOrders findAllPurchaseOrders 
     
-    table.items.update(orders)
+    table.items update(orders)
   }
   
   /**
@@ -89,7 +93,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       }
       catch
       {
-        case e : NullPointerException => println()//e.printStackTrace
+        case e : NullPointerException => println
       }
     }
     
@@ -139,7 +143,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   {
     val puchaseOrderSQL = new PurchaseOrderSQL
 
-    puchaseOrderSQL.claimPurchaseOrder(employeeID, purchaseOrderID)
+    puchaseOrderSQL claimPurchaseOrder(employeeID, purchaseOrderID)
         
     updateTable(table)
   }
@@ -157,7 +161,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   {
     val purchaseOrderSQL = new PurchaseOrderSQL
     
-    purchaseOrderSQL.updateOrderStatus(purchaseOrderID, updatedStatus)
+    purchaseOrderSQL updateOrderStatus(purchaseOrderID, updatedStatus)
         
     updateTable(table)
   }
@@ -176,13 +180,14 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     var purchaseOrderLines : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
-    purchaseOrderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID) 
+    purchaseOrderLines = purchaseOrderLineSQL findByPurchaseOrderID(purchaseOrderID) 
     
     def forLoop(n : Int)
     {
       if(n <= 0)
       {
-        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt)
+        //productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt)
+        productSQL.updateProductQuantity(purchaseOrderLines(n).productID getValue, purchaseOrderLines(n).quantity getValue)
       }
       else
       {
@@ -193,7 +198,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     forLoop(purchaseOrderLines.length - 1)
     
-    purchaseOrderSQL.updateOrderStatus(purchaseOrderID, "Received")
+    purchaseOrderSQL updateOrderStatus(purchaseOrderID, "Received")
     
       
     updateTable(table)

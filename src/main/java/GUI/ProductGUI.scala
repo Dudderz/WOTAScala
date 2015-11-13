@@ -13,14 +13,30 @@ import TableColumn._
 
 /**
  * @author tdudley
+ * 
+ * @Description :  
+ * Class that creates a new stage that contains the 
+ * list of products that the SQL database contains
+ * Also allows logout functionality
+ * 
  */
 class ProductGUI(stage : PrimaryStage) 
 {
+  
+  /*
+   * Below are the variables and values used within this class
+   * TODO refactor the vars and vals
+   */
+  
   val productSQL : ProductSQL = new ProductSQL
   
-  var products = productSQL.findAllProducts()
+  var products = productSQL findAllProducts
   
   val table = new TableView[Product](products)  
+  
+  /*
+   * Columns that are used within the Product Table
+   */
   
   val productIDCol = new TableColumn[Product, Int]
   {
@@ -70,17 +86,31 @@ class ProductGUI(stage : PrimaryStage)
     cellValueFactory = {_.value.}
   }*/
   
+  
+  /**
+   * Method that updates the contents of the table 
+   * 
+   */
+  
   def updateTable(table : TableView[Product]) : Unit = 
   {
-    products = productSQL.findAllProducts()
+    products = productSQL findAllProducts
     
-    table.items.update(products)
+    table.items update(products)
 
   }
   
+  /**
+   * @return : Button 
+   * Returns a button that is placed within the GUI
+   * 
+   * This method creates the Update table button and when
+   * clicked, calls the updateTable function 
+   */
+  
   def createUpdateButton() : Button = 
   {
-    val button = new Button()
+    val button = new Button
     {
       text = "Update Table"
       
@@ -93,21 +123,37 @@ class ProductGUI(stage : PrimaryStage)
     button
   }
   
+  /**
+   *  @return : Button 
+   *  - Returns a button that is placed within the GUI
+   *  
+   *  This method creates the Log out button and when clicked,
+   *  creates the log in screen and switches to that stage
+   */
+  
   def createLogOutButton() : Button = 
   {
-    val button = new Button()
+    val button = new Button
     {
       text = "Log out"
       
       onAction = (ae: ActionEvent) =>
       {
         val logInGui = new LogIn(stage)
-        logInGui.showLogin()
+        logInGui showLogin
       }
     }
     
     button 
   }
+  
+  /**
+   * @return : ScrollPane 
+   * 
+   * Returns a scroll pane that contains a table that holds the previously defined columns
+   * A scroll pane was used due to the size of the table and not wanting to increase the size
+   * of the pane, this was the best solution 
+   */
   
   def createProductTable() : ScrollPane = 
   {
@@ -115,11 +161,21 @@ class ProductGUI(stage : PrimaryStage)
     
     val scrollPane = new ScrollPane
        
-    scrollPane.setContent(table)
-    scrollPane.prefWidth = 400.0
+    scrollPane setContent(table)
+    scrollPane prefWidth = 400.0
     
     scrollPane
   }
+  
+  /**
+   * @return : BorderPane
+   * 
+   * Returns a border pane that contains a grid pane, which in turn 
+   * contains the update and log out button. 
+   * This was done for layout purposes as the grid allowed for placement 
+   * within the center of the border pane 
+   * 
+   */
   
   def createBorderPane() : BorderPane = 
   {
@@ -136,7 +192,4 @@ class ProductGUI(stage : PrimaryStage)
     }
     
   }
-  
-  
-  
 }

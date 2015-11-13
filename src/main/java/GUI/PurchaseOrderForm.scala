@@ -4,13 +4,13 @@ import DatabaseConnector.{PurchaseOrderLineSQL, PurchaseOrderSQL, ProductSQL}
 import Entities.{PurchaseOrderLine, PurchaseOrder, Product}
 import scalafx.Includes._
 import scalafx.scene.Node
-import scalafx.scene.image.Image
+//import scalafx.scene.image.Image
 import scalafx.scene.control.{Label, ComboBox,TableView, TextField, Button, TableColumn}
 import scalafx.event.{ActionEvent, EventHandler}
 import scalafx.collections.ObservableBuffer
 import scalafx.stage.Popup
 import scalafx.scene.layout.{StackPane, BorderPane, GridPane}
-import javafx.scene.paint.{ImagePattern}
+//import javafx.scene.paint.{ImagePattern}
 import scalafx.scene.paint.Color
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle}
@@ -72,6 +72,14 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     table.items.update(tempPurchaseOrderLine)
   }
   
+  /**
+   * @return : Button 
+   * 
+   *  
+   * Creates the button that is used for the creating the purchase order
+   * also clears the purchase order line table.
+   */
+  
   def createUpdateButton() : Button = 
   {
     val button = new Button
@@ -92,6 +100,14 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     button
   }
   
+  /**
+   * @return : Button 
+   * 
+   *  
+   * Creates the button that is used for the creating the purchase order line
+   * also updates the purchase order line table.
+   */
+  
   def createAddOrderLineButton() : Button = 
   {
     val button = new Button
@@ -110,12 +126,29 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     button
   }
   
+  /**
+   * @return : Node 
+   * 
+   * Adds the columns to the previously defined table
+   * and then returns the table
+   */
+  
   def createPurchaseOrderLineTable() : Node = 
   {
     table.columns += (orderIDCol, quantityCol, purchaseOrderIDCol, productIDCol)
     
     table
   }
+  
+  /**
+   * This method allows the creation of a purchase order line
+   * This gets the list of all the current purchase order lines 
+   * and purchase orders from within the SQL database.
+   * <p>
+   * This creates a new temporary purchase order line with a order id, a calculated
+   * order line id, the selected product id and quantity
+   * This is then added to an Observable Buffer 
+   */
   
   def createPurchaseOrderLine() : Unit = 
   {
@@ -134,13 +167,23 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     tempPurchaseOrderLine += purchaseOrderLine
   }
   
+  /**
+   * This method allows the creation of a purchase order
+   * This gets the list of all the current purchase order lines 
+   * and purchase orders from within the SQL database.
+   * <p>
+   * This creates a new temporary purchase order with a new order id, a calculated
+   * order line id, the selected product id and quantity
+   * This is then added to an Observable Buffer 
+   */
+  
   def createPurchaseOrder() : Unit = 
   {
     val purchaseOrderSQL : PurchaseOrderSQL = new PurchaseOrderSQL
     val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL
     
     purchaseOrderSQL.addOrder(new PurchaseOrder(tempPurchaseOrderLine(0).purchaseOrderID.value.toInt, getDate, "Order Sent", employeeID))
-    
+       
     def forLoop(n : Int) : Unit = 
     {
       if(n >= tempPurchaseOrderLine.length - 1)
@@ -169,10 +212,18 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
 
   }
   
-  def createAlertPopup(popupText : String) = new Popup
+  /**
+   * @return : Popup
+   * 
+   * This method creates the pop up for where all of this class will be displayed
+   * This contains 
+   * 
+   */
+  
+  def createAlertPopup() = new Popup
   {
     inner =>
-  content.add(new StackPane 
+    content.add(new StackPane 
     {
        
      children = List(
@@ -185,10 +236,10 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
           fill = Color.White
           stroke = Color.WhiteSmoke
           strokeWidth = 4
-        
-          
+       
         },
-         new BorderPane 
+        
+        new BorderPane 
         {
           top = new GridPane
           {
@@ -222,7 +273,7 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
             add(
                 new Button("Close") 
                 {
-                  alignmentInParent = Pos.CENTER
+                  alignmentInParent = Pos.Center
                   margin = Insets(10, 0, 10, 0)
       
                   onAction = 
@@ -238,10 +289,13 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
   )
   }
   
-   def showPopUp() : Unit =
-   {
-     val popup = createAlertPopup("")
-     popup show(stage, 600, 200)
-   }
-   
+  /**
+   * Calls the method to create the pop up
+   * and shows the pop.
+   */
+  def showPopUp() : Unit =
+  {
+    val popup = createAlertPopup()
+    popup show(stage, 600, 200)
+  } 
 }
