@@ -13,6 +13,15 @@ class CustomerOrderLineSQL {
   
   val dbConnection = new DBConnector()
   
+  /**
+   * @Return : ObservableBuffer of CustomerOrder
+   *  
+   * Creates a connection to the database and runs the required statement
+   * then assigns the results to an observable buffer
+   * the method then closes the connection and returns the observable buffer 
+   * containing the results from the statement 
+   */
+  
   def findAllCustomerOrderLines() : ObservableBuffer[CustomerOrderLine] = 
   {
     val customerOrderLineArray : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
@@ -37,6 +46,16 @@ class CustomerOrderLineSQL {
     
     customerOrderLineArray
   }
+  
+   /**
+   * @Return : ObservableBuffer of CustomerOrder
+   * @Param : customerID used to find selected orders with this customerID
+   * 
+   * Creates a connection to the database and runs the required statement
+   * then assigns the results to an observable buffer
+   * the method then closes the connection and returns the observable buffer 
+   * containing the results from the statement 
+   */
   
   def findByCustomerID(customerID : Int) : ObservableBuffer[CustomerOrderLine] = 
   {
@@ -64,9 +83,14 @@ class CustomerOrderLineSQL {
     customerOrderLineArray
   }
   
-  /*
-   * Returns an ObservableBuffer of CustomerOrder with the given productID
-   * @Param productID, used to find selected orders with this productID
+  /**
+   * @Return : ObservableBuffer of CustomerOrder
+   * @Param : productID used to find selected orders with this productID
+   * 
+   * Creates a connection to the database and runs the required statement
+   * then assigns the results to an observable buffer
+   * the method then closes the connection and returns the observable buffer 
+   * containing the results from the statement 
    */
   
   def findByProductID(productID : Int) : ObservableBuffer[CustomerOrderLine] = 
@@ -93,6 +117,16 @@ class CustomerOrderLineSQL {
     
     customerOrderArray
   }
+  
+  /**
+   * @Return : ObservableBuffer of CustomerOrder
+   * @Param : orderlineID used to find selected orders with this orderlineID
+   * 
+   * Creates a connection to the database and runs the required statement
+   * then assigns the results to an observable buffer
+   * the method then closes the connection and returns the observable buffer 
+   * containing the results from the statement 
+   */
   
   def findByCustomerOrderLineID(orderLineID : Int) : CustomerOrderLine = 
   {

@@ -7,14 +7,13 @@ import scalafx.application.JFXApp
 /**
  * @author tdudley
  *
- * This starts the database connection and initialises the gui class
+ * This initialises the log in class
+ * and then calls showLogin to show the newly created window
  * 
  */
 
 object Main extends JFXApp{
  
-    val db : DBConnector = new DBConnector()
-    
     stage = new PrimaryStage
     
     val logIn : LogIn = new LogIn(stage)

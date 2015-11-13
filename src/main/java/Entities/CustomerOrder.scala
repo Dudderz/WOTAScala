@@ -6,8 +6,8 @@ import scalafx.beans.property.StringProperty
 /**
  * @author tdudley
  */
-class CustomerOrder (val customerOrderID_ : Int, val employeeID_ : Int, 
-    val customerOrderDate_ : String, val customerOrderStatus_ : String) {
+class CustomerOrder (val customerOrderID_ : Int, val customerOrderDate_ : String, 
+    val customerOrderStatus_ : String, val employeeID_ : Int) {
     
   val customerOrderID = new ObjectProperty[Int](this, "customerOrderID", customerOrderID_)
   val employeeID = new ObjectProperty[Int](this, "employeeID", employeeID_)

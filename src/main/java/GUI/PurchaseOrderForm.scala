@@ -4,13 +4,11 @@ import DatabaseConnector.{PurchaseOrderLineSQL, PurchaseOrderSQL, ProductSQL}
 import Entities.{PurchaseOrderLine, PurchaseOrder, Product}
 import scalafx.Includes._
 import scalafx.scene.Node
-//import scalafx.scene.image.Image
 import scalafx.scene.control.{Label, ComboBox,TableView, TextField, Button, TableColumn}
 import scalafx.event.{ActionEvent, EventHandler}
 import scalafx.collections.ObservableBuffer
 import scalafx.stage.Popup
 import scalafx.scene.layout.{StackPane, BorderPane, GridPane}
-//import javafx.scene.paint.{ImagePattern}
 import scalafx.scene.paint.Color
 import scalafx.geometry.{Pos, Orientation, Insets}
 import scalafx.scene.shape.{Rectangle}
@@ -24,6 +22,15 @@ import java.util.Date
 
 /**
  * @author tdudley
+ * 
+ * @Param : employeeID is the employee who is currently logged in 
+ * @Param : stage is what the pop up that is being created within the class
+ *          will be added to.
+ *          
+ * @description : this class produces a pop up window that allows the creation of 
+ *  a new purchase order. This is made up from the purchase order lines that the 
+ *  user specifies the product id and the quantity required.
+ * 
  */
 class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage) 
 {
@@ -66,6 +73,12 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     cellValueFactory = {_.value.productID}
     prefWidth = 120
   }
+  
+  /**
+   * Method that updates the contents of the table by passing in 
+   * the updated tempPurchaseOrderLine
+   * 
+   */
   
   def updateTable(table : TableView[PurchaseOrderLine]) : Unit = 
   {  
@@ -198,18 +211,22 @@ class PurchaseOrderForm(employeeID : Int, stage : PrimaryStage)
     }
     
     forLoop(0)
-   
-    def getDate() : String = 
-    {
-      val date = new Date
-      val sdf = new SimpleDateFormat("dd/MM/yyyy")
-      val dates = sdf.format(date)
+  }
+  
+  /**
+   * @return : String
+   * 
+   * This method gets the current date and returns this as a string
+   * 
+   */
+  
+  def getDate() : String = 
+  {
+    val date = new Date
+    val sdf = new SimpleDateFormat("dd/MM/yyyy")
+    val dates = sdf.format(date)
       
-      println(dates)
-      
-      dates
-    }
-
+    dates
   }
   
   /**
