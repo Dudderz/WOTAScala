@@ -13,7 +13,9 @@ class PurchaseOrderLineSQL {
   
   val dbConnection = new DBConnector()
       
-  /*
+  /**
+   * @return : ObservableBuffer[PurchaseOrderLine]
+   * 
    * Finds all customer orders within the SQL database 
    * and returns them as an ObservableBuffer
    */
@@ -22,112 +24,85 @@ class PurchaseOrderLineSQL {
   {
     val purchaseOrderArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect
-      
-      val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT  * FROM purchaseorderline")
-    
-      while(resultSet next)
-      {     
-        purchaseOrderArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
+    val resultSet = dbConnection findAllSQL("SELECT * FROM purchaseorderline")
+   
+    while(resultSet next)
+    {     
+      purchaseOrderArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
     }
-    
     
     dbConnection closeConnection
     
     purchaseOrderArray
   }
   
-   /*
-   * Returns a single PurchaseOrder with the given purchase id
-   * @PARAM customerID, used to find selected orders with this customerID
+   /**
+   * @Return : PurchaseOrder with the given purchase id
+   * @Param  : purchaseID, used to find selected orders with this purchaseID
    */
   
   def findByPurchaseOrderID(purchaseID : Int) : ObservableBuffer[PurchaseOrderLine] = 
   {
     var purchaseOrderLineArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE purchase_order_id = " + purchaseID)
-      
-      while(resultSet next())
-      {
-        purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-      
-    } catch {
-      case e : SQLException => e printStackTrace
-      
-    }
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorderline WHERE purchase_order_id = ", purchaseID)
     
+    while(resultSet next())
+    {
+      purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    }
+
     dbConnection closeConnection() 
     purchaseOrderLineArray
   }
   
-    /*
-   * Returns an ObservableBuffer of PurchaseOrder with the given employeeID
-   * @Param employeeID, used to find selected orders with this employeeID
+  /**
+   * @Return : ObservableBuffer of PurchaseOrder with the given productID
+   * @Param : productID, used to find selected orders with this productID
    */
   
   def findByProductID(productID : Int) : ObservableBuffer[PurchaseOrderLine] = 
   {
     val purchaseOrderLineArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE product_id = " + productID)
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorderline WHERE product_id =  ", productID)
     
-      while(resultSet next())
-      {     
-        purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
+    while(resultSet next())
+    {     
+      purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
     }
-    
-    
-    dbConnection closeConnection()
+
+    dbConnection closeConnection
     
     purchaseOrderLineArray
   }
+  
+  /**
+   * @Return : PurchaseOrderLine with the given orderLineID
+   * @Param : orderLineID, used to find selected orders with this orderLineID
+   */
   
   def findByPurchaseOrderLineID(orderLineID : Int) : PurchaseOrderLine = 
   {
     var purchaseOrderLine : PurchaseOrderLine = new PurchaseOrderLine(99999999, 0, 0, 0)
     
-    try{
-      
-      val connection : Connection = dbConnection connect
-      
-      val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT * FROM purchaseorderline WHERE purchase_orderline_id = " + orderLineID)
-      
-      while(resultSet next())
-      {
-        purchaseOrderLine = new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
-    }
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorderline WHERE purchase_orderline_id =", orderLineID)
     
-    dbConnection closeConnection()
+    while(resultSet next)
+    {
+      purchaseOrderLine = new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    }
+
+    dbConnection closeConnection
     
     purchaseOrderLine
   }
   
-    def addOrderLine(purchaseOrder : PurchaseOrderLine) : Unit = 
+  /**
+   * @Param : purchaseOrder, that is going to be added to the database
+   */
+  
+  def addOrderLine(purchaseOrder : PurchaseOrderLine) : Unit = 
   {
     try
     {

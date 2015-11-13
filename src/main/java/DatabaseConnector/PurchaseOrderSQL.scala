@@ -12,52 +12,49 @@ class PurchaseOrderSQL {
   
   val dbConnection = new DBConnector()
   
+   /**
+   * @return : ObservableBuffer of Purchase Orders
+   * 
+   * Finds all purchase orders within the SQL database 
+   * and returns them as an ObservableBuffer
+   */
+  
   def findAllPurchaseOrders() : ObservableBuffer[PurchaseOrder] = 
   {
     val purchaseOrderArray : ObservableBuffer[PurchaseOrder] = ObservableBuffer[PurchaseOrder]()
     
-    try{
-      
-       val connection : Connection = dbConnection connect
-       
-       val statement = connection createStatement
-       val resultSet = statement executeQuery("SELECT * FROM purchaseorder")
-       
-       while(resultSet next)
-       {
-         purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
-       }
-    } catch {
-      case e : SQLException => e printStackTrace
-    }
+    val resultSet = dbConnection findAllSQL("SELECT * FROM purchaseorder")
     
+    while(resultSet next)
+    {
+       purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+    }
+
     dbConnection closeConnection
     
     purchaseOrderArray
   }
   
-   def findByPurchaseOrderID(purchaseOrderID : Int) : PurchaseOrder = 
+  /**
+   * @param : purchaseOrderID used to find the  
+   * @return : PurchaseOrder 
+   * 
+   * returns the employee with the given username
+   */
+  
+  def findByPurchaseOrderID(purchaseOrderID : Int) : PurchaseOrder = 
   {
     var purchaseOrder : PurchaseOrder = new PurchaseOrder(999999999, "", "", 0)
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM customerorder WHERE purchase_order_id = " + purchaseOrderID)
-      
-      while(resultSet next())
-      {
-        purchaseOrder = new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
-      }
-     
-    } catch {
-      case e : SQLException => e printStackTrace
-      
-    }
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorder WHERE purchase_order_id = ", purchaseOrderID)
     
-    dbConnection closeConnection() 
+    while(resultSet next)
+    {
+      purchaseOrder = new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+    }
+
+    dbConnection closeConnection
+    
     purchaseOrder
   }
   

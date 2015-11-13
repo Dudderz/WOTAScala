@@ -87,7 +87,9 @@ class LogInSQL(val username : String, val password : String) {
     employee
   }
   
-  /*
+  /**
+   * @return : Boolean 
+   * 
    * Recursive method to iterate through the employee usernames and passwords
    * Checks whether username matches any of the usernames within the array
    * and if true, checks the password at the same position in the password 
