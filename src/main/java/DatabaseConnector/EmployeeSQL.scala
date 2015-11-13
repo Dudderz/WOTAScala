@@ -7,35 +7,42 @@ import scalafx.collections.ObservableBuffer
 
 /**
  * @author tdudley
+ * 
+ * @description Class that pulls information from the employee database
+ * 
  */
 class EmployeeSQL {
 
   val dbConnection = new DBConnector()
   
+  /**
+   * @return : ObservableBuffer of Employees
+   * 
+   * Finds all employees within the SQL database 
+   * and return them as an ObservableBuffer
+   */
+  
   def findAllEmployee() : ObservableBuffer[Employee] = 
   {
     val employeeArray : ObservableBuffer[Employee] = ObservableBuffer[Employee]()
     
-    try
+    val resultSet = dbConnection findAllSQL("SELECT * FROM employee")
+
+    while(resultSet next())
     {
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT * FROM employee")
-      
-      while(resultSet next())
-      {
-        employeeArray += new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
+      employeeArray += new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
     }
-    
+
     dbConnection closeConnection
     
     employeeArray
-    
   }
+  
+  /**
+   * @return : Employee 
+   * 
+   * returns the employee with the given username
+   */
   
   def findByEmployeeUsername(employeeUsername : String) : Employee = 
   {

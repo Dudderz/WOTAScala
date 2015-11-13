@@ -10,20 +10,21 @@ import scala.collection.mutable.ArrayBuffer
 /**
  * @author tdudley
  * 
+ * @param : username the employees username who will be logging into the system
+ * @param : password the employees password who will be logging into the system
+ * 
  * Class will hold all the SQL and scala code relevant for the employee logging
  * into the system
  */
 
 class LogInSQL(val username : String, val password : String) {
-
-  var tempEmployee : Employee = new Employee(999999, "", "", "")
   
   var employeeUsernames= new ArrayBuffer[String](10)
   var employeePasswords= new ArrayBuffer[String](10)
   
   val dbConnection = new DBConnector()
   
-  /*
+  /**
    * runs the SQL statements to get the arrays of usernames and passwords
    */
   def logIn() : Unit = 
@@ -49,9 +50,16 @@ class LogInSQL(val username : String, val password : String) {
 
   }
   
+  /**
+   * @return : Boolean whether or not a log in has been successful
+   * 
+   * this runs a method simulating a for loop to loop through the 
+   * user names and passwords within the array 
+   */
+  
   def verifyLogIn() : Boolean = 
   {   
-     forLoop((employeeUsernames length) - 1)
+     forLoop(0)
   }
   
   def findByEmployeeUserName(user : String) : Employee = 
@@ -89,41 +97,16 @@ class LogInSQL(val username : String, val password : String) {
   
   def forLoop(n : Int) : Boolean = 
   {
-    if(n <= 0)
+    if(n < employeeUsernames.length)
     {
-      if(employeeUsernames(n) == username)
+      if(employeeUsernames(n) == username && employeePasswords(n) == password)
       {
-        if(employeePasswords(n) == password)
-        {
-          true  
-        }
-        else
-          false
+        true
       }
-      
       else
-      {
-        false
-      }
+        forLoop(n + 1)
     }
     else
-    {
-      if(employeeUsernames(n) == username)
-      {
-        if(employeePasswords(n) == password)
-        {
-          true  
-        }
-        else
-        {
-          forLoop(n - 1)
-        }
-      }
-
-      else
-      {
-         forLoop(n - 1)
-      }
-    }      
+      false
   }
 }

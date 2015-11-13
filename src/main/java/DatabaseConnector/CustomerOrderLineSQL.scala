@@ -26,22 +26,13 @@ class CustomerOrderLineSQL {
   {
     val customerOrderLineArray : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM customerorderline")
+    val resultSet = dbConnection findAllSQL("SELECT * FROM customerorderline")
     
-      while(resultSet next())
-      {     
+    while(resultSet next())
+    {     
         customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
     }
-    
-    
+
     dbConnection closeConnection()
     
     customerOrderLineArray
@@ -61,23 +52,13 @@ class CustomerOrderLineSQL {
   {
     var customerOrderLineArray : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM customerorderline WHERE customerorder_id = " + customerID)
-      
-      while(resultSet next())
-      {
-        customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-      
-    } catch {
-      case e : SQLException => e printStackTrace
-      
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customerorder_id =", customerID)
+ 
+    while(resultSet next())
+    {
+      customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
     }
-    
+
     dbConnection closeConnection() 
     
     customerOrderLineArray
@@ -97,22 +78,13 @@ class CustomerOrderLineSQL {
   {
     val customerOrderArray : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM customerorderline WHERE product_id = " + productID)
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customerorder_id =", productID)
     
-      while(resultSet next())
-      {     
-        customerOrderArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
+    while(resultSet next())
+    {     
+      customerOrderArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
     }
-    
-    
+
     dbConnection closeConnection()
     
     customerOrderArray
@@ -132,21 +104,13 @@ class CustomerOrderLineSQL {
   {
     var customerOrderLine : CustomerOrderLine = new CustomerOrderLine(99999999, 0, 0, 0)
     
-    try{
-      
-      val connection : Connection = dbConnection connect
-      
-      val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT * FROM customerorderline WHERE customer_orderline_id = " + orderLineID)
-      
-      while(resultSet next())
-      {
-        customerOrderLine = new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
-    }
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customerorder_id =", orderLineID)
     
+    while(resultSet next())
+    {
+      customerOrderLine = new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    }
+
     dbConnection closeConnection()
     
     customerOrderLine
