@@ -170,10 +170,109 @@ class DBConnectionTests extends UnitSpec
       assert(resultSet == null)
     }
     
+    "The runSQLQuery method" should "return the correct value within the database" in{
+      
+      val dbConnection = new DBConnector
+      
+      val resultSet = dbConnection.runSQLQuery("SELECT * FROM customerorder WHERE customerorder_id = ", 1)
+      
+      var customerOrder : CustomerOrder = new CustomerOrder(999999999, "", "", 0)
+      
+      def getRSData()
+      {
+       if(resultSet next())
+        {
+         customerOrder = new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+         getRSData
+        }
+      }
+    
+      getRSData
+      
+      var bool : Boolean = false
+      
+      if(customerOrder.customerOrderID.value == 1)
+      {
+        bool = true
+      }
+     
+      assert(bool)
+      
+    }
+  }
+  
+  def testRunSQLUpdateInt
+  {
+    "The runSQLUpdateInt method" should "update the correct item within the table" in
+    {
+      val dbConnector = new DBConnector
+            
+      dbConnector runSQLUpdateInt("UPDATE customerorder SET employee_id= '", "' WHERE customerorder_id= ", 3, 1)
+      
+      val resultSet = dbConnector runSQLQuery("SELECT * FROM customerorder WHERE customerorder_id = ", 1)
+      
+      var customerOrder : CustomerOrder = new CustomerOrder(999999999, "", "", 0)
+      
+      def getRSData()
+      {
+       if(resultSet next())
+        {
+         customerOrder = new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+         getRSData
+        }
+      }
+      
+      getRSData()
+      
+      var bool : Boolean = false
+
+      if(customerOrder.employeeID.value == 3)
+      {
+        bool = true
+      }
+
+      assert(bool)
+    }
+  }
+  
+  def testRunSQLUpdateString
+  {
+    "The runSQLUpdateString method" should "update the correct item within the table" in
+    {
+      val dbConnector = new DBConnector
+            
+      dbConnector runSQLUpdateString("UPDATE customerorder SET order_status= '", "' WHERE customerorder_id= ", "Processing", 1)
+      
+      val resultSet = dbConnector runSQLQuery("SELECT * FROM customerorder WHERE customerorder_id = ", 1)
+      
+      var customerOrder : CustomerOrder = new CustomerOrder(999999999, "", "", 0)
+      
+      def getRSData()
+      {
+       if(resultSet next())
+        {
+         customerOrder = new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+         getRSData
+        }
+      }
+      
+      getRSData()
+      
+      var bool : Boolean = false
+
+      if(customerOrder.customerOrderStatus.value == "Processing")
+      {
+        bool = true
+      }
+
+      assert(bool)
+    }
   }
   
   testGetConnection
   testCloseConnection
   testSQLFindAll
   testRunSQLQuery
+  testRunSQLUpdateInt
+  testRunSQLUpdateString
 }
