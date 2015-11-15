@@ -3,8 +3,10 @@ package DatabaseConnector
 import Entities.Employee
 
 import java.sql.Connection
+import java.sql.ResultSet
 import java.sql.SQLException
 import scala.collection.mutable.ArrayBuffer
+import scalafx.collections.ObservableBuffer
 
 
 /**
@@ -19,75 +21,11 @@ import scala.collection.mutable.ArrayBuffer
 
 class LogInSQL(val username : String, val password : String) {
   
-  var employeeUsernames= new ArrayBuffer[String](10)
-  var employeePasswords= new ArrayBuffer[String](10)
-  
-  val dbConnection = new DBConnector()
+  var employees : ObservableBuffer[Employee] = ObservableBuffer[Employee]()
   
   /**
    * runs the SQL statements to get the arrays of usernames and passwords
-   */
-  def logIn() : Unit = 
-  {
-    try {
-      
-      val connection : Connection = dbConnection connect
-      
-      //Creates the statement and runs the select query
-      val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT username, password FROM employee")
-    
-      while(resultSet next)
-      {
-        employeeUsernames += resultSet getString("username")
-        employeePasswords += resultSet getString("password")
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
-    }
-
-    dbConnection closeConnection
-
-  }
-  
-  /**
-   * @return : Boolean whether or not a log in has been successful
    * 
-   * this runs a method simulating a for loop to loop through the 
-   * user names and passwords within the array 
-   */
-  
-  def verifyLogIn() : Boolean = 
-  {   
-     forLoop(0)
-  }
-  
-  def findByEmployeeUserName(user : String) : Employee = 
-  {
-    var employee : Employee = new Employee(999999999, "", "", "")
-    
-    try{
-      
-      val connection : Connection = dbConnection connect
-      
-      val statement = connection createStatement
-      val resultSet = statement executeQuery("SELECT * AS username FROM employee WHERE username= " + user)
-      
-      while(resultSet next)
-      {
-        employee = new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
-      }
-      
-    }
-    catch {
-      case e : SQLException => e printStackTrace
-    }
-    
-    dbConnection closeConnection()
-    employee
-  }
-  
-  /**
    * @return : Boolean 
    * 
    * Recursive method to iterate through the employee usernames and passwords
@@ -96,12 +34,22 @@ class LogInSQL(val username : String, val password : String) {
    * array to see if the password matches. Returns boolean dependant on the 
    * results
    */
-  
-  def forLoop(n : Int) : Boolean = 
+
+  def logIn() : Boolean = 
   {
-    if(n < employeeUsernames.length)
+    val dbConnection = new DBConnector
+    
+    val employeeSQL = new EmployeeSQL
+    
+    employees = employeeSQL.findAllEmployee()
+
+    dbConnection closeConnection
+    
+    def forLoop(n : Int) : Boolean = 
     {
-      if(employeeUsernames(n) == username && employeePasswords(n) == password)
+    if(n < employees.length)
+    {
+      if(employees(n).username.value == username && employees(n).password.value == password)
       {
         true
       }
@@ -110,5 +58,12 @@ class LogInSQL(val username : String, val password : String) {
     }
     else
       false
+    }
+    
+    val bool = forLoop(0)
+    
+    bool
+    
   }
+
 }

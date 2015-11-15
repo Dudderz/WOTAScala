@@ -52,9 +52,9 @@ class LogIn (stage : PrimaryStage)
          
          val login = new LogInSQL(user, pass)
          
-         login logIn()
+         val bool = login logIn()
          
-         val bool = login verifyLogIn()
+         //val bool = login verifyLogIn()
          
          if(bool)
          {
