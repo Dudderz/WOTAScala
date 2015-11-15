@@ -23,12 +23,18 @@ class CustomerOrderSQL {
   {
     val customerOrderArray : ObservableBuffer[CustomerOrder] = ObservableBuffer[CustomerOrder]()
     
-    val resultSet = dbConnection.findAllSQL("SELECT customerorder_id, order_date, order_status, employee_id FROM customerorder")
+    val resultSet = dbConnection.findAllSQL("SELECT * FROM customerorder")
     
-    while(resultSet next)
+    def getRSData()
     {
-      customerOrderArray += new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+     if(resultSet next())
+      {
+       customerOrderArray += new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+       getRSData
+      }
     }
+    
+    getRSData
     
     dbConnection closeConnection
     
@@ -46,10 +52,16 @@ class CustomerOrderSQL {
     
     val resultSet = dbConnection.runSQLQuery("SELECT * FROM customerorder WHERE customerorder_id = " , customerID)
     
-    while(resultSet next)
+    def getRSData()
     {
-        customerOrder = new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+     if(resultSet next())
+      {
+       customerOrder = new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+       getRSData
+      }
     }
+    
+    getRSData
     
     dbConnection closeConnection
     
@@ -67,10 +79,16 @@ class CustomerOrderSQL {
     
     val resultSet = dbConnection.runSQLQuery("SELECT * FROM customerorder WHERE customerorder_id = " , employeeID)
     
-    while(resultSet next)
-    {     
-      customerOrderArray += new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+    def getRSData()
+    {
+     if(resultSet next())
+      {
+       customerOrderArray += new CustomerOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+       getRSData
+      }
     }
+    
+    getRSData
     
     dbConnection closeConnection
     
