@@ -40,6 +40,7 @@ class EmployeeSQL {
   
   /**
    * @return : Employee 
+   * @param : employeeUserName 
    * 
    * returns the employee with the given username
    */

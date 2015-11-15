@@ -128,7 +128,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
       
     }
 
-    comboBox.placeholder
+    comboBox placeholder
     
     comboBox.onAction = (ae: ActionEvent) =>
     {
@@ -151,7 +151,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
   {
     val custOrderSQL = new CustomerOrderSQL
 
-    custOrderSQL.claimCustomerOrder(employeeID, customerOrderID)
+    custOrderSQL claimCustomerOrder(employeeID, customerOrderID)
         
     updateTable(table)
 
