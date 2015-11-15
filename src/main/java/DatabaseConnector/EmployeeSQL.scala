@@ -28,10 +28,16 @@ class EmployeeSQL {
     
     val resultSet = dbConnection findAllSQL("SELECT * FROM employee")
 
-    while(resultSet next())
+    def getRSData()
     {
-      employeeArray += new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
+     if (resultSet next())
+      {
+        employeeArray += new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
+        getRSData
+      }
     }
+   
+    getRSData
 
     dbConnection closeConnection
     
@@ -56,10 +62,17 @@ class EmployeeSQL {
       val statement = connection createStatement
       val resultSet = statement executeQuery("SELECT * FROM employee WHERE username= '" + employeeUsername + "'")
     
-      while(resultSet next())
+      def getRSData()
       {
-        employee = new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
+         if (resultSet next())
+         {
+            employee = new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))
+            getRSData
+         }
       }
+   
+      getRSData
+    
     } catch {
       case e : SQLException => e printStackTrace
     }

@@ -63,7 +63,7 @@ class LogIn (stage : PrimaryStage)
            
            val employeeID = employee employeeID
            
-           val gui : GUIMain = new GUIMain(employeeID)
+           val gui : GUIMain = new GUIMain(employeeID.value)
            
            gui.showLogin()
            
