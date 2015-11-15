@@ -36,7 +36,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
    
   val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
   
-  var orders = customerOrders.findAllCustomerOrders()
+  var orders = customerOrders findAllCustomerOrders
   
   val table = new TableView[CustomerOrder](orders)
   

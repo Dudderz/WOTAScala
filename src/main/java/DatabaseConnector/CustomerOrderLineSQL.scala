@@ -28,10 +28,16 @@ class CustomerOrderLineSQL {
     
     val resultSet = dbConnection findAllSQL("SELECT * FROM customerorderline")
     
-    while(resultSet next())
-    {     
-        customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    def getRSData()
+    {
+     if (resultSet next())
+      {
+       customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+      }
     }
+    
+    getRSData
 
     dbConnection closeConnection()
     
@@ -54,10 +60,16 @@ class CustomerOrderLineSQL {
     
     val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customerorder_id =", customerID)
  
-    while(resultSet next())
+    def getRSData()
     {
-      customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+     if(resultSet next())
+      {
+       customerOrderLineArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+      }
     }
+
+    getRSData
 
     dbConnection closeConnection() 
     
@@ -78,13 +90,18 @@ class CustomerOrderLineSQL {
   {
     val customerOrderArray : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
     
-    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customerorder_id =", productID)
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE product_id =", productID)
     
-    while(resultSet next())
-    {     
-      customerOrderArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    def getRSData()
+    {
+     if(resultSet next())
+      {
+       customerOrderArray += new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+      }
     }
 
+    getRSData
     dbConnection closeConnection()
     
     customerOrderArray
@@ -104,12 +121,18 @@ class CustomerOrderLineSQL {
   {
     var customerOrderLine : CustomerOrderLine = new CustomerOrderLine(99999999, 0, 0, 0)
     
-    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customerorder_id =", orderLineID)
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorderline WHERE customer_orderline_id =", orderLineID)
     
-    while(resultSet next())
+    def getRSData()
     {
-      customerOrderLine = new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+     if(resultSet next())
+      {
+       customerOrderLine = new CustomerOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+      }
     }
+
+    getRSData
 
     dbConnection closeConnection()
     
