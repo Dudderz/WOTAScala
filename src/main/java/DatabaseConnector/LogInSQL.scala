@@ -20,9 +20,7 @@ import scalafx.collections.ObservableBuffer
  */
 
 class LogInSQL(val username : String, val password : String) {
-  
-  var employees : ObservableBuffer[Employee] = ObservableBuffer[Employee]()
-  
+    
   /**
    * runs the SQL statements to get the arrays of usernames and passwords
    * 
@@ -41,7 +39,7 @@ class LogInSQL(val username : String, val password : String) {
     
     val employeeSQL = new EmployeeSQL
     
-    employees = employeeSQL.findAllEmployee()
+    val employees = employeeSQL.findAllEmployee()
 
     dbConnection closeConnection
     
