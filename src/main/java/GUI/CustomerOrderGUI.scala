@@ -10,9 +10,9 @@ import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.scene.control.{ComboBox, Button, TextField, TableView, TableColumn}
 import scalafx.event.ActionEvent
 import scalafx.collections.ObservableBuffer
-import javafx.event.EventHandler
-import javafx.scene.paint.ImagePattern
-import javafx.scene.input.{MouseButton, MouseEvent}
+//import javafx.event.EventHandler
+//import javafx.scene.paint.ImagePattern
+//import javafx.scene.input.{MouseButton, MouseEvent}
 import TableColumn._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.{Pos, Orientation, Insets}

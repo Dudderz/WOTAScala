@@ -64,7 +64,7 @@ class DBConnector {
     }
     catch 
     {
-      case e : SQLException => e.printStackTrace
+      case e : SQLException => println("SQL Exception")
       null
     }
   }
@@ -91,7 +91,7 @@ class DBConnector {
     }
     catch 
     {
-      case e : SQLException => e.printStackTrace
+      case e : SQLException => println("SQL Exception")
       null
     }
 
@@ -120,7 +120,7 @@ class DBConnector {
     }
     catch 
     {
-      case e : SQLException => e.printStackTrace
+      case e : SQLException => println("SQL Exception")
     }
 
   }
@@ -147,7 +147,7 @@ class DBConnector {
     }
     catch 
     {
-      case e : SQLException => e.printStackTrace
+      case e : SQLException => println("SQL Exception")
     }
   }
 
