@@ -1,4 +1,4 @@
-package Utilities
+package com.qa.utilities
 
 import java.security.MessageDigest
 import java.util.Formatter

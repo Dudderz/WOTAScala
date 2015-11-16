@@ -1,4 +1,4 @@
-package GUI
+package com.qa.gui
 
 import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage

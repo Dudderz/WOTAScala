@@ -1,6 +1,6 @@
-package DatabaseConnector
+package com.qa.databaseconnector
 
-import Entities.Product
+import com.qa.entities.Product
 import java.sql.SQLException
 import java.sql.Connection
 import java.sql.ResultSet

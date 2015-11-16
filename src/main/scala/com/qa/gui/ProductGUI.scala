@@ -1,7 +1,7 @@
-package GUI
+package com.qa.gui
 
-import Entities.Product
-import DatabaseConnector.ProductSQL
+import com.qa.entities.Product
+import com.qa.databaseconnector.ProductSQL
 import scalafx.Includes._
 import scalafx.scene.Node
 import scalafx.event.ActionEvent

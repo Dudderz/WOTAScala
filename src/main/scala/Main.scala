@@ -1,6 +1,6 @@
-import DatabaseConnector.DBConnector
-import GUI.GUIMain
-import GUI.LogIn
+import com.qa.databaseconnector.DBConnector
+import com.qa.gui.GUIMain
+import com.qa.gui.LogIn
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.JFXApp
 

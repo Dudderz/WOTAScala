@@ -1,6 +1,6 @@
-package DatabaseConnector
+package com.qa.databaseconnector
 
-import Entities.Employee
+import com.qa.entities.Employee
 
 import java.sql.Connection
 import java.sql.ResultSet

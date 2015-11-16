@@ -1,7 +1,7 @@
-package GUI
+package com.qa.gui
 
-import DatabaseConnector.{CustomerOrderSQL, CustomerOrderLineSQL, ProductSQL}
-import Entities.{CustomerOrder, CustomerOrderLine}
+import com.qa.databaseconnector.{CustomerOrderSQL, CustomerOrderLineSQL, ProductSQL}
+import com.qa.entities.{CustomerOrder, CustomerOrderLine}
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
@@ -10,9 +10,6 @@ import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.scene.control.{ComboBox, Button, TextField, TableView, TableColumn}
 import scalafx.event.ActionEvent
 import scalafx.collections.ObservableBuffer
-//import javafx.event.EventHandler
-//import javafx.scene.paint.ImagePattern
-//import javafx.scene.input.{MouseButton, MouseEvent}
 import TableColumn._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.{Pos, Orientation, Insets}
@@ -36,9 +33,9 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
    
   val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
   
-  var orders = customerOrders findAllCustomerOrders
+  //var orders = customerOrders findAllCustomerOrders
   
-  val table = new TableView[CustomerOrder](orders)
+  val table = new TableView[CustomerOrder](customerOrders findAllCustomerOrders)
   
   val orderIDCol = new TableColumn[CustomerOrder, Int]
     {
@@ -85,7 +82,6 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
   
   def createCustomerOrderTable() : Node =
   {
-    
     table.columns += (orderIDCol, employeeIDCol, custOrderDate, custStatus)
     
     table.onMouseClicked = handle

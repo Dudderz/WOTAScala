@@ -3,11 +3,11 @@ package DatabaseConnectionTests
 import com.qa.wota.UnitSpec
 
 import com.qa.wota.UnitSpec
-import DatabaseConnector.{DBConnector, LogInSQL}
+import com.qa.databaseconnector.{DBConnector, LogInSQL}
 import java.sql.{DriverManager, SQLException}
 import java.sql.ResultSet
 
-import Entities.Employee
+import com.qa.entities.Employee
 import scalafx.collections.ObservableBuffer
 
 /**

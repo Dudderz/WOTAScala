@@ -1,7 +1,7 @@
-package GUI
+package com.qa.gui
 
-import DatabaseConnector.{CustomerOrderLineSQL, ProductSQL}
-import Entities.{CustomerOrderLine, Product}
+import com.qa.databaseconnector.{PurchaseOrderLineSQL, ProductSQL}
+import com.qa.entities.{PurchaseOrderLine, Product}
 import scalafx.Includes._
 import scalafx.scene.image.Image
 import scalafx.scene.control.Button
@@ -19,28 +19,29 @@ import scalafx.collections.ObservableBuffer
 import scalafx.scene.paint.Color
 import scalafx.application.JFXApp.PrimaryStage
 
-
 /**
  * @author tdudley
  */
-class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
-{
-  var customerOrderLineID : Int = 0
-  var productNameLabel : Label = new Label("")
-  var productIDLabel : Label = new Label("")
-  var productDescriptionLabel : Label = new Label("")
-  var productQuantityLabel : Label = new Label("")
+
+class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage) 
+{  
+  var purchaseOrderLineID : Int = 0
+  val productNameLabel : Label = new Label("")
+  val productIDLabel : Label = new Label("")
+  val productDescriptionLabel : Label = new Label("")
+  val productQuantityLabel : Label = new Label("")
   
-  def comboBoxOfCustomerOrderLines(customerOrderID : Int) : ComboBox[String] = 
+  def comboBoxOfPurchaseOrderLines(purchaseOrderID : Int) : ComboBox[String] = 
   {
     val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
     
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLines : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
-    orderLines = customerOrderLineSQL.findByCustomerID(customerOrderID)
+    //var orderLines : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
+    val orderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID)
     
     val i = orderLines.delegate.length
+    
     
     println(orderLines.delegate.length)
       
@@ -48,7 +49,7 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     {
       if(i > 0)
       {
-        comboBoxInfo += new String(orderLines.delegate.get(i - 1).customerOrderLineID.value+"")
+        comboBoxInfo += new String(orderLines.delegate.get(i - 1).purchaseOrderLineID.getValue.toInt+"")
         loop(i - 1)
       }
         
@@ -64,7 +65,7 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     
     comboBox.onAction = (ae: ActionEvent) =>
     {
-      customerOrderLineID =comboBox.value.value.toInt
+     purchaseOrderLineID =comboBox.value.value.toInt
         println(comboBox.value.value)
       
       updateLabelText(productNameLabel, addProductNameLabel)
@@ -84,41 +85,39 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
   
   def addProductNameLabel() : String = 
   {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    val orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
-    var product = productSQL.findByProductID(orderLine.productID.value)
+    val product = productSQL.findByProductID(orderLine.productID.get)
     
     product.productName.value
   }
   
   def addProductIDLabel() : String = 
   {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    val orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
-    var product = productSQL.findByProductID(orderLine.productID.value)
+    val product = productSQL.findByProductID(orderLine.productID.value)
     
     product.productID.value+""
   }
-  
-  
-  
+    
   def addProductDescriptionLabel() : String = 
   {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    val orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
-    var product = productSQL.findByProductID(orderLine.productID.value)
+    val product = productSQL.findByProductID(orderLine.productID.value)
     
     product.productDescription.value
 
@@ -126,9 +125,9 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
   
   def addProductQuantityLabel() : String = 
   {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    val orderLine = purchaseOrderLineSQL.findByPurchaseOrderLineID(purchaseOrderLineID)
     
     orderLine.quantity.value+""
   }
@@ -143,9 +142,9 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
   
   /*def addProductPicture(customerOrderLineID : Int) : Rectangle = 
   {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
+    val purchaseOrderLineSQL : PurchaseOrderLineSQL = new PurchaseOrderLineSQL()
   
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
+    var orderLine = purchaseOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
     
     val productSQL : ProductSQL = new ProductSQL()
     
@@ -184,13 +183,13 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
              add(
                  new Label
                  {
-                   text = "Pick customer order line: "
+                   text = "Pick purchase order line: "
                    style = "-fx-font-size: 12pt"
                  }, 1, 1)
                  
                  
                  
-             add(comboBoxOfCustomerOrderLines(custOrderID), 2, 1)
+             add(comboBoxOfPurchaseOrderLines(purchaseOrderID), 2, 1)
              add(
                new Label
                {

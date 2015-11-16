@@ -1,7 +1,7 @@
-package GUI
+package com.qa.gui
 
-import Entities.{PurchaseOrder, PurchaseOrderLine, Product}
-import DatabaseConnector.{PurchaseOrderSQL, PurchaseOrderLineSQL, ProductSQL}
+import com.qa.entities.{PurchaseOrder, PurchaseOrderLine, Product}
+import com.qa.databaseconnector.{PurchaseOrderSQL, PurchaseOrderLineSQL, ProductSQL}
 import scalafx.Includes._
 import scalafx.scene.Node
 import scalafx.geometry.Insets

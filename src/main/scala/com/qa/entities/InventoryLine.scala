@@ -1,4 +1,4 @@
-package Entities
+package com.qa.entities
 
 /**
  * @author tdudley

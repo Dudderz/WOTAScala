@@ -1,9 +1,9 @@
-package GUI
+package com.qa.gui
 
 //Scalafx imports
 
-import DatabaseConnector.{LogInSQL, EmployeeSQL}
-import Utilities.Encryption
+import com.qa.databaseconnector.{LogInSQL, EmployeeSQL}
+import com.qa.utilities.Encryption
 
 import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
@@ -16,11 +16,13 @@ import scalafx.scene.text.Text
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.event.ActionEvent
 import scalafx.scene.control.{PasswordField, TextField, Label, Button}
-import javafx.scene.shape.Rectangle
-import javafx.scene.paint.ImagePattern
+//import javafx.scene.shape.Rectangle
+//import javafx.scene.paint.ImagePattern
 import scalafx.stage.Popup
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
+import scalafx.scene.image.Image
+import scalafx.scene.image.ImageView
 
 /**
  * @author tdudley
@@ -100,12 +102,11 @@ class LogIn (stage : PrimaryStage)
   /**
    * Creates rectangle to hold the NB Gardens logo
    */
-  def createRect(): Rectangle = 
+  def createLogo(): ImageView = 
   {
-     val image = new Image("file:src/main/scala/GUI/logo.png")
-     val rect = new Rectangle(0, 0, 125, 125)
-     rect setFill(new ImagePattern(image))
-     rect
+     val image = new Image("file:src/main/scala/com/qa/gui/logo.png", 125, 125, true, true)
+     val imageView = new ImageView(image)
+     imageView
   }
   
   /**
@@ -121,7 +122,7 @@ class LogIn (stage : PrimaryStage)
         padding = Insets(20, 100, 10, 10)
       
         
-        add(createRect, 1, 1)
+        add(createLogo, 1, 1)
         add(new Label("Please Log In: "), 1, 3)
         add(new Label("Username: "), 0, 4)
         add(username, 1, 4)

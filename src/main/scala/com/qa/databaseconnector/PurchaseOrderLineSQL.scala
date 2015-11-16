@@ -1,7 +1,7 @@
 
-package DatabaseConnector
+package com.qa.databaseconnector
 
-import Entities.PurchaseOrderLine
+import com.qa.entities.PurchaseOrderLine
 import java.sql.SQLException
 import java.sql.Connection
 import scalafx.collections.ObservableBuffer

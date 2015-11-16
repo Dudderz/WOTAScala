@@ -3,11 +3,11 @@ package DatabaseConnectionTests
 import com.qa.wota.UnitSpec
 
 import com.qa.wota.UnitSpec
-import DatabaseConnector.{DBConnector, PurchaseOrderLineSQL}
+import com.qa.databaseconnector.{DBConnector, PurchaseOrderLineSQL}
 import java.sql.{DriverManager, SQLException}
 import java.sql.ResultSet
 
-import Entities.PurchaseOrderLine
+import com.qa.entities.PurchaseOrderLine
 import scalafx.collections.ObservableBuffer
 
 /**

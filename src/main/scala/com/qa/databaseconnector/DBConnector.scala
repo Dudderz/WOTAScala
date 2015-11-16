@@ -1,4 +1,4 @@
-package DatabaseConnector
+package com.qa.databaseconnector
 
 import java.sql.DriverManager
 import java.sql.Connection
