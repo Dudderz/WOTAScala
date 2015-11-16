@@ -16,8 +16,6 @@ import scalafx.scene.text.Text
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.event.ActionEvent
 import scalafx.scene.control.{PasswordField, TextField, Label, Button}
-//import javafx.scene.shape.Rectangle
-//import javafx.scene.paint.ImagePattern
 import scalafx.stage.Popup
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType

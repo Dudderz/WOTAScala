@@ -117,7 +117,7 @@ class GUIMain(employeeID : Int) extends JFXApp()
     stage show
     
     stage title = "Warehouse Order Tracking Application"
-    stage width = 560
+    stage width = 580
     stage height = 600
 
   }

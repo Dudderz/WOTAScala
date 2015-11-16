@@ -48,21 +48,21 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
     {
       text = "Employee ID"
       cellValueFactory = {_.value.employeeID}
-      prefWidth = 120
+      prefWidth = 123
     }
   
  	val custOrderDate = new TableColumn[CustomerOrder, String]
     {
       text = "Date of Order"
       cellValueFactory = {_.value.customerOrderDate}
-      prefWidth = 130
+      prefWidth = 140
     }
   
  	val custStatus = new TableColumn[CustomerOrder, String]
     {
       text = "Order Status"
       cellValueFactory = {_.value.customerOrderStatus}
-      prefWidth = 120
+      prefWidth = 123
     }
 
  

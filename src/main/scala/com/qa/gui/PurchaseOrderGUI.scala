@@ -31,36 +31,33 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   var orders = purchaseOrders findAllPurchaseOrders
   
   val table =  new TableView[PurchaseOrder](orders)
-  {
-    prefWidth = 400
-  }
-  
+
   val orderIDCol = new TableColumn[PurchaseOrder, Int]
     {
       text = "Purchase Order ID"
       cellValueFactory = {_.value.purchaseOrderID}
-      prefWidth = 140
+      prefWidth = 120
     }
   
   val orderDateCol = new TableColumn[PurchaseOrder, String]
     {
       text = "Purchase Order Date"
       cellValueFactory = {_.value.purchaseOrderDate}
-      prefWidth = 140
+      prefWidth = 160
     }
   
   val purchaseOrderStatusCol = new TableColumn[PurchaseOrder, String]
     {
       text = "Purchase Order Status"
       cellValueFactory = {_.value.orderStatus}
-      prefWidth = 140
+      prefWidth = 160
     }
   
   val employeeIDCol = new TableColumn[PurchaseOrder, Int]
     {
       text = "Employee ID"
       cellValueFactory = {_.value.employeeID}
-      prefWidth = 100
+      prefWidth = 95
     }
   
   /**
@@ -327,18 +324,6 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     button
   }
 
-
-  /**
-   * @Return returns a rectangle containing the company logo
-   */
-  
-   /*def createRect(): Rectangle = 
-  {
-     val image = new Image("file:src/main/java/GUI/logo.png")
-     val rect = new Rectangle(0, 0, 50, 50)
-     rect setFill(new ImagePattern(image))
-     rect
-  }*/
   
   /**
    * @Return GridPane - contains the buttons for the customer order gui
@@ -352,9 +337,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       hgap = 10
       vgap = 10
       padding = Insets(20, 100, 10, 10)
-       
-      //add(createRect(), 0, 0)
-      
+
       add(createPurchaseOrderButton, 2, 1)
       add(createComboBox, 2, 2)
       add(createShowOrderButton, 3, 1)
