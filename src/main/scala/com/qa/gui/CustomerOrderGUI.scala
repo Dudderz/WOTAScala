@@ -28,8 +28,6 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
    
   val customerOrders : CustomerOrderSQL = new CustomerOrderSQL()
   
-  //var orders = customerOrders findAllCustomerOrders
-  
   val table = new TableView[CustomerOrder](customerOrders findAllCustomerOrders)
   
   val orderIDCol = new TableColumn[CustomerOrder, Int]

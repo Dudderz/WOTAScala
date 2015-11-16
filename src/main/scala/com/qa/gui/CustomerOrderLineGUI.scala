@@ -48,8 +48,6 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     val orderLines = customerOrderLineSQL.findByCustomerID(customerOrderID)
     
     val i = orderLines.delegate.length
-    
-    println(orderLines.delegate.length)
       
     def loop(i : Int) : Unit = 
     {
@@ -72,7 +70,6 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     comboBox.onAction = (ae: ActionEvent) =>
     {
       customerOrderLineID =comboBox.value.value.toInt
-        println(comboBox.value.value)
       
       updateLabelText(productNameLabel, addProductNameLabel)
       updateLabelText(productIDLabel, addProductIDLabel)
@@ -189,7 +186,6 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
    inner =>
    content.add(new StackPane 
      {
-     println("called")
      
       children = List(
          new Rectangle 
