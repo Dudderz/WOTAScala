@@ -30,7 +30,10 @@ class GUIMain(employeeID : Int) extends JFXApp()
       
        new Tab {
          text = "Customer Orders"
+         closable = false
+         
          val custOrderGUI : CustomerOrderGUI = new CustomerOrderGUI(employeeID, stage)
+         
          content = new VBox
          {
            padding = Insets(10, 100, 100, 10)
@@ -45,8 +48,10 @@ class GUIMain(employeeID : Int) extends JFXApp()
        
        new Tab{
          text = "Purchase Orders"
+         closable = false
          
-          val purchaseOrderGUI : PurchaseOrderGUI = new PurchaseOrderGUI(employeeID, stage)
+         val purchaseOrderGUI : PurchaseOrderGUI = new PurchaseOrderGUI(employeeID, stage)
+         
          content = new VBox
          {
            padding = Insets(10, 100, 100, 10)
@@ -62,6 +67,8 @@ class GUIMain(employeeID : Int) extends JFXApp()
        
        new Tab{
          text = "Inventory"
+         
+         closable = false
          
          val productGUI : ProductGUI = new ProductGUI(stage)
          
