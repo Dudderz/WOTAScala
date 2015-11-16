@@ -31,13 +31,20 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
   val productDescriptionLabel : Label = new Label("")
   val productQuantityLabel : Label = new Label("")
   
+  /**
+   * @return : ComboBox[String]
+   * 
+   * Creates a combo box of the customer order lines within the chosen 
+   * Customer order. It then updates the relevant labels and information on
+   * the pop up window
+   */
+  
   def comboBoxOfCustomerOrderLines(customerOrderID : Int) : ComboBox[String] = 
   {
     val comboBoxInfo : ObservableBuffer[String] = ObservableBuffer[String]()
     
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
   
-//    /var orderLines : ObservableBuffer[CustomerOrderLine] = ObservableBuffer[CustomerOrderLine]()
     val orderLines = customerOrderLineSQL.findByCustomerID(customerOrderID)
     
     val i = orderLines.delegate.length
@@ -77,10 +84,26 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     comboBox
   }
   
+  /**
+   * @param : label
+   * @param : updatedText
+   * 
+   * this method takes in a Label and a String and then updates the 
+   * text on the label with the given updated text
+   * 
+   */
+  
   def updateLabelText(label : Label, updatedText : String) : Unit = 
   {
     label.text.value_=(updatedText)
   }
+  
+  /**
+   * @return : String 
+   * 
+   * returns the name of the product within the given customer
+   * order line
+   */
   
   def addProductNameLabel() : String = 
   {
@@ -95,6 +118,13 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     product.productName.value
   }
   
+    /**
+   * @return : String
+   * 
+   * gets the product id for the current customer order line and 
+   * returns this a string
+   */
+  
   def addProductIDLabel() : String = 
   {
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
@@ -107,7 +137,13 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     
     product.productID.value+""
   }
-  
+    
+    /**
+   * @return : String 
+   * 
+   * gets the product description for the current customer order line and 
+   * returns this a string
+   */
   
   
   def addProductDescriptionLabel() : String = 
@@ -124,6 +160,13 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
 
   }
   
+  /**
+   * @return : String
+   * 
+   * gets the product quantity for the current customer order line and 
+   * returns this a string
+   */
+  
   def addProductQuantityLabel() : String = 
   {
     val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
@@ -133,30 +176,15 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
     orderLine.quantity.value+""
   }
   
-  /**
-   * TODO return a rectangle containing the picture of the product
-   * the picture will have to be sourced and saved into the resources folder
-   * an image loader will have to be created
-   * this can be done through a loader. 
-   * use the log in page as an example
+    /**
+   * @return : Popup
+   * 
+   * creates the pop up that will contain all of the relevant labels for
+   * the current customer order line. Also contains the a button and a 
+   * combo box so the customer order lines can be navigated through
    */
   
-  /*def addProductPicture(customerOrderLineID : Int) : Rectangle = 
-  {
-    val customerOrderLineSQL : CustomerOrderLineSQL = new CustomerOrderLineSQL()
-  
-    var orderLine = customerOrderLineSQL.findByCustomerOrderLineID(customerOrderLineID)
-    
-    val productSQL : ProductSQL = new ProductSQL()
-    
-    var product = productSQL.findByProductID(orderLine.productID.value)
-    
-    val label = new Label(product.productDescription.value)
-     
-    label
-  }*/
-  
-  def createAlertPopup(popupText: String) = new Popup 
+  def createAlertPopup() = new Popup 
   {
    inner =>
    content.add(new StackPane 
@@ -168,8 +196,6 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
          {
            width = 400
            height = 300
-           //arcWidth = 20
-           //arcHeight = 20
            fill = Color.White
            stroke = Color.WhiteSmoke
            strokeWidth = 4
@@ -222,7 +248,7 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
              {
                e: ActionEvent => inner.hide
              }
-             alignmentInParent = Pos.CENTER
+             alignmentInParent = Pos.Center
              margin = Insets(10, 0, 10, 0)
            }
          }
@@ -233,7 +259,7 @@ class CustomerOrderLineGUI(custOrderID : Int,stage : PrimaryStage)
   
   def showPopUp() : Unit = 
   {
-    val popup = createAlertPopup("Hello")
+    val popup = createAlertPopup()
     popup show(stage, 800 , 400)
   }
 }

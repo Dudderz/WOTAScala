@@ -74,7 +74,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   }
   
   /**
-   * @RETURN Node
+   * @return Node
    * Creates the table that will contain the purchase orders
    * 
    */
@@ -99,7 +99,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   }
   
   /**
-   * Returns a combo box of strings.
+   * @return : ComboBox[String]
    * These are used to update the customers status
    */
   
@@ -130,8 +130,8 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   }
   
   /**
-   * @Param employeeID - the employeeID that will claim this order
-   * @Param purchaseOrderID - the purchaseOrder that will be claimed
+   * @Param : employeeID - the employeeID that will claim this order
+   * @Param : purchaseOrderID - the purchaseOrder that will be claimed
    * 
    * Allows the employee to claim the highlighted order
    * 
@@ -147,8 +147,8 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   }
     
   /**
-   * @Param puchaseOrderID - the purchase order that will be updated
-   * @Param updatedStatus - new status for the order
+   * @Param : puchaseOrderID - the purchase order that will be updated
+   * @Param : updatedStatus - new status for the order
    * 
    * Updates the purchase order with the new status and then updates
    * the table with the new information
@@ -165,7 +165,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   }
   
   /**
-   * @Param purchaseOrderID - this is the id of the purchase order that wll be used to find the 
+   * @Param : purchaseOrderID - this is the id of the purchase order that wll be used to find the 
    * relevant purchase order lines
    * Goes through the list of the purchase order lines assigned to the highlighted 
    * Purchase Order and then updates the quantity of the product within the database
@@ -204,6 +204,14 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       
     updateTable(table, purchaseOrders findAllPurchaseOrders)
   }
+  
+  /**
+   * @return : Int this is the number of broken items that were in the latest purchase order shipment
+   * 
+   * method that generates a pop up window with a prompt to enter a value
+   * for the number of broken items received within this purchase order line
+   * 
+   */
   
   def createBrokenItemsWindow() : Int =
   {

@@ -23,6 +23,12 @@ import scalafx.scene.paint._
  */
 class GUIMain(employeeID : Int) extends JFXApp()
 {  
+  /**
+   * @return : TabPane 
+   * 
+   * Creates the tab panes that contain the three main gui classes
+   */
+  
   def createTabs() : TabPane = 
   {
     new TabPane {
@@ -107,7 +113,11 @@ class GUIMain(employeeID : Int) extends JFXApp()
     scene2
   }
 
-  def showLogin(): Unit = 
+  /**
+   * When called, sets this scene to the stage and shows 
+   * the scene  
+   */
+  def showGUI(): Unit = 
   {
  
     stage = new PrimaryStage()

@@ -65,7 +65,7 @@ class LogIn (stage : PrimaryStage)
            
            val gui : GUIMain = new GUIMain(employeeID.value)
            
-           gui.showLogin()
+           gui.showGUI()
            
          }
          else
