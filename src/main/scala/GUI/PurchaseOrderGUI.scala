@@ -68,9 +68,9 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
    * updates the contents of the table 
    */
   
-  def updateTable(table : TableView[PurchaseOrder]) : Unit = 
+  def updateTable(table : TableView[PurchaseOrder], orders : ObservableBuffer[PurchaseOrder]) : Unit = 
   {
-    orders = purchaseOrders findAllPurchaseOrders 
+    //orders = purchaseOrders findAllPurchaseOrders 
     
     table.items update(orders)
   }
@@ -145,7 +145,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
 
     puchaseOrderSQL claimPurchaseOrder(employeeID, purchaseOrderID)
         
-    updateTable(table)
+    updateTable(table, purchaseOrders findAllPurchaseOrders)
   }
     
   /**
@@ -163,7 +163,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     purchaseOrderSQL updateOrderStatus(purchaseOrderID, updatedStatus)
         
-    updateTable(table)
+    updateTable(table, purchaseOrders findAllPurchaseOrders)
   }
   
   /**
@@ -201,7 +201,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     purchaseOrderSQL updateOrderStatus(purchaseOrderID, "Received")
     
       
-    updateTable(table)
+    updateTable(table, purchaseOrders findAllPurchaseOrders)
   }
   
   /**
@@ -320,7 +320,7 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
       
       onAction = (ae: ActionEvent) =>
       {
-        updateTable(table)    
+        updateTable(table, purchaseOrders findAllPurchaseOrders)    
       }
     }
     

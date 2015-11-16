@@ -72,10 +72,8 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
  /*
   * Reloads the orders and applies them to the table
   */
- def updateTable(table : TableView[CustomerOrder]) : Unit =
- {
-    orders = customerOrders.findAllCustomerOrders()
-     
+ def updateTable(table : TableView[CustomerOrder], orders : ObservableBuffer[CustomerOrder]) : Unit =
+ {     
     table.items.update(orders)
  }
 
@@ -153,7 +151,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
 
     custOrderSQL claimCustomerOrder(employeeID, customerOrderID)
         
-    updateTable(table)
+    updateTable(table, customerOrders.findAllCustomerOrders)
 
   }
   
@@ -198,7 +196,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
      
     }  
         
-    updateTable(table)
+    updateTable(table, customerOrders.findAllCustomerOrders)
   }
   
   /**

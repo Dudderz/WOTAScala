@@ -102,7 +102,7 @@ class LogIn (stage : PrimaryStage)
    */
   def createRect(): Rectangle = 
   {
-     val image = new Image("file:src/main/java/GUI/logo.png")
+     val image = new Image("file:src/main/scala/GUI/logo.png")
      val rect = new Rectangle(0, 0, 125, 125)
      rect setFill(new ImagePattern(image))
      rect

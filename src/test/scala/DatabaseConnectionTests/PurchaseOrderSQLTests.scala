@@ -14,7 +14,7 @@ import scalafx.collections.ObservableBuffer
 class PurchaseOrderSQLTests extends UnitSpec {
  
     def testFindAllPurchaseOrders{
-    "The findAllPurchaseOrders" should "not return null" in{
+    "The findAllPurchaseOrders method" should "not return null" in{
      
      val purchaseOrderSQL = new PurchaseOrderSQL
      
@@ -98,7 +98,7 @@ class PurchaseOrderSQLTests extends UnitSpec {
   
   def testFindByPurchaseOrderID{
     
-    "The findByPurchaseOrderID " should "not return a null value" in{
+    "The findByPurchaseOrderID method" should "not return a null value" in{
       
       val purchaseOrderSQL = new PurchaseOrderSQL
       
@@ -119,7 +119,7 @@ class PurchaseOrderSQLTests extends UnitSpec {
   }
   
   def testFindByEmployeeID{
-    "The findByEmployeeID " should "not return a null value" in{
+    "The findByEmployeeID method" should "not return a null value" in{
       
       val purchaseOrderSQL = new PurchaseOrderSQL
       
@@ -144,7 +144,7 @@ class PurchaseOrderSQLTests extends UnitSpec {
   }
   
   def testClaimPurchaseOrder{
-    "The claimPurchaseOrder" should "update the correct item within the table" in{
+    "The claimPurchaseOrder method" should "update the correct item within the table" in{
       
       val purchaseOrderSQL = new PurchaseOrderSQL
       
@@ -163,7 +163,7 @@ class PurchaseOrderSQLTests extends UnitSpec {
   }
   
   def testUpdateOrderStatus{
-    "The updateOrderStatus" should "update the correct item within the table" in{
+    "The updateOrderStatus method" should "update the correct item within the table" in{
       
       val purchaseOrderSQL = new PurchaseOrderSQL
       
@@ -181,11 +181,25 @@ class PurchaseOrderSQLTests extends UnitSpec {
     }
   }
   
+  def testAddOrder{
+    "The addOrder method" should "insert into the correct table" in{
+      
+      val purchaseOrderSQL = new PurchaseOrderSQL
+      
+      val purchaseOrder = new PurchaseOrder(100, "16/11/2016", "Order Sent", 4)
+      
+      purchaseOrderSQL.addOrder(purchaseOrder)
+      
+      purchaseOrderSQL.findByPurchaseOrderID(100).purchaseOrderID.value should be (100)      
+      
+    }
+
+  }
+  
   testFindAllPurchaseOrders
   testFindByPurchaseOrderID
   testFindByEmployeeID
   testClaimPurchaseOrder
   testUpdateOrderStatus
-
-  
+  testAddOrder 
 }
