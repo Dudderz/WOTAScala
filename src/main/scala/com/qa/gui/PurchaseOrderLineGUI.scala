@@ -48,10 +48,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     val orderLines = purchaseOrderLineSQL.findByPurchaseOrderID(purchaseOrderID)
     
     val i = orderLines.delegate.length
-    
-    
-    println(orderLines.delegate.length)
-      
+          
     def loop(i : Int) : Unit = 
     {
       if(i > 0)
@@ -73,8 +70,7 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
     comboBox.onAction = (ae: ActionEvent) =>
     {
      purchaseOrderLineID =comboBox.value.value.toInt
-        println(comboBox.value.value)
-      
+    
       updateLabelText(productNameLabel, addProductNameLabel)
       updateLabelText(productIDLabel, addProductIDLabel)
       updateLabelText(productDescriptionLabel, addProductDescriptionLabel)
@@ -189,7 +185,6 @@ class PurchaseOrderLineGUI(purchaseOrderID : Int, stage : PrimaryStage)
    inner =>
    content.add(new StackPane 
      {
-     println("called")
      
       children = List(
          new Rectangle 

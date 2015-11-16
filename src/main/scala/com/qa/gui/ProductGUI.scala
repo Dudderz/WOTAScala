@@ -22,17 +22,12 @@ import TableColumn._
  */
 class ProductGUI(stage : PrimaryStage) 
 {
-  
-  /*
-   * Below are the variables and values used within this class
-   * TODO refactor the vars and vals
-   */
-  
+ 
   val productSQL : ProductSQL = new ProductSQL
   
-  var products = productSQL findAllProducts
+  //var products = productSQL findAllProducts
   
-  val table = new TableView[Product](products)  
+  val table = new TableView[Product](productSQL findAllProducts)  
   
   /*
    * Columns that are used within the Product Table
@@ -80,13 +75,6 @@ class ProductGUI(stage : PrimaryStage)
     prefWidth = 120
   }
   
-  /*val productPorousWareCol = new TableColumn[Product, Int]
-  {
-    text = "Product Porousware"
-    cellValueFactory = {_.value.}
-  }*/
-  
-  
   /**
    * Method that updates the contents of the table 
    * 
@@ -94,10 +82,7 @@ class ProductGUI(stage : PrimaryStage)
   
   def updateTable(table : TableView[Product]) : Unit = 
   {
-    products = productSQL findAllProducts
-    
-    table.items update(products)
-
+    table.items update(productSQL findAllProducts)
   }
   
   /**

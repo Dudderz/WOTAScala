@@ -21,11 +21,6 @@ import scalafx.scene.shape.{Rectangle, Circle}
  */
 class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
 { 
-  /*
-   * Below are the variables and values used within this class
-   * TODO refactor the vars and vals so that there are no
-   * global variables
-   */
   
   var currentCustOrderID : Int = 0
   
@@ -92,7 +87,7 @@ class CustomerOrderGUI(employeeID : Int, stage : PrimaryStage)
       }
       catch
       {
-        case e : Throwable => println()//e.printStackTrace  //NullPointerException => e printStackTrace
+        case e : Throwable => println
       }
 
       

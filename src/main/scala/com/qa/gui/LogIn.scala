@@ -33,6 +33,9 @@ class LogIn (stage : PrimaryStage)
   
   
   /**
+   * @return : Button#
+   * @param : usernameField
+   * @param : passwordField
    * Creates a log in button and has an onAction method that verifies the 
    * inputted data to allow a user to log in
    */
@@ -53,8 +56,6 @@ class LogIn (stage : PrimaryStage)
          val login = new LogInSQL(user, pass)
          
          val bool = login logIn()
-         
-         //val bool = login verifyLogIn()
          
          if(bool)
          {
@@ -98,6 +99,7 @@ class LogIn (stage : PrimaryStage)
   
     
   /**
+   * @return : ImageView 
    * Creates rectangle to hold the NB Gardens logo
    */
   def createLogo(): ImageView = 
@@ -108,6 +110,7 @@ class LogIn (stage : PrimaryStage)
   }
   
   /**
+   * @return : GridPane
    * Grid pane that holds all of the labels, text fields and the logo 
    * for the log in application
    * 
@@ -131,7 +134,8 @@ class LogIn (stage : PrimaryStage)
         }
   }
   
-  /*
+  /**
+   * @return : Scene
    * Creates the scene to hold the gridpane
    */
   def createScene() : Scene =
