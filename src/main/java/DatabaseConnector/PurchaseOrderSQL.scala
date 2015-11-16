@@ -25,10 +25,16 @@ class PurchaseOrderSQL {
     
     val resultSet = dbConnection findAllSQL("SELECT * FROM purchaseorder")
     
-    while(resultSet next)
+    def getRSData()
     {
+     if (resultSet next())
+     {
        purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+       getRSData
+     }
     }
+    
+    getRSData
 
     dbConnection closeConnection
     
@@ -48,10 +54,16 @@ class PurchaseOrderSQL {
     
     val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorder WHERE purchase_order_id = ", purchaseOrderID)
     
-    while(resultSet next)
+    def getRSData()
     {
-      purchaseOrder = new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+     if (resultSet next())
+     {
+       purchaseOrder = new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+       getRSData
+     }
     }
+    
+    getRSData
 
     dbConnection closeConnection
     
@@ -67,21 +79,18 @@ class PurchaseOrderSQL {
   {
     val purchaseOrderArray : ObservableBuffer[PurchaseOrder] = ObservableBuffer[PurchaseOrder]()
     
-    try{
-      
-      val connection : Connection = dbConnection connect()
-      
-      val statement = connection createStatement()
-      val resultSet = statement executeQuery("SELECT * FROM purchaseorder WHERE employee_id = " + employeeID)
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorder WHERE employee_id = ", employeeID)
     
-      while(resultSet next())
-      {     
-        purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
-      }
-    } catch {
-      case e : SQLException => e printStackTrace
+    def getRSData()
+    {
+     if (resultSet next())
+     {
+       purchaseOrderArray += new PurchaseOrder(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4))
+       getRSData
+     }
     }
     
+    getRSData
     
     dbConnection closeConnection()
     
@@ -96,17 +105,8 @@ class PurchaseOrderSQL {
   
   def claimPurchaseOrder(employeeID : Int, purchaseOrderID : Int) : Unit = 
   {
-    try
-    {
-      val connection : Connection = dbConnection connect()
-      val statement = connection createStatement()
-      val resultSet = statement executeUpdate("UPDATE purchaseorder SET employee_id= '" + employeeID + "' WHERE purchase_order_id= " + purchaseOrderID)
-
-    }
-    catch {
-      case e : SQLException => e printStackTrace
-    }
-    
+    dbConnection runSQLUpdateInt("UPDATE purchaseorder SET employee_id= '", "' WHERE purchase_order_id= ", employeeID, purchaseOrderID)
+   
     dbConnection closeConnection()
   }
   
@@ -118,15 +118,7 @@ class PurchaseOrderSQL {
   
   def updateOrderStatus(purchaseOrderID : Int, updatedStatus : String) : Unit = 
   {
-    try
-    {
-      val connection : Connection = dbConnection connect()
-      val statement = connection createStatement()
-      val resultSet = statement executeUpdate("UPDATE purchaseorder SET order_status= '" + updatedStatus + "' WHERE purchase_order_id= " + purchaseOrderID)
-    }
-    catch {
-      case e : SQLException => e printStackTrace
-    }
+    dbConnection runSQLUpdateString("Update purchaseorder SET order_status= '", "' WHERE purchase_order_id= ", updatedStatus, purchaseOrderID)
     
     dbConnection closeConnection()
    
