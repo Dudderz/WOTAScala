@@ -10,6 +10,7 @@ import scalafx.scene.control.{TableColumn, TableView, ComboBox, Button}
 import scalafx.collections.ObservableBuffer
 import scalafx.event.ActionEvent
 import scalafx.scene.layout.GridPane
+import scalafx.scene.control.TextInputDialog
 
 
 /**
@@ -179,17 +180,20 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     
     purchaseOrderLines = purchaseOrderLineSQL findByPurchaseOrderID(purchaseOrderID) 
     
+    
+    
     def forLoop(n : Int)
     {
       if(n <= 0)
       {
-        //productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt)
-        productSQL.updateProductQuantity(purchaseOrderLines(n).productID getValue, purchaseOrderLines(n).quantity getValue)
+       val brokenItems = createBrokenItemsWindow
+       productSQL.updateProductQuantity(purchaseOrderLines(n).productID getValue, purchaseOrderLines(n).quantity.getValue.toInt - brokenItems)
       }
       else
       {
-        productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt)
-        forLoop(n - 1)
+       val brokenItems = createBrokenItemsWindow
+       productSQL.updateProductQuantity(purchaseOrderLines(n).productID.getValue.toInt, purchaseOrderLines(n).quantity.getValue.toInt - brokenItems)
+       forLoop(n - 1)
       }
     }
     
@@ -199,6 +203,28 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     
       
     updateTable(table, purchaseOrders findAllPurchaseOrders)
+  }
+  
+  def createBrokenItemsWindow() : Int =
+  {
+    var int : Int = 0
+    
+    val dialog = new TextInputDialog(defaultValue = "0")
+    {
+      initOwner(stage)
+      title = "Broken inventory"
+      contentText = "Please enter the no. of broken products received: "
+    }
+    
+    val result = dialog showAndWait
+    
+    result match{
+      case Some(noOfBrokenItems) =>
+        noOfBrokenItems.toInt
+      case None  => 
+        println("Dialogue box closed")  
+        0       
+    }
   }
   
   /**
