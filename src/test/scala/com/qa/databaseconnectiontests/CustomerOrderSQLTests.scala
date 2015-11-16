@@ -1,4 +1,4 @@
-package DatabaseConnectionTests
+package com.qa.databaseconnectiontests
 
 import com.qa.wota.UnitSpec
 import com.qa.databaseconnector.{DBConnector, CustomerOrderSQL}
