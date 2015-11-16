@@ -50,14 +50,8 @@ class CustomerOrderSQLTests extends UnitSpec
       
       getData(resultSet, customerOrderArray)
 
-      var bool : Boolean = false
-      
-      if(results.length == customerOrderArray.length )
-        bool = true
-      else
-        bool = false
-        
-      assert(bool)
+      if(results.length == customerOrderArray.length ) assert(true) else assert(false)
+
      }
     
     it should  "return the correct data" in{
@@ -85,14 +79,11 @@ class CustomerOrderSQLTests extends UnitSpec
       }
       
       getData(resultSet, customerOrderArray)
-
-      var bool : Boolean = false
       
       if(results(1).customerOrderID.value == customerOrderArray(1).customerOrderID.value
           && results(3).customerOrderID.value == customerOrderArray(3).customerOrderID.value)
-        bool = true
-      else
-        bool = false
+
+        assert(true) else assert(false)
     }
   }
   

@@ -22,18 +22,24 @@ class PurchaseOrderLineSQL {
   
   def findAllPurchaseOrderLines() : ObservableBuffer[PurchaseOrderLine] = 
   {
-    val purchaseOrderArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
+    val purchaseOrderLineArray : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
     val resultSet = dbConnection findAllSQL("SELECT * FROM purchaseorderline")
    
-    while(resultSet next)
-    {     
-      purchaseOrderArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    def getRSData()
+    {
+     if (resultSet next())
+     {
+       purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+     }
     }
+
+    getRSData
     
     dbConnection closeConnection
     
-    purchaseOrderArray
+    purchaseOrderLineArray
   }
   
    /**
@@ -47,10 +53,16 @@ class PurchaseOrderLineSQL {
     
     val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorderline WHERE purchase_order_id = ", purchaseID)
     
-    while(resultSet next())
+    def getRSData()
     {
-      purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+     if (resultSet next())
+     {
+       purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+     }
     }
+    
+    getRSData
 
     dbConnection closeConnection() 
     purchaseOrderLineArray
@@ -67,11 +79,17 @@ class PurchaseOrderLineSQL {
     
     val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorderline WHERE product_id =  ", productID)
     
-    while(resultSet next())
-    {     
-      purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+    def getRSData()
+    {
+     if (resultSet next())
+     {
+       purchaseOrderLineArray += new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+     }
     }
 
+    getRSData
+    
     dbConnection closeConnection
     
     purchaseOrderLineArray
@@ -88,10 +106,16 @@ class PurchaseOrderLineSQL {
     
     val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorderline WHERE purchase_orderline_id =", orderLineID)
     
-    while(resultSet next)
+    def getRSData()
     {
-      purchaseOrderLine = new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+     if (resultSet next())
+     {
+       purchaseOrderLine = new PurchaseOrderLine(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4))
+       getRSData
+     }
     }
+
+    getRSData
 
     dbConnection closeConnection
     

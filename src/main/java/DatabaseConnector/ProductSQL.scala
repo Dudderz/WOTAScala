@@ -3,6 +3,7 @@ package DatabaseConnector
 import Entities.Product
 import java.sql.SQLException
 import java.sql.Connection
+import java.sql.ResultSet
 import scalafx.collections.ObservableBuffer
 
 /**
@@ -25,10 +26,16 @@ class ProductSQL {
     
     val resultSet = dbConnection findAllSQL("SELECT * FROM product")
    
-    while(resultSet next())
+    def getRSData()
     {
-      productArray += new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7))
-    } 
+     if (resultSet next())
+     {
+       productArray += new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7))
+       getRSData
+     }
+    }
+         
+    getRSData()
 
     dbConnection closeConnection
       
@@ -48,10 +55,16 @@ class ProductSQL {
     
     val resultSet = dbConnection runSQLQuery("SELECT * FROM product WHERE product_id =", productID)
     
-    while(resultSet.next())
+    def getRSData()
     {
-      product = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7))
+     if (resultSet next())
+     {
+       product = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7))
+       getRSData
+     }
     }
+         
+    getRSData()
 
     product
   }

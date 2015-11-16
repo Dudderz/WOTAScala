@@ -46,7 +46,7 @@ class PurchaseOrderSQL {
   {
     var purchaseOrder : PurchaseOrder = new PurchaseOrder(999999999, "", "", 0)
     
-    val resultSet = dbConnection runSQLQuery("SELECT * FROM customerorder WHERE purchase_order_id = ", purchaseOrderID)
+    val resultSet = dbConnection runSQLQuery("SELECT * FROM purchaseorder WHERE purchase_order_id = ", purchaseOrderID)
     
     while(resultSet next)
     {

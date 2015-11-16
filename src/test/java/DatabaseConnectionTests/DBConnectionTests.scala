@@ -22,13 +22,6 @@ class DBConnectionTests extends UnitSpec
       val username = "root"
       val password = "user"
       
-      /*intercept[SQLException]
-      {
-        val dbConnector = new DBConnector
-        dbConnector.connect
-        cancel("Test cannot run - cannot create an SQL connection")
-      }*/
-      
       val connection = DriverManager.getConnection(url, username, password)
       
       val dbConnector = new DBConnector
@@ -60,7 +53,7 @@ class DBConnectionTests extends UnitSpec
             
     }
     
-    "the findAllSQL method" should "return the correct data" in{
+    it should "return the correct data" in{
       
       val dbConnector = new DBConnector
       
@@ -68,14 +61,7 @@ class DBConnectionTests extends UnitSpec
       val url = "jdbc:mysql://localhost:3306/mydb"
       val username = "root"
       val password = "user"
-      
-      /*intercept[SQLException]
-      {
-        val dbConnector = new DBConnector
-        dbConnector.connect
-        cancel("Test cannot run - cannot create an SQL connection")
-      }*/
-      
+     
       val connection = DriverManager.getConnection(url, username, password)
       val statement = connection createStatement
       val resultSet = statement executeQuery("SELECT * FROM customerorder")
@@ -112,33 +98,8 @@ class DBConnectionTests extends UnitSpec
           false
       }
       
-      var bool : Boolean = false
-      if (checkArraysAtPos(2) && checkArraysAtPos(5)) 
-        bool = true
-      else
-        bool = false
-      
-      /*def forLoop(n : Int) : Boolean =
-      {
-        if(n < customerOrderArray.length)
-        {
-          if(checkArraysAtPos(n))
-          {
-            true
-          }
-          else
-            false
-        }
-        else
-          if(checkArraysAtPos(n))
-          {
-            forLoop(n + 1)
-          }
-          else
-            false
-      } */   
-      
-     assert(bool)
+      if (checkArraysAtPos(2) && checkArraysAtPos(5)) assert(true) else assert(false)
+
     }
   }
   
@@ -152,7 +113,7 @@ class DBConnectionTests extends UnitSpec
       assert(resultSet != null)
     }
     
-    "The runSQLQuery method" should "return not null with invalid data" in{
+    it should "return not null with invalid data" in{
       
       val dbConnection =  new DBConnector
       
@@ -161,7 +122,7 @@ class DBConnectionTests extends UnitSpec
       assert(resultSet != null)
     }
     
-    "The runSQLQuery method" should "return null with an invalid statement" in{
+    it should "return null with an invalid statement" in{
       
       val dbConnection =  new DBConnector
       
@@ -170,7 +131,7 @@ class DBConnectionTests extends UnitSpec
       assert(resultSet == null)
     }
     
-    "The runSQLQuery method" should "return the correct value within the database" in{
+   it should "return the correct value within the database" in{
       
       val dbConnection = new DBConnector
       
@@ -188,16 +149,9 @@ class DBConnectionTests extends UnitSpec
       }
     
       getRSData
-      
-      var bool : Boolean = false
-      
-      if(customerOrder.customerOrderID.value == 1)
-      {
-        bool = true
-      }
-     
-      assert(bool)
-      
+
+      customerOrder.customerOrderID.value should be (1)
+
     }
   }
   
@@ -223,15 +177,9 @@ class DBConnectionTests extends UnitSpec
       }
       
       getRSData()
-      
-      var bool : Boolean = false
 
-      if(customerOrder.employeeID.value == 3)
-      {
-        bool = true
-      }
+      customerOrder.employeeID.value should be (3)
 
-      assert(bool)
     }
   }
   
@@ -257,15 +205,9 @@ class DBConnectionTests extends UnitSpec
       }
       
       getRSData()
-      
-      var bool : Boolean = false
 
-      if(customerOrder.customerOrderStatus.value == "Processing")
-      {
-        bool = true
-      }
+      customerOrder.customerOrderStatus.value should be ("Processing")
 
-      assert(bool)
     }
   }
   

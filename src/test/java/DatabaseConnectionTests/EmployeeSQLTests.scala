@@ -51,14 +51,8 @@ class EmployeeSQLTests extends UnitSpec
       
       getData(resultSet, employeeArray)
 
-      var bool : Boolean = false
-      
-      if(results.length == employeeArray.length )
-        bool = true
-      else
-        bool = false
-        
-      assert(bool)
+      if(results.length == employeeArray.length ) assert(true) else assert(false)
+
     }
     
     it should "return the correct data" in{
@@ -88,15 +82,11 @@ class EmployeeSQLTests extends UnitSpec
       
       getData(resultSet, employeeArray)
 
-      var bool : Boolean = false
-
       if(results(1).employeeID.value == employeeArray(1).employeeID.value
           && results(3).employeeID.value == employeeArray(3).employeeID.value)
-        bool = true
-      else
-        bool = false
-       
-      assert(bool)
+
+        assert(true) else assert(false)
+
     }
   }
   
@@ -120,8 +110,6 @@ class EmployeeSQLTests extends UnitSpec
       val employeeSQL = new EmployeeSQL
       
       val results = employeeSQL findByEmployeeUsername("test")
-      
-      println(results.employeeID.value)
       
       results.employeeID.value should be (99999999)
     }
