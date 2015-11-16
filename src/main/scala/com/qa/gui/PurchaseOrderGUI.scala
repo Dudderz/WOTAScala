@@ -28,10 +28,8 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   var updatedStatus : String = ""
   
   val purchaseOrders : PurchaseOrderSQL =  new PurchaseOrderSQL()
-  
-  var orders = purchaseOrders findAllPurchaseOrders
-  
-  val table =  new TableView[PurchaseOrder](orders)
+
+  val table =  new TableView[PurchaseOrder](purchaseOrders findAllPurchaseOrders)
 
   val orderIDCol = new TableColumn[PurchaseOrder, Int]
     {
@@ -68,8 +66,6 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
   
   def updateTable(table : TableView[PurchaseOrder], orders : ObservableBuffer[PurchaseOrder]) : Unit = 
   {
-    //orders = purchaseOrders findAllPurchaseOrders 
-    
     table.items update(orders)
   }
   
@@ -179,8 +175,6 @@ class PurchaseOrderGUI(employeeID : Int, stage : PrimaryStage)
     var purchaseOrderLines : ObservableBuffer[PurchaseOrderLine] = ObservableBuffer[PurchaseOrderLine]()
     
     purchaseOrderLines = purchaseOrderLineSQL findByPurchaseOrderID(purchaseOrderID) 
-    
-    
     
     def forLoop(n : Int)
     {
